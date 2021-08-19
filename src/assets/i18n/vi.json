@@ -5,6 +5,11 @@
     "pass": "Mật khẩu",
     "signIn": "Đăng nhập",
     "userRequired": "Nhập tên tài khoản",
-    "passwordRequired": "Nhập mật khẩu"
+    "passwordRequired": "Nhập mật khẩu",
+    "signUp": "Đăng ký",
+    "hint": "Nếu bạn chưa có tài khoản, vui lòng chọn Đăng ký",
+    "error": {
+      "100": "Tên tài khoản đã tồn tại"
+    }
   }
 }

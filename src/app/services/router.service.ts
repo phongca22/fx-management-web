@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { isEmpty } from 'lodash';
 import { Subject } from 'rxjs';
 import { Page, StackedPage } from '../core/page';
-import { LOGIN, USER_PROFILE } from '../core/page-config';
+import { LOGIN, USER_CREATE, USER_PROFILE } from '../core/page-config';
+import { isDataEntry } from '../core/role';
 import { PageState } from '../modules/store/page/page-state';
+import { User } from '../modules/store/user/user';
 import { StoreService } from './store.service';
 
 @Injectable({
@@ -19,10 +20,12 @@ export class RouterService {
   isRefreshing: boolean;
   currentPage: PageState;
   previousPage: PageState;
+  user: User;
 
   constructor(private router: Router, private store: StoreService) {
     this.stackedPages$ = new Subject();
     this.store.selectPage().subscribe((page: PageState) => (this.currentPage = page));
+    this.store.selectUser().subscribe((user: User) => (this.user = user));
   }
 
   setLandingPage(data: Page) {
@@ -48,7 +51,11 @@ export class RouterService {
   }
 
   goHome(): void {
-    this.go(USER_PROFILE);
+    if (isDataEntry(this.user.roles)) {
+      this.go(USER_CREATE);
+    } else {
+      this.go(USER_PROFILE);
+    }
   }
 
   exitStackedPage() {

@@ -1,8 +1,8 @@
 <div fxFill fxLayout="row" [formGroup]="form" fxLayoutAlign="center center">
-  <mat-card class="form-wrapper mat-elevation-z4" fxFlex="80">
+  <mat-card class="form-wrapper mat-elevation-z4" fxFlex="90">
     <div fxLayout="column" fxLayoutGap="32px">
       <div fxLayout="row" fxLayoutAlign="center">
-        <mat-icon svgIcon="account-circle-outline" style="width: 4em; height: 4em" color="primary"></mat-icon>
+        <mat-icon svgIcon="account-circle" style="width: 4em; height: 4em" color="primary"></mat-icon>
       </div>
       <div fxLayout="column" fxLayoutGap="16px">
         <mat-form-field>
@@ -18,8 +18,11 @@
           <mat-error *ngIf="form.get('pass')?.hasError('required')">{{'login.passwordRequired' | translate}}
           </mat-error>
         </mat-form-field>
+        <div class="mat-body gray-color">{{'login.hint' | translate}}</div>
       </div>
-      <div fxLayout="row">
+      <div fxLayout="row" fxLayoutGap="16px">
+        <button fxFlex mat-stroked-button color="primary" [disabled]="form.invalid || loading"
+          (click)="register()">{{'login.signUp' | translate}}</button>
         <button fxFlex mat-raised-button color="primary" [disabled]="form.invalid || loading"
           (click)="login()">{{'login.signIn' | translate}}</button>
       </div>

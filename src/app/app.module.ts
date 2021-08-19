@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AlertModule } from './modules/alert/alert.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { AppConfigModule } from './modules/config/config.module';
 import { ConfirmModule } from './modules/confirm/confirm.module';
 import { SharedModule } from './modules/shared-module';
@@ -29,6 +30,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     AlertModule,
     AppConfigModule,
+    AuthModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

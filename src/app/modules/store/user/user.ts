@@ -1,13 +1,11 @@
+import { Role } from 'src/app/core/role';
+
 export class User {
   id: number;
-  roles: string[];
-  token: string;
-  account: string;
+  roles: Role[];
 
   constructor(data: any) {
     this.id = data.id;
-    this.account = data.username;
-    this.token = data.accessToken;
     this.roles = data.roles;
   }
 }

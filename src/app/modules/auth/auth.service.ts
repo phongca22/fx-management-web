@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import jwt_decode from 'jwt-decode';
+import { isNil } from 'lodash';
 import { Observable } from 'rxjs';
-import { Role } from 'src/app/core/role';
+import { hasRole, Role } from 'src/app/core/role';
 import { BaseService } from 'src/app/services/base-service';
 import { StorageService } from 'src/app/services/storage.service';
 import { StoreService } from 'src/app/services/store.service';
+import { environment } from 'src/environments/environment';
 import { User } from '../store/user/user';
 
 export const TOKEN_NAME = 'token';
@@ -13,7 +16,7 @@ export const TOKEN_NAME = 'token';
   providedIn: 'root'
 })
 export class AuthService extends BaseService {
-  user: User;
+  user: User | null;
 
   constructor(private http: HttpClient, private storage: StorageService, private store: StoreService) {
     super();
@@ -30,7 +33,7 @@ export class AuthService extends BaseService {
 
   register(user: string, pass: string): Observable<any> {
     return this.http
-      .post(`${this.api}/auth/register`, {
+      .post(`${this.api}/auth/signup`, {
         username: user,
         password: pass
       })
@@ -38,33 +41,37 @@ export class AuthService extends BaseService {
   }
 
   getToken(): string | null {
-    const t = this.storage.get('token');
-    if (t) {
-      return (JSON.parse(t) as User).token;
-    } else {
-      return null;
-    }
+    return this.storage.get('token');
   }
 
-  setToken(data: User): void {
-    this.storage.set('token', JSON.stringify(data));
+  setToken(data: string): void {
+    this.storage.set('token', data);
   }
 
-hasToken(): boolean {
-    const token = this.getToken();
-    if (token) {
-      return true;
-    } else {
-      return false;
-    }
+  hasToken(): boolean {
+    return !isNil(this.getToken());
   }
 
-  setUser(data: User) {
-    this.user = data;
-    this.store.setUser(data);
+  setUser(token: string) {
+    this.user = new User(jwt_decode(token));
+    this.store.setUser(this.user);
   }
 
   hasPermission(id: Role): boolean {
-    return [Role.Admin, Role.Doctor, Role.Coodirnator, Role.User].includes(id);
+    return hasRole(id);
+  }
+
+  isApiUrl(data: string): boolean {
+    return data.startsWith(`${environment.host}/api/`);
+  }
+
+  removeUser() {
+    this.storage.remove('token');
+    this.user = null;
+    this.store.resetUser();
+  }
+
+  logout(): void {
+    this.removeUser();
   }
 }

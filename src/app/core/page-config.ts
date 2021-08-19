@@ -15,4 +15,6 @@ function generate(url: string, name?: string): IPage {
 }
 
 export const LOGIN: IPage = generate('login');
-export const USER_PROFILE: IPage = generate('app/profile');
+export const USER_PROFILE: IPage = generate('main/profile');
+export const USER_CREATE: IPage = generate('main/user-create');
+export const DENIED: IPage = generate('denied');

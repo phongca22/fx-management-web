@@ -4,13 +4,7 @@
   </mat-sidenav>
   <mat-sidenav #rightSidenav mode="over" position="end" [autoFocus]="false">
     <div fxFill fxLayout="column" class="right-sidenav">
-      <ng-container *ngIf="isPaymentPropSidenav">
-        <div class="mat-title mb-0 pa-3">Payment</div>
-        <mat-divider></mat-divider>
-      </ng-container>
-      <div fxFlex class="right-sidenav-content" [class.payment-properties-sidenav]="isPaymentPropSidenav">
-        <ng-template appSidenav></ng-template>
-      </div>
+      <ng-template appSidenav></ng-template>
     </div>
   </mat-sidenav>
   <mat-sidenav-content>

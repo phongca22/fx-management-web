@@ -9,9 +9,10 @@ const routes: Routes = [
     canLoad: [LoginGuard]
   },
   {
-    path: 'app',
+    path: 'main',
     loadChildren: () => import('./modules/main/main.module').then((m) => m.MainModule)
   },
+  { path: 'denied', loadChildren: () => import('./modules/denied/denied.module').then((m) => m.DeniedModule) },
   { path: '**', redirectTo: 'login' }
 ];
 
