@@ -1,0 +1,28 @@
+<div fxFill fxLayout="row" [formGroup]="form" fxLayoutAlign="center center">
+  <mat-card class="form-wrapper mat-elevation-z4" fxFlex="80">
+    <div fxLayout="column" fxLayoutGap="32px">
+      <div fxLayout="row" fxLayoutAlign="center">
+        <mat-icon svgIcon="account-circle-outline" style="width: 4em; height: 4em" color="primary"></mat-icon>
+      </div>
+      <div fxLayout="column" fxLayoutGap="16px">
+        <mat-form-field>
+          <mat-label>{{'login.user' | translate}}</mat-label>
+          <input matInput formControlName="user" #userInput required (keyup.enter)="login()" autocomplete="username"
+            name="username" />
+          <mat-error *ngIf="form.get('user')?.hasError('required')">{{'login.userRequired' | translate}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{'login.pass' | translate}}</mat-label>
+          <input matInput formControlName="pass" type="password" required (keyup.enter)="login()"
+            autocomplete="current-password" name="password" />
+          <mat-error *ngIf="form.get('pass')?.hasError('required')">{{'login.passwordRequired' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row">
+        <button fxFlex mat-raised-button color="primary" [disabled]="form.invalid || loading"
+          (click)="login()">{{'login.signIn' | translate}}</button>
+      </div>
+    </div>
+  </mat-card>
+</div>

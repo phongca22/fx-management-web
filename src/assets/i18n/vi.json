@@ -1,0 +1,10 @@
+{
+  "action": {},
+  "login": {
+    "user": "Tên tài khoản",
+    "pass": "Mật khẩu",
+    "signIn": "Đăng nhập",
+    "userRequired": "Nhập tên tài khoản",
+    "passwordRequired": "Nhập mật khẩu"
+  }
+}

@@ -1,0 +1,61 @@
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Response } from 'src/app/core/response';
+import { AlertService } from 'src/app/modules/alert/alert.service';
+import { RouterService } from 'src/app/services/router.service';
+import { AuthService } from '../auth/auth.service';
+import { User } from '../store/user/user';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent implements OnInit {
+  @ViewChild('userInput') input: ElementRef;
+  form: FormGroup;
+  loading: boolean;
+
+  constructor(
+    public builder: FormBuilder,
+    public alert: AlertService,
+    public auth: AuthService,
+    public router: RouterService,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.setupForm();
+  }
+
+  ngOnInit(): void {}
+
+  ngAfterViewInit() {
+    this.input?.nativeElement.click();
+    this.cdr.detectChanges();
+  }
+
+  setupForm() {
+    this.form = this.builder.group({
+      user: ['', [Validators.required]],
+      pass: ['', Validators.required]
+    });
+  }
+
+  login() {
+    if (this.loading || this.form.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    this.auth.login(this.form.value.user, this.form.value.pass).subscribe((res: Response) => {
+      if (res.ok) {
+        const user = new User(res.data);
+        this.auth.setUser(user);
+        this.auth.setToken(user);
+        this.router.goHome();
+      } else {
+        this.loading = false;
+        this.alert.error(res.message);
+      }
+    });
+  }
+}
