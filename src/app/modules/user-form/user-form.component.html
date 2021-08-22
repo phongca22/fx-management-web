@@ -1,0 +1,54 @@
+<div fxFlex fxLayout="column" fxLayoutGap="16px" class="wrapper" [formGroup]="form">
+  <ng-container formGroupName="info">
+    <mat-form-field appearance="outline">
+      <mat-label>{{'userForm.fullname' | translate}}</mat-label>
+      <input matInput formControlName="fullname" required />
+      <mat-error *ngIf="form.get('fullname')?.hasError('required')">{{'userForm.fullnameRequired' | translate}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{'userForm.phone' | translate}}</mat-label>
+      <input matInput formControlName="phone" required />
+      <mat-error *ngIf="form.get('phone')?.hasError('required')">{{'userForm.phoneRequired' | translate}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{'userForm.gender' | translate}}</mat-label>
+      <mat-select formControlName="gender">
+        <mat-select-trigger>{{form.get('info.gender')?.value?.name | translate}}</mat-select-trigger>
+        <mat-option *ngFor="let item of genders" [value]="item">
+          {{item.name | translate}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{'userForm.age' | translate}}</mat-label>
+      <input matInput formControlName="age" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{'userForm.address' | translate}}</mat-label>
+      <input matInput formControlName="address" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{'userForm.ward' | translate}}</mat-label>
+      <input matInput formControlName="ward" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{'userForm.district' | translate}}</mat-label>
+      <input matInput formControlName="district" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{'userForm.province' | translate}}</mat-label>
+      <input matInput formControlName="province" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{'userForm.doctor' | translate}}</mat-label>
+      <mat-select formControlName="doctor">
+        <mat-select-trigger>{{form.get('info.doctor')?.value?.name | translate}}</mat-select-trigger>
+        <mat-option *ngFor="let item of doctors" [value]="item">
+          {{item.name | translate}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+</div>

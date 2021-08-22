@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DataEntryGuard } from '../auth/data-entry.guard';
+import { Role } from 'src/app/core/role';
 import { UserGuard } from '../auth/user.guard';
 import { MainComponent } from './main.component';
 
@@ -22,8 +22,29 @@ const routes: Routes = [
       {
         path: 'user-create',
         loadChildren: () => import('../../modules/user-create/user-create.module').then((m) => m.UserCreateModule),
-        canLoad: [DataEntryGuard],
-        canActivate: [DataEntryGuard]
+        canLoad: [UserGuard],
+        canActivate: [UserGuard],
+        data: {
+          role: [Role.Coodirnator, Role.Doctor]
+        }
+      },
+      {
+        path: 'user-pending',
+        loadChildren: () => import('../../modules/user-pending/user-pending.module').then((m) => m.UserPendingModule),
+        canLoad: [UserGuard, UserGuard],
+        canActivate: [UserGuard, UserGuard],
+        data: {
+          role: [Role.Coodirnator, Role.Doctor]
+        }
+      },
+      {
+        path: 'search',
+        loadChildren: () => import('../../modules/search/search.module').then((m) => m.SearchModule),
+        canLoad: [UserGuard, UserGuard],
+        canActivate: [UserGuard, UserGuard],
+        data: {
+          role: [Role.Coodirnator, Role.Doctor]
+        }
       }
     ]
   }

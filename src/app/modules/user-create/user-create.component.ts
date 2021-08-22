@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Doctor } from 'src/app/core/doctor';
+import { REGISTER_100 } from 'src/app/core/error';
+import { GENDER, IGender } from 'src/app/core/gender';
+import { Response } from 'src/app/core/response';
+import { UserService } from 'src/app/services/user.service';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
   selector: 'app-user-create',
@@ -6,10 +13,35 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-create.component.scss']
 })
 export class UserCreateComponent implements OnInit {
+  form: FormGroup;
+  genders: IGender[] = GENDER;
+  loading: boolean;
+  doctors: Doctor[];
+  @ViewChild('wrapper') wrapper: ElementRef;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private service: UserService, private alert: AlertService) {
+    this.doctors = this.service.doctors;
+    this.form = new FormGroup({});
   }
 
+  ngOnInit(): void {}
+
+  save(): void {
+    this.loading = true;
+    const t = this.form.value.info;
+    this.service.createUser({ ...t, gender: t.gender.id, doctorId: t.doctor.id }).subscribe((res: Response) => {
+      this.loading = false;
+      if (res.ok) {
+        this.form.reset();
+        this.wrapper.nativeElement.scroll(0, 0);
+        this.alert.success('userCreate.success');
+      } else {
+        if (res.errorCode === REGISTER_100) {
+          this.alert.error('error.register.100');
+        } else {
+          this.alert.error();
+        }
+      }
+    });
+  }
 }

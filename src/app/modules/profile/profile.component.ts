@@ -10,6 +10,6 @@ export class ProfileComponent implements OnInit {
   constructor(private service: ProfileService) {}
 
   ngOnInit(): void {
-    this.service.getInfo().subscribe();
+    // this.service.getInfo().subscribe();
   }
 }

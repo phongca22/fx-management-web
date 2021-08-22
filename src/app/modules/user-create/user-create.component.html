@@ -1,1 +1,17 @@
-<p>user-create works!</p>
+<div fxFlex fxLayout="column">
+  <div fxFlex class="body" #wrapper>
+    <mat-card>
+      <app-user-form [form]="form"></app-user-form>
+    </mat-card>
+  </div>
+  <div class="action" fxLayout="row" fxLayoutAlign="end">
+    <div fxFlex fxLayout="column" *ngIf="loading">
+      <div class="mat-body gray-color">{{'processing' | translate}}</div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <button mat-raised-button color="primary" [disabled]="form.invalid || loading" (click)="save()" style="width: 8em"
+      *ngIf="!loading">
+      {{'action.save' | translate}}
+    </button>
+  </div>
+</div>

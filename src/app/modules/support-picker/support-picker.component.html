@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>{{'supportPicker.title' | translate}}</h2>
+<div [formGroup]="form">
+  <div formArrayName="list" fxLayout="column" fxLayoutGap="16px">
+    <ng-container *ngFor="let item of list.controls; let i = index">
+      <ng-container [formGroupName]="i">
+        <mat-checkbox formControlName="value">{{item.get('name')?.value}}</mat-checkbox>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{'action.back' | translate}}</button>
+  <button mat-button color="primary" (click)="save()">{{'action.save' | translate}}</button>
+</mat-dialog-actions>

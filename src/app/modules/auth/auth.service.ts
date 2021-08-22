@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
-import { isNil } from 'lodash';
+import { find, isNil } from 'lodash';
 import { Observable } from 'rxjs';
-import { hasRole, Role } from 'src/app/core/role';
+import { Role } from 'src/app/core/role';
 import { BaseService } from 'src/app/services/base-service';
 import { StorageService } from 'src/app/services/storage.service';
 import { StoreService } from 'src/app/services/store.service';
@@ -25,8 +25,8 @@ export class AuthService extends BaseService {
   login(user: string, pass: string): Observable<any> {
     return this.http
       .post(`${this.api}/auth/signin`, {
-        username: user,
-        password: pass
+        user: user,
+        pass: pass
       })
       .pipe(this.getResponse(), this.getError());
   }
@@ -34,8 +34,8 @@ export class AuthService extends BaseService {
   register(user: string, pass: string): Observable<any> {
     return this.http
       .post(`${this.api}/auth/signup`, {
-        username: user,
-        password: pass
+        user: user,
+        pass: pass
       })
       .pipe(this.getResponse(), this.getError());
   }
@@ -57,8 +57,8 @@ export class AuthService extends BaseService {
     this.store.setUser(this.user);
   }
 
-  hasPermission(id: Role): boolean {
-    return hasRole(id);
+  hasAnyRole(data: Role[]): boolean {
+    return !!find(this.user?.roles, (val: Role) => data.includes(val));
   }
 
   isApiUrl(data: string): boolean {

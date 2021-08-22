@@ -13,6 +13,7 @@ import { AppConfigModule } from './modules/config/config.module';
 import { ConfirmModule } from './modules/confirm/confirm.module';
 import { SharedModule } from './modules/shared-module';
 import { AppStoreModule } from './modules/store/store.module';
+import { UserEditModule } from './modules/user-edit/user-edit.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `/assets/i18n/`, `.json?version=${environment.version}`);
@@ -37,7 +38,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    UserEditModule
   ],
   providers: [],
   bootstrap: [AppComponent]

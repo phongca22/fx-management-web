@@ -3,7 +3,7 @@ export class Response {
   ok: boolean;
   code: number;
   data?: any;
-  message?: string | string[];
+  message?: string;
   headers?: HttpHeaders;
   type?: string;
   progress?: number;

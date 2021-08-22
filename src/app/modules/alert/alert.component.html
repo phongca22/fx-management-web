@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
-    <mat-icon svgIcon="check" *ngIf="data.type === 1"></mat-icon>
+    <mat-icon svgIcon="check" *ngIf="data.type === 1" class="success-color"></mat-icon>
     <mat-icon svgIcon="alert-circle" *ngIf="data.type === 2" class="error-color"></mat-icon>
     <div>{{data.message}}</div>
 </div>

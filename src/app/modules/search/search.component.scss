@@ -1,0 +1,21 @@
+:host {
+  height: 100%;
+}
+
+.header,
+.body {
+  background-color: #fff;
+  padding: 16px;
+}
+
+.header > button {
+  margin-top: 12px;
+}
+
+.action {
+  padding: 16px;
+}
+
+.body {
+  overflow: auto;
+}

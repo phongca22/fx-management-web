@@ -1,5 +1,12 @@
 {
-  "action": {},
+  "title": "Bác sĩ của F0",
+  "action": {
+    "save": "Lưu",
+    "search": "Tìm",
+    "edit": "Cập nhật",
+    "remove": "Xóa",
+    "back": "Trở lại"
+  },
   "login": {
     "user": "Tên tài khoản",
     "pass": "Mật khẩu",
@@ -7,9 +14,60 @@
     "userRequired": "Nhập tên tài khoản",
     "passwordRequired": "Nhập mật khẩu",
     "signUp": "Đăng ký",
-    "hint": "Nếu bạn chưa có tài khoản, vui lòng chọn Đăng ký",
-    "error": {
-      "100": "Tên tài khoản đã tồn tại"
+    "hint": "Nếu bạn chưa có tài khoản, vui lòng chọn Đăng ký"
+  },
+  "menu": {
+    "user": {
+      "create": "Thêm bệnh nhân",
+      "search": "Tìm bệnh nhân",
+      "pending": "Danh sách chờ"
     }
+  },
+  "userForm": {
+    "fullname": "Họ và tên",
+    "phone": "Điện thoại",
+    "gender": "Giới tính",
+    "age": "Tuổi",
+    "address": "Địa chỉ",
+    "ward": "Phường",
+    "district": "Quận",
+    "province": "Tỉnh/Thành phố",
+    "fullnameRequired": "Nhập tên tài khoản",
+    "passRequired": "Nhập mật khẩu",
+    "phoneRequired": "Nhập số điện thoại",
+    "doctor": "Bác sĩ",
+    "support": "Hỗ trợ"
+  },
+  "userCreate": {
+    "success": "Tạo thành công"
+  },
+  "gender": {
+    "male": "Nam",
+    "female": "Nữ",
+    "unknown": "Không xác định"
+  },
+  "error": {
+    "general": "Có lỗi xảy ra",
+    "register": { "100": "Tên tài khoản đã tồn tại" },
+    "login": { "101": "Tài khoản hoặc mật khẩu không đúng" },
+    "search": "Không tìm thấy"
+  },
+  "search": {
+    "keyword": "Nhập mã bệnh nhân"
+  },
+  "userStatus": {
+    "waiting": "Chưa chỉ định bác sỹ",
+    "success": "Đã khỏi bệnh",
+    "failed": "Chuyển viện"
+  },
+  "userEdit": {
+    "success": "Cập nhật thành công"
+  },
+  "processing": "Đang xử lý...",
+  "supportPicker": {
+    "title": "Danh sách hỗ trợ"
+  },
+  "userPending": {
+    "supportUpdated": "Đã lưu"
   }
 }

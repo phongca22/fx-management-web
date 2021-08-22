@@ -1,0 +1,53 @@
+<div fxFlex *ngIf="user" class="body" fxLayoutGap="16px" fxLayout="column">
+  <div fxLayout="row" fxLayoutGap="32px">
+    <mat-icon svgIcon="account-outline" color="primary"></mat-icon>
+    <div fxLayout="column" fxFlex>
+      <div fxLayout="column">
+        <div>
+          <div class="mat-caption gray-color">{{'userForm.fullname' | translate}}</div>
+          <div class="mat-h3">{{user?.name}}</div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex>
+            <div class="mat-caption gray-color">{{'userForm.gender' | translate}}</div>
+            <div class="mat-h3">{{user?.gender | gender | translate}}</div>
+          </div>
+          <div fxFlex>
+            <div class="mat-caption gray-color">{{'userForm.age' | translate}}</div>
+            <div class="mat-h3">{{user?.age}}</div>
+          </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="32px">
+    <mat-icon svgIcon="map-marker-outline" color="primary"></mat-icon>
+    <div fxLayout="column" fxFlex>
+      <div fxLayout="column">
+        <div>
+          <div class="mat-caption gray-color">{{'userForm.address' | translate}}</div>
+          <div class="mat-h3">{{user?.addressLabel}}</div>
+        </div>
+        <div>
+          <div class="mat-caption gray-color">{{'userForm.phone' | translate}}</div>
+          <div class="mat-h3">{{user?.phone}}</div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="32px">
+    <mat-icon svgIcon="card-account-details-outline" color="primary"></mat-icon>
+    <div fxLayout="column" fxLayoutGap="16px" fxFlex>
+      <div>
+        <div class="mat-caption gray-color">{{'userForm.doctor' | translate}}</div>
+        <div class="mat-h3">{{doctor?.name}}</div>
+      </div>
+      <div>
+        <div class="mat-caption gray-color">{{'userForm.support' | translate}}</div>
+        <div class="mat-h3" style="margin-bottom: 0px" *ngFor="let item of user?.supports">{{item.name}}</div>
+      </div>
+    </div>
+  </div>
+</div>

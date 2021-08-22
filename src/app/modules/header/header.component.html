@@ -1,8 +1,8 @@
 <mat-toolbar color="primary" fxLayout="row">
-  <button mat-icon-button>
+  <button mat-icon-button (click)="showMenu()">
     <mat-icon>menu</mat-icon>
   </button>
-  <div fxFlex>My App</div>
+  <div fxFlex>{{'title' | translate}}</div>
   <button mat-icon-button (click)="logout()">
     <mat-icon svgIcon="logout-variant"></mat-icon>
   </button>

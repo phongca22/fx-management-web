@@ -5,14 +5,16 @@
         <mat-icon svgIcon="account-circle" style="width: 4em; height: 4em" color="primary"></mat-icon>
       </div>
       <div fxLayout="column" fxLayoutGap="16px">
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>{{'login.user' | translate}}</mat-label>
+          <mat-icon matPrefix svgIcon="account"></mat-icon>
           <input matInput formControlName="user" #userInput required (keyup.enter)="login()" autocomplete="username"
             name="username" />
           <mat-error *ngIf="form.get('user')?.hasError('required')">{{'login.userRequired' | translate}}</mat-error>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field appearance="outline">
           <mat-label>{{'login.pass' | translate}}</mat-label>
+          <mat-icon matPrefix svgIcon="lock"></mat-icon>
           <input matInput formControlName="pass" type="password" required (keyup.enter)="login()"
             autocomplete="current-password" name="password" />
           <mat-error *ngIf="form.get('pass')?.hasError('required')">{{'login.passwordRequired' | translate}}

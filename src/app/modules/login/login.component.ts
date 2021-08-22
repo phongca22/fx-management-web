@@ -1,11 +1,13 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { forkJoin } from 'rxjs';
+import { REGISTER_100, SIGN_IN_101 } from 'src/app/core/error';
 import { Response } from 'src/app/core/response';
 import { AlertService } from 'src/app/modules/alert/alert.service';
 import { RouterService } from 'src/app/services/router.service';
+import { UserService } from 'src/app/services/user.service';
 import { AuthService } from '../auth/auth.service';
-import { User } from '../store/user/user';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +25,8 @@ export class LoginComponent implements OnInit {
     public auth: AuthService,
     public router: RouterService,
     private cdr: ChangeDetectorRef,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private user: UserService
   ) {
     this.setupForm();
   }
@@ -52,12 +55,20 @@ export class LoginComponent implements OnInit {
       if (res.ok) {
         this.auth.setUser(res.data.accessToken);
         this.auth.setToken(res.data.accessToken);
-        this.router.goHome();
+        this.getConfig();
       } else {
         this.loading = false;
-        this.alert.error(res.message);
+        if (res.errorCode === SIGN_IN_101) {
+          this.alert.error(this.translate.instant('error.login.101'));
+        } else {
+          this.alert.error(res.message);
+        }
       }
     });
+  }
+
+  getConfig() {
+    forkJoin([this.user.getSupports(), this.user.getDoctors()]).subscribe(() => this.router.goHome());
   }
 
   register() {
@@ -72,8 +83,8 @@ export class LoginComponent implements OnInit {
         this.alert.success(this.translate.instant('login.register.ok'));
       } else {
         this.loading = false;
-        if (res.errorCode === 100) {
-          this.alert.error(this.translate.instant('login.error.100'));
+        if (res.errorCode === REGISTER_100) {
+          this.alert.error(this.translate.instant('error.register.100'));
         } else {
           this.alert.error(res.message);
         }

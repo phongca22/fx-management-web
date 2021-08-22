@@ -1,6 +1,7 @@
 import { Injectable, TemplateRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { DialogData } from '../confirm/confirm';
 import { ConfirmComponent } from '../confirm/confirm.component';
@@ -11,7 +12,7 @@ import { Type } from './type.enum';
 })
 export class AlertService {
   template: TemplateRef<any>;
-  constructor(private service: MatSnackBar, private dialog: MatDialog) {}
+  constructor(private service: MatSnackBar, private dialog: MatDialog, private translate: TranslateService) {}
 
   setTemplate(template: TemplateRef<any>): void {
     this.template = template;
@@ -22,17 +23,17 @@ export class AlertService {
       duration: 2500,
       data: {
         type: type,
-        message: message
+        message: this.translate.instant(message)
       }
     });
   }
 
-  success(message: any): void {
+  success(message: string): void {
     this.create(Type.Success, message);
   }
 
-  error(message: any): void {
-    this.create(Type.Error, message);
+  error(message?: string): void {
+    this.create(Type.Error, message || 'error.general');
   }
 
   info(message: any): void {

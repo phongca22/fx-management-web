@@ -1,0 +1,17 @@
+<div fxFlex fxLayout="column">
+  <div fxLayout="row" fxLayoutGap="16px" class="header">
+    <button mat-mini-fab color="primary" (click)="search()" [disabled]="keyword.invalid || loading">
+      <mat-icon matPrefix svgIcon="magnify"></mat-icon>
+    </button>
+    <mat-form-field appearance="fill" fxFlex>
+      <input matInput [formControl]="keyword" [placeholder]="'search.keyword' | translate" />
+      <button mat-icon-button matSuffix (click)="keyword.reset()" *ngIf="keyword.value?.length > 0">
+        <mat-icon matPrefix svgIcon="close"></mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <mat-divider></mat-divider>
+  <div fxFlex *ngIf="user" class="body" fxLayout="column">
+    <app-user-info [user]="user"></app-user-info>
+  </div>
+</div>
