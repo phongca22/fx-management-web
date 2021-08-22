@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterService } from 'src/app/services/router.service';
-import { SidenavService } from 'src/app/services/sidenav.service';
+import { SidenavService, SidenavType } from 'src/app/services/sidenav.service';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -19,6 +19,6 @@ export class HeaderComponent implements OnInit {
   }
 
   showMenu(): void {
-    this.sidenav.left.open();
+    this.sidenav.toggle(SidenavType.Menu);
   }
 }

@@ -2,11 +2,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { forkJoin, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
-import { RouterService } from 'src/app/services/router.service';
+import { ConfigService } from 'src/app/services/config.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from '../auth/auth.service';
 
-export function getUser(auth: AuthService, router: RouterService, user: UserService) {
+export function getUser(auth: AuthService, user: UserService, config: ConfigService) {
   return () => {
     return of(true)
       .pipe(
@@ -14,10 +14,9 @@ export function getUser(auth: AuthService, router: RouterService, user: UserServ
           const token = auth.getToken();
           if (token) {
             auth.setUser(token);
-            router.goHome();
-            return forkJoin([user.getDoctors(), user.getSupports()]).pipe(map(() => true));
+            return forkJoin([config.getSupports(), user.getDoctors()]).pipe(map(() => true));
           } else {
-            return of(false);
+            return forkJoin([config.getSupports()]).pipe(map(() => true));
           }
         }),
         catchError(() => of(true))
@@ -30,12 +29,12 @@ export function getUser(auth: AuthService, router: RouterService, user: UserServ
   imports: [HttpClientModule],
   providers: [
     AuthService,
-    RouterService,
     UserService,
+    ConfigService,
     {
       provide: APP_INITIALIZER,
       useFactory: getUser,
-      deps: [AuthService, RouterService, UserService],
+      deps: [AuthService, UserService, ConfigService],
       multi: true
     }
   ]

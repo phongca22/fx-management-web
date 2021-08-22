@@ -1,12 +1,10 @@
-import { Injectable, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { ComponentFactoryResolver, Injectable, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 export enum SidenavType {
-  Menu = 1,
-  PaymentProperties = 2,
-  Notification = 3
+  Menu = 1
 }
 
 @Injectable({
@@ -43,22 +41,15 @@ export class SidenavService {
   }
 
   loadComponent(type: SidenavType, data?: any) {
-    if (SidenavType.Notification === type) {
-      this.loadNotificationComponent();
-    } else {
-      this.loadPaymentPropertiesComponent(data);
-    }
+    // if (SidenavType.UserNote === type) {
+    //   this.loadUserNoteComponent(data);
+    // }
   }
 
-  loadPaymentPropertiesComponent(data: any) {
-    // const componentFactory = this.componentFactoryResolver.resolveComponentFactory(PaymentPropertiesComponent);
+  loadUserNoteComponent(data: any) {
+    // const componentFactory = this.componentFactoryResolver.resolveComponentFactory(UserNoteComponent);
     // const componentRef = this.viewContainerRef.createComponent(componentFactory);
-    // (<PaymentPropertiesComponent>componentRef.instance).data = data;
-  }
-
-  loadNotificationComponent() {
-    // const componentFactory = this.componentFactoryResolver.resolveComponentFactory(NotificationComponent);
-    // this.viewContainerRef.createComponent(componentFactory);
+    // (<UserNoteComponent>componentRef.instance).data = data;
   }
 
   closeRight() {

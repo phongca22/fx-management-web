@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
   }
 
   getConfig() {
-    forkJoin([this.user.getSupports(), this.user.getDoctors()]).subscribe(() => this.router.goHome());
+    forkJoin([this.user.getDoctors()]).subscribe(() => this.router.goHome());
   }
 
   register() {

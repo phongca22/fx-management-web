@@ -3,19 +3,33 @@
     <mat-icon svgIcon="account-outline" color="primary"></mat-icon>
     <div fxLayout="column" fxFlex>
       <div fxLayout="column">
-        <div>
-          <div class="mat-caption gray-color">{{'userForm.fullname' | translate}}</div>
-          <div class="mat-h3">{{user?.name}}</div>
+        <div fxLayout="row">
+          <div fxFlex>
+            <div class="mat-caption gray-color">{{'userForm.fullname' | translate}}</div>
+            <div class="mat-h3">{{user.name}}</div>
+          </div>
+          <button mat-icon-button color="primary" (click)="edit()">
+            <mat-icon svgIcon="pencil"></mat-icon>
+          </button>
         </div>
         <div fxLayout="row">
           <div fxFlex>
             <div class="mat-caption gray-color">{{'userForm.gender' | translate}}</div>
-            <div class="mat-h3">{{user?.gender | gender | translate}}</div>
+            <div class="mat-h3">{{user.gender | gender | translate}}</div>
           </div>
           <div fxFlex>
             <div class="mat-caption gray-color">{{'userForm.age' | translate}}</div>
-            <div class="mat-h3">{{user?.age}}</div>
+            <div class="mat-h3">{{user.age}}</div>
           </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex>
+            <div class="mat-caption gray-color">{{'userForm.code' | translate}}</div>
+            <div class="mat-h3">{{user.code}}</div>
+          </div>
+          <button mat-icon-button color="primary" (click)="copy()">
+            <mat-icon svgIcon="content-copy"></mat-icon>
+          </button>
         </div>
       </div>
       <mat-divider></mat-divider>
@@ -27,11 +41,11 @@
       <div fxLayout="column">
         <div>
           <div class="mat-caption gray-color">{{'userForm.address' | translate}}</div>
-          <div class="mat-h3">{{user?.addressLabel}}</div>
+          <div class="mat-h3">{{user.addressLabel}}</div>
         </div>
         <div>
           <div class="mat-caption gray-color">{{'userForm.phone' | translate}}</div>
-          <div class="mat-h3">{{user?.phone}}</div>
+          <div class="mat-h3">{{user.phone}}</div>
         </div>
       </div>
       <mat-divider></mat-divider>
@@ -39,14 +53,42 @@
   </div>
   <div fxLayout="row" fxLayoutGap="32px">
     <mat-icon svgIcon="card-account-details-outline" color="primary"></mat-icon>
-    <div fxLayout="column" fxLayoutGap="16px" fxFlex>
+    <div fxLayout="column" fxFlex>
       <div>
         <div class="mat-caption gray-color">{{'userForm.doctor' | translate}}</div>
-        <div class="mat-h3">{{doctor?.name}}</div>
+        <div class="mat-h3">{{doctor.name}}</div>
       </div>
       <div>
-        <div class="mat-caption gray-color">{{'userForm.support' | translate}}</div>
-        <div class="mat-h3" style="margin-bottom: 0px" *ngFor="let item of user?.supports">{{item.name}}</div>
+        <div fxFlex>
+          <div class="mat-caption gray-color">{{'userForm.status' | translate}}</div>
+          <div class="mat-h3">{{user.status | userStatus | translate}}</div>
+        </div>
+        <button mat-icon-button color="primary" (click)="editStatus()" *ngIf="isAdminOrDoctor">
+          <mat-icon svgIcon="pencil"></mat-icon>
+        </button>
+      </div>
+      <div class="mb-3">
+        <div fxFlex>
+          <div class="mat-caption gray-color">{{'userForm.support' | translate}}</div>
+          <ng-container *ngIf="hasSupports()">
+            <div class="mat-h3 mb-0" *ngFor="let item of user.supports">{{item.name}}</div>
+          </ng-container>
+          <div *ngIf="!hasSupports()" class="mat-h3">{{'userInfo.emptySupport' | translate}}</div>
+        </div>
+        <button mat-icon-button color="primary" (click)="editSupport()" *ngIf="isAdminOrDoctor">
+          <mat-icon svgIcon="pencil"></mat-icon>
+        </button>
+      </div>
+      <div>
+        <div class="mat-caption gray-color">{{'userForm.note' | translate}}</div>
+        <div fxLayout="row">
+          <button mat-icon-button style="color: #009688" (click)="showUserNote()">
+            <mat-icon svgIcon="history"></mat-icon>
+          </button>
+          <button mat-icon-button color="primary" (click)="addNote()" *ngIf="isAdminOrDoctor">
+            <mat-icon svgIcon="text-box-check"></mat-icon>
+          </button>
+        </div>
       </div>
     </div>
   </div>

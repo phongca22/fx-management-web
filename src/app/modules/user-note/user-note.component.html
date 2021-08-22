@@ -1,0 +1,19 @@
+<div fxFill fxLayout="column" fxLayoutGap="16px">
+  <div fxFlex fxLayout="column" fxLayoutGap="16px" class="wrapper">
+    <mat-card *ngFor="let item of notes">
+      <mat-card-content>
+        <div class="mat-caption gray-color" fxLayout="row" fxLayoutAlign="space-between">
+          <div>{{item.date}}</div>
+          <div>{{item.time}}</div>
+        </div>
+        <div class="mat-h3">{{item.content}}</div>
+      </mat-card-content>
+    </mat-card>
+    <div *ngIf="isEmpty()" class="gray-color mat-headline">{{'empty' | translate}}</div>
+  </div>
+  <div class="action" fxLayout="row" fxLayoutAlign="end">
+    <button mat-raised-button mat-dialog-close style="width: 8em">
+      {{'action.back' | translate}}
+    </button>
+  </div>
+</div>

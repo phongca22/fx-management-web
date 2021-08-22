@@ -1,6 +1,6 @@
 import { General } from './general';
 
-export class Support extends General {
+export class UserStatus extends General {
   constructor(data: any) {
     super(data);
   }

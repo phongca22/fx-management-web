@@ -5,6 +5,7 @@ import { tap } from 'rxjs/operators';
 import { Doctor } from '../core/doctor';
 import { Response } from '../core/response';
 import { Support } from '../core/support';
+import { UserStatusType } from '../core/user-status.enum';
 import { BaseService } from './base-service';
 
 @Injectable({
@@ -12,7 +13,7 @@ import { BaseService } from './base-service';
 })
 export class UserService extends BaseService {
   doctors: Doctor[];
-  supports: Support[];
+
   constructor(private http: HttpClient) {
     super();
   }
@@ -45,23 +46,33 @@ export class UserService extends BaseService {
     );
   }
 
-  getSupports(): Observable<any> {
-    return this.http.get(`${this.api}/user/supports`).pipe(
-      this.getResponse(),
-      tap((res: Response) => {
-        if (res.ok) {
-          this.supports = res.data.map((val: any) => new Support(val));
-        }
-      }),
-      this.getError()
-    );
-  }
-
   setSupports(id: number, data: number[]): Observable<any> {
     return this.http
       .put(`${this.api}/user/supports`, {
         id: id,
         supports: data
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
+  setStatus(id: number, data: UserStatusType): Observable<any> {
+    return this.http
+      .put(`${this.api}/user/status`, {
+        id: id,
+        status: data
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
+  getNotes(id: number): Observable<any> {
+    return this.http.get(`${this.api}/user/notes/` + id).pipe(this.getResponse(), this.getError());
+  }
+
+  addNote(id: number, content: string): Observable<any> {
+    return this.http
+      .put(`${this.api}/user/notes`, {
+        id: id,
+        content: content
       })
       .pipe(this.getResponse(), this.getError());
   }

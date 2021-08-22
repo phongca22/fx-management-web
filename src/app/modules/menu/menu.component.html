@@ -1,7 +1,7 @@
 <div fxFill fxLayout="column">
   <mat-action-list>
     <mat-list-item *ngFor="let link of links" (click)="go(link.page)">
-      <mat-icon mat-list-icon [svgIcon]="link.icon"></mat-icon>
+      <mat-icon mat-list-icon class="gray-icon-color" [svgIcon]="link.icon"></mat-icon>
       <div mat-line>{{link.name | translate}}</div>
     </mat-list-item>
   </mat-action-list>

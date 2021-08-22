@@ -1,0 +1,21 @@
+<div fxFlex fxLayout="column">
+  <mat-accordion fxFlex>
+    <mat-expansion-panel *ngFor="let item of data; let index = index" [expanded]="line === index"
+      (closed)="removeLine()" (opened)="setLine(index)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px" *ngIf="index !== line">
+            <mat-icon svgIcon="account-circle" color="primary"></mat-icon>
+            <div>
+              {{item.name}}
+            </div>
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-user-info [user]="item"></app-user-info>
+      <mat-action-row fxLayout="row">
+
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

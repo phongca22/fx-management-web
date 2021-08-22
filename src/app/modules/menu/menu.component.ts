@@ -26,9 +26,9 @@ export class MenuComponent implements OnInit {
         icon: 'account-search'
       },
       {
-        name: 'menu.user.pending',
+        name: 'menu.user.processing',
         page: USER_PENDING,
-        icon: 'progress-question'
+        icon: 'clipboard-account-outline'
       }
     ];
   }

@@ -1,9 +1,9 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { filter, find, isNil } from 'lodash';
 import { Support } from 'src/app/core/support';
-import { UserService } from 'src/app/services/user.service';
+import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
   selector: 'app-support-picker',
@@ -15,7 +15,7 @@ export class SupportPickerComponent implements OnInit {
   supports: Support[];
 
   constructor(
-    private service: UserService,
+    private service: ConfigService,
     private builder: FormBuilder,
     private dialog: MatDialogRef<SupportPickerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Support[]

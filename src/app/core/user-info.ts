@@ -1,5 +1,5 @@
-import { reject } from 'lodash';
-import { UserStatus } from './user-status.enum';
+import { reject, sortBy } from 'lodash';
+import { UserStatusType } from './user-status.enum';
 
 export class UserInfo {
   id: number;
@@ -12,7 +12,7 @@ export class UserInfo {
   district: string;
   province: string;
   addressLabel: string;
-  status: UserStatus;
+  status: UserStatusType;
   code: string;
   doctorId: number;
   supports: any[]
@@ -30,7 +30,7 @@ export class UserInfo {
     this.status = data.status;
     this.code = data.code;
     this.doctorId = data.doctorId;
-    this.supports = data.supports;
+    this.supports = sortBy(data.supports);
     this.addressLabel = this.combineAddress();
   }
 

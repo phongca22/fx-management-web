@@ -61,6 +61,10 @@ export class AuthService extends BaseService {
     return !!find(this.user?.roles, (val: Role) => data.includes(val));
   }
 
+  hasRole(data: Role): boolean {
+    return !!this.user?.roles.includes(data);
+  }
+
   isApiUrl(data: string): boolean {
     return data.startsWith(`${environment.host}/api/`);
   }

@@ -1,6 +1,5 @@
-export enum UserStatus {
-  Pending = 'pending',
-  Accepted = 'accepted',
-  Success = 'success',
-  Failed = 'failed'
+export enum UserStatusType {
+  Processing = 'processing',
+  Recovered = 'recovered',
+  Hospitalized = 'hospitalizeded'
 }

@@ -20,7 +20,7 @@
     "user": {
       "create": "Thêm bệnh nhân",
       "search": "Tìm bệnh nhân",
-      "pending": "Danh sách chờ"
+      "processing": "Danh sách bệnh nhân"
     }
   },
   "userForm": {
@@ -36,10 +36,13 @@
     "passRequired": "Nhập mật khẩu",
     "phoneRequired": "Nhập số điện thoại",
     "doctor": "Bác sĩ",
-    "support": "Hỗ trợ"
+    "support": "Hỗ trợ",
+    "status": "Tình trạng",
+    "note": "Ghi chú",
+    "code": "Mã bệnh nhận"
   },
   "userCreate": {
-    "success": "Tạo thành công"
+    "success": "Đã tạo mới"
   },
   "gender": {
     "male": "Nam",
@@ -56,18 +59,31 @@
     "keyword": "Nhập mã bệnh nhân"
   },
   "userStatus": {
-    "waiting": "Chưa chỉ định bác sỹ",
-    "success": "Đã khỏi bệnh",
-    "failed": "Chuyển viện"
+    "processing": "Đang điều trị",
+    "recovered": "Hồi phục",
+    "hospitalized": "Chuyển viện"
   },
   "userEdit": {
-    "success": "Cập nhật thành công"
+    "success": "Đã lưu"
   },
   "processing": "Đang xử lý...",
   "supportPicker": {
     "title": "Danh sách hỗ trợ"
   },
-  "userPending": {
-    "supportUpdated": "Đã lưu"
+  "userNote": {},
+  "addNote": {
+    "success": "Đã thêm ghi chú",
+    "content": "Nhập nội dung...",
+    "label": "Ghi chú"
+  },
+  "empty": "Chưa có dữ liệu",
+  "userStatusPicker": {
+    "status": "Tình trạng"
+  },
+  "userInfo": {
+    "statusUpdated": "Đã lưu",
+    "emptySupport": "Chưa chỉ định",
+    "supportUpdated": "Đã lưu",
+    "copy": "Đã copy mã bệnh nhân"
   }
 }

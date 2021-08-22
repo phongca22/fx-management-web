@@ -30,7 +30,7 @@ const routes: Routes = [
       },
       {
         path: 'user-pending',
-        loadChildren: () => import('../../modules/user-pending/user-pending.module').then((m) => m.UserPendingModule),
+        loadChildren: () => import('../user-processing/user-processing.module').then((m) => m.UserPendingModule),
         canLoad: [UserGuard, UserGuard],
         canActivate: [UserGuard, UserGuard],
         data: {
