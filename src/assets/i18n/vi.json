@@ -85,5 +85,11 @@
     "emptySupport": "Chưa chỉ định",
     "supportUpdated": "Đã lưu",
     "copy": "Đã copy mã bệnh nhân"
+  },
+  "paginator": {
+    "page": "Trang {{page}} / {{total}}"
+  },
+  "userList": {
+    "sum": "Có {{total}} bệnh nhân"
   }
 }

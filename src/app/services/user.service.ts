@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { isNil } from 'lodash';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Doctor } from '../core/doctor';
@@ -30,8 +31,15 @@ export class UserService extends BaseService {
     return this.http.put(`${this.api}/user/update`, data).pipe(this.getResponse(), this.getError());
   }
 
-  getPendings(): Observable<any> {
-    return this.http.get(`${this.api}/user/pending`).pipe(this.getResponse(), this.getError());
+  getUsers(page?: number): Observable<any> {
+    page = isNil(page) ? 0 : page;
+    return this.http
+      .get(`${this.api}/users`, {
+        params: {
+          page: page.toString()
+        }
+      })
+      .pipe(this.getResponse(), this.getError());
   }
 
   getDoctors(): Observable<any> {

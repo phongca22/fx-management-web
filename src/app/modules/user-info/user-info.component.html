@@ -9,7 +9,7 @@
             <div class="mat-h3">{{user.name}}</div>
           </div>
           <button mat-icon-button color="primary" (click)="edit()">
-            <mat-icon svgIcon="pencil"></mat-icon>
+            <mat-icon svgIcon="pencil-outline"></mat-icon>
           </button>
         </div>
         <div fxLayout="row">
@@ -64,7 +64,7 @@
           <div class="mat-h3">{{user.status | userStatus | translate}}</div>
         </div>
         <button mat-icon-button color="primary" (click)="editStatus()" *ngIf="isAdminOrDoctor">
-          <mat-icon svgIcon="pencil"></mat-icon>
+          <mat-icon svgIcon="pencil-outline"></mat-icon>
         </button>
       </div>
       <div class="mb-3">
@@ -76,17 +76,17 @@
           <div *ngIf="!hasSupports()" class="mat-h3">{{'userInfo.emptySupport' | translate}}</div>
         </div>
         <button mat-icon-button color="primary" (click)="editSupport()" *ngIf="isAdminOrDoctor">
-          <mat-icon svgIcon="pencil"></mat-icon>
+          <mat-icon svgIcon="pencil-outline"></mat-icon>
         </button>
       </div>
       <div>
         <div class="mat-caption gray-color">{{'userForm.note' | translate}}</div>
         <div fxLayout="row">
-          <button mat-icon-button style="color: #009688" (click)="showUserNote()">
+          <button mat-icon-button color="primary" (click)="showUserNote()">
             <mat-icon svgIcon="history"></mat-icon>
           </button>
           <button mat-icon-button color="primary" (click)="addNote()" *ngIf="isAdminOrDoctor">
-            <mat-icon svgIcon="text-box-check"></mat-icon>
+            <mat-icon svgIcon="text-box-plus-outline"></mat-icon>
           </button>
         </div>
       </div>

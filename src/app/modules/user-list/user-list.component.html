@@ -5,7 +5,7 @@
       <mat-expansion-panel-header>
         <mat-panel-title>
           <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px" *ngIf="index !== line">
-            <mat-icon svgIcon="account-circle" color="primary"></mat-icon>
+            <mat-icon svgIcon="account-circle-outline" color="primary"></mat-icon>
             <div>
               {{item.name}}
             </div>
@@ -13,9 +13,11 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <app-user-info [user]="item"></app-user-info>
-      <mat-action-row fxLayout="row">
-
-      </mat-action-row>
     </mat-expansion-panel>
   </mat-accordion>
+  <div fxLayout="row" fxLayoutAlign=" center">
+    <div fxFlex class="mat-caption gray-color ml-3">{{'userList.sum' | translate: {total: size || 0} }}</div>
+    <mat-paginator [length]="size" [pageSize]="10" [hidePageSize]="true" (page)="changePage($event)">
+    </mat-paginator>
+  </div>
 </div>

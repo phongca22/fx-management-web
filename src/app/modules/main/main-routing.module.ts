@@ -30,11 +30,11 @@ const routes: Routes = [
       },
       {
         path: 'user-pending',
-        loadChildren: () => import('../user-processing/user-processing.module').then((m) => m.UserPendingModule),
+        loadChildren: () => import('../user-list/user-list.module').then((m) => m.UserListModule),
         canLoad: [UserGuard, UserGuard],
         canActivate: [UserGuard, UserGuard],
         data: {
-          role: [Role.Coodirnator, Role.Doctor]
+          role: [Role.Coodirnator, Role.Doctor, Role.Volunteer]
         }
       },
       {
@@ -43,7 +43,7 @@ const routes: Routes = [
         canLoad: [UserGuard, UserGuard],
         canActivate: [UserGuard, UserGuard],
         data: {
-          role: [Role.Coodirnator, Role.Doctor]
+          role: [Role.Coodirnator, Role.Doctor, Role.Volunteer]
         }
       }
     ]
