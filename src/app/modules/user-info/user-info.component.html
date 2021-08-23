@@ -56,14 +56,14 @@
     <div fxLayout="column" fxFlex>
       <div>
         <div class="mat-caption gray-color">{{'userForm.doctor' | translate}}</div>
-        <div class="mat-h3">{{doctor.name}}</div>
+        <div class="mat-h3">{{doctor?.name}}</div>
       </div>
       <div>
         <div fxFlex>
           <div class="mat-caption gray-color">{{'userForm.status' | translate}}</div>
-          <div class="mat-h3">{{user.status | userStatus | translate}}</div>
+          <div class="mat-h3">{{user.condition | userCondition | translate}}</div>
         </div>
-        <button mat-icon-button color="primary" (click)="editStatus()" *ngIf="isAdminOrDoctor">
+        <button mat-icon-button color="primary" (click)="editCondition()" *ngIf="isAdminOrDoctor">
           <mat-icon svgIcon="pencil-outline"></mat-icon>
         </button>
       </div>

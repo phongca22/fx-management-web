@@ -1,5 +1,6 @@
-import { reject, sortBy } from 'lodash';
-import { UserStatusType } from './user-status.enum';
+import { reject } from 'lodash';
+import { Support } from './support';
+import { UserConditionType } from './user-condition.enum';
 
 export class UserInfo {
   id: number;
@@ -12,10 +13,12 @@ export class UserInfo {
   district: string;
   province: string;
   addressLabel: string;
-  status: UserStatusType;
+  condition: UserConditionType;
   code: string;
   doctorId: number;
-  supports: any[]
+  supports: Support[];
+  doctorAssignmentId: number;
+  patientConditionId: any;
 
   constructor(data: any) {
     this.id = data.id;
@@ -27,14 +30,37 @@ export class UserInfo {
     this.ward = data.ward;
     this.district = data.district;
     this.province = data.province;
-    this.status = data.status;
+    this.condition = data.status;
     this.code = data.code;
-    this.doctorId = data.doctorId;
-    this.supports = sortBy(data.supports);
+    if (data.condition) {
+      this.setCondition(data.condition);
+    }
+
+    if (data.doctorAssignments) {
+      this.setAssignment(data.doctorAssignments);
+    }
+
+    this.supports = data.supports;
     this.addressLabel = this.combineAddress();
   }
 
   combineAddress() {
     return reject([this.address, this.ward ? 'P' + this.ward : null, this.district, this.province], [null]).join(', ');
+  }
+
+  setAssignment([data]: any[]) {
+    this.doctorId = data.doctorId;
+    this.doctorAssignmentId = data.id;
+  }
+
+  setCondition(data: any) {
+    this.condition = data.conditionId;
+    this.patientConditionId = data.id;
+  }
+
+  setInfo(data: any) {
+    this.setAssignment(data.doctorAssignments);
+    this.setCondition(data.condition);
+    this.supports = data.supports;
   }
 }

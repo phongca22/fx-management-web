@@ -30,17 +30,17 @@ export class UserEditComponent implements OnInit {
 
   save(): void {
     this.loading = true;
-    const t = this.form.value.info;
-    this.service
-      .updateUser({ ...t, gender: t.gender.id, id: this.data.id, doctorId: t.doctor.id })
-      .subscribe((res: Response) => {
-        this.loading = false;
-        if (res.ok) {
-          this.dialog.close(new UserInfo(res.data));
-          this.alert.success('userEdit.success');
-        } else {
-          this.alert.error();
-        }
-      });
+    let data = { ...this.form.value.info };
+    data = { ...data, gender: data.gender.id, id: this.data.id, doctorId: data.doctor.id };
+    delete data.doctor;
+    this.service.updateUser(data).subscribe((res: Response) => {
+      this.loading = false;
+      if (res.ok) {
+        this.dialog.close(new UserInfo(res.data));
+        this.alert.success('userEdit.success');
+      } else {
+        this.alert.error();
+      }
+    });
   }
 }

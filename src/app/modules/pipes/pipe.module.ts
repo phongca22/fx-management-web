@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { GenderPipe } from './gender.pipe';
-import { UserStatusPipe } from './user-status.pipe';
+import { userConditionPipe } from './user-condition.pipe';
 
 @NgModule({
-  declarations: [GenderPipe, UserStatusPipe],
-  exports: [GenderPipe, UserStatusPipe]
+  declarations: [GenderPipe, userConditionPipe],
+  exports: [GenderPipe, userConditionPipe]
 })
 export class PipeModule {}

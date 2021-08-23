@@ -4,11 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { PipeModule } from '../pipes/pipe.module';
 import { SharedModule } from '../shared-module';
-import { UserStatusPickerComponent } from './user-status-picker.component';
+import { UserConditionPickerComponent } from './user-condition-picker.component';
 
 @NgModule({
-  declarations: [UserStatusPickerComponent],
+  declarations: [UserConditionPickerComponent],
   imports: [CommonModule, SharedModule, TranslateModule.forChild({}), ReactiveFormsModule, PipeModule],
-  exports: [UserStatusPickerComponent]
+  exports: [UserConditionPickerComponent]
 })
 export class UserStatusPickerModule {}

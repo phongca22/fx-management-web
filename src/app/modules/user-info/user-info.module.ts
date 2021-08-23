@@ -7,7 +7,7 @@ import { SharedModule } from '../shared-module';
 import { SupportPickerModule } from '../support-picker/support-picker.module';
 import { UserEditModule } from '../user-edit/user-edit.module';
 import { UserNoteModule } from '../user-note/user-note.module';
-import { UserStatusPickerModule } from '../user-status-picker/user-status-picker.module';
+import { UserStatusPickerModule } from '../user-condition-picker/user-condition-picker.module';
 import { UserInfoComponent } from './user-info.component';
 
 @NgModule({

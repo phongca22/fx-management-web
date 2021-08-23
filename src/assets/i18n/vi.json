@@ -58,10 +58,11 @@
   "search": {
     "keyword": "Nhập mã bệnh nhân"
   },
-  "userStatus": {
+  "userCondition": {
     "processing": "Đang điều trị",
     "recovered": "Hồi phục",
-    "hospitalized": "Chuyển viện"
+    "hospitalized": "Chuyển viện",
+    "unknown": "Không xác định"
   },
   "userEdit": {
     "success": "Đã lưu"

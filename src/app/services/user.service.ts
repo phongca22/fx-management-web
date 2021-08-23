@@ -5,8 +5,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Doctor } from '../core/doctor';
 import { Response } from '../core/response';
-import { Support } from '../core/support';
-import { UserStatusType } from '../core/user-status.enum';
+import { UserConditionType } from '../core/user-condition.enum';
 import { BaseService } from './base-service';
 
 @Injectable({
@@ -54,6 +53,10 @@ export class UserService extends BaseService {
     );
   }
 
+  getUserInfo(id: number): Observable<any> {
+    return this.http.get(`${this.api}/user/${id}/info`).pipe(this.getResponse(), this.getError());
+  }
+
   setSupports(id: number, data: number[]): Observable<any> {
     return this.http
       .put(`${this.api}/user/supports`, {
@@ -63,11 +66,11 @@ export class UserService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
-  setStatus(id: number, data: UserStatusType): Observable<any> {
+  setCondition(id: number, data: UserConditionType): Observable<any> {
     return this.http
-      .put(`${this.api}/user/status`, {
+      .put(`${this.api}/user/condition`, {
         id: id,
-        status: data
+        conditionId: data
       })
       .pipe(this.getResponse(), this.getError());
   }

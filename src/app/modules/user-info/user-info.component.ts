@@ -1,13 +1,14 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { assign, find, isEmpty, isNil, isString } from 'lodash';
+import { assign, find, isEmpty, isNil, isNumber, isString } from 'lodash';
 import { concatMap, filter } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
+import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
 import { Support } from 'src/app/core/support';
 import { UserInfo } from 'src/app/core/user-info';
-import { UserStatusType } from 'src/app/core/user-status.enum';
+import { UserConditionType } from 'src/app/core/user-condition.enum';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
@@ -15,7 +16,7 @@ import { SupportPickerComponent } from '../support-picker/support-picker.compone
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { AddNoteComponent } from '../user-note/add-note/add-note.component';
 import { UserNoteComponent } from '../user-note/user-note.component';
-import { UserStatusPickerComponent } from '../user-status-picker/user-status-picker.component';
+import { UserConditionPickerComponent } from '../user-condition-picker/user-condition-picker.component';
 
 @Component({
   selector: 'app-user-info',
@@ -24,8 +25,10 @@ import { UserStatusPickerComponent } from '../user-status-picker/user-status-pic
 })
 export class UserInfoComponent implements OnInit, OnChanges {
   @Input() user: UserInfo;
+  @Input() init: boolean;
   doctor: Doctor;
   isAdminOrDoctor: boolean;
+  once: boolean;
 
   constructor(
     private service: UserService,
@@ -38,14 +41,24 @@ export class UserInfoComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.doctor = find(this.service.doctors, { id: this.user?.doctorId }) as Doctor;
+    if (this.init && !this.once) {
+      this.once = true;
+      this.service.getUserInfo(this.user.id).subscribe((res: Response) => {
+        if (res.ok) {
+          this.user.setInfo(res.data);
+          this.doctor = find(this.service.doctors, { id: this.user.doctorId }) as Doctor;
+        } else {
+          this.alert.error();
+        }
+      });
+    }
   }
 
   ngOnInit(): void {}
 
   hasSupports(): boolean {
     if (this.user) {
-      return this.user.supports.length > 0;
+      return this.user.supports?.length > 0;
     } else {
       return false;
     }
@@ -64,27 +77,28 @@ export class UserInfoComponent implements OnInit, OnChanges {
       .pipe(filter((val: UserInfo) => !isNil(val) && !isEmpty(val)))
       .subscribe((val: UserInfo) => {
         assign(this.user, val);
+        this.doctor = find(this.service.doctors, { id: this.user.doctorId }) as Doctor;
       });
   }
 
-  editStatus(): void {
-    let result: UserStatusType;
+  editCondition(): void {
+    let result: UserConditionType;
     this.dialog
-      .open(UserStatusPickerComponent, {
-        data: this.user.status,
+      .open(UserConditionPickerComponent, {
+        data: this.user.condition,
         width: '80%'
       })
       .afterClosed()
       .pipe(
-        filter((val: UserStatusType) => !isNil(val) && !isEmpty(val)),
-        concatMap((val: UserStatusType) => {
+        filter((val: UserConditionType) => isNumber(val)),
+        concatMap((val: UserConditionType) => {
           result = val;
-          return this.service.setStatus(this.user?.id as number, val);
+          return this.service.setCondition(this.user.patientConditionId, val);
         })
       )
       .subscribe((res: Response) => {
         if (res.ok) {
-          this.user.status = result;
+          this.user.condition = result;
           this.alert.success('userInfo.supportUpdated');
         } else {
           this.alert.error();
@@ -105,7 +119,7 @@ export class UserInfoComponent implements OnInit, OnChanges {
         concatMap((val: Support[]) => {
           result = val;
           return this.service.setSupports(
-            this.user.id,
+            this.user.doctorAssignmentId,
             val.map(({ id }: { id: number }) => id)
           );
         })

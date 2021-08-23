@@ -12,7 +12,7 @@
           </div>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-user-info [user]="item"></app-user-info>
+      <app-user-info [user]="item" [init]="line === index"></app-user-info>
     </mat-expansion-panel>
   </mat-accordion>
   <div fxLayout="row" fxLayoutAlign=" center">
