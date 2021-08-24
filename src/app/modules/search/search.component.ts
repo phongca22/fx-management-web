@@ -24,11 +24,14 @@ export class SearchComponent implements OnInit {
   search(): void {
     this.loading = true;
     this.user = null;
-    this.service.findByCode(this.keyword.value).subscribe((res: Response) => {
+    this.service.find(this.keyword.value).subscribe((res: Response) => {
       this.loading = false;
       if (res.ok) {
         if (res.data) {
-          this.user = new UserInfo(res.data);
+          this.user = new UserInfo({
+            ...res.data.user,
+            condition: res.data.condition
+          });
         } else {
           this.alert.error('error.search');
         }

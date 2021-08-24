@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route } from '@angular/router';
-import { isEqual, isNil } from 'lodash';
-import { Observable } from 'rxjs';
-import { DENIED, IPage, LOGIN } from 'src/app/core/page-config';
+import { DENIED } from 'src/app/core/page-config';
 import { Role } from 'src/app/core/role';
 import { RouterService } from 'src/app/services/router.service';
 import { StoreService } from 'src/app/services/store.service';

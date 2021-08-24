@@ -6,17 +6,21 @@ import { concatMap, filter } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
-import { Support } from 'src/app/core/support';
-import { UserInfo } from 'src/app/core/user-info';
+import { SupportStatus } from 'src/app/core/support-status';
 import { UserConditionType } from 'src/app/core/user-condition.enum';
+import { UserInfo } from 'src/app/core/user-info';
+import { UserSupport } from 'src/app/core/user-support';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
+import { DoctorPickerComponent } from '../doctor-picker/doctor-picker.component';
 import { SupportPickerComponent } from '../support-picker/support-picker.component';
+import { UserConditionPickerComponent } from '../user-condition-picker/user-condition-picker.component';
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { AddNoteComponent } from '../user-note/add-note/add-note.component';
 import { UserNoteComponent } from '../user-note/user-note.component';
-import { UserConditionPickerComponent } from '../user-condition-picker/user-condition-picker.component';
+import { UserSupportDetailComponent } from '../user-support/user-support-detail/user-support-detail.component';
+import { UserSupportEditComponent } from '../user-support/user-support-edit/user-support-edit.component';
 
 @Component({
   selector: 'app-user-info',
@@ -26,9 +30,13 @@ import { UserConditionPickerComponent } from '../user-condition-picker/user-cond
 export class UserInfoComponent implements OnInit, OnChanges {
   @Input() user: UserInfo;
   @Input() init: boolean;
+  @Input() full: boolean;
   doctor: Doctor;
   isAdminOrDoctor: boolean;
   once: boolean;
+  loading: boolean = true;
+  isVolunteer: boolean;
+  isCoordinator: boolean;
 
   constructor(
     private service: UserService,
@@ -38,19 +46,25 @@ export class UserInfoComponent implements OnInit, OnChanges {
     private clipboard: Clipboard
   ) {
     this.isAdminOrDoctor = this.auth.hasRole(Role.Admin) || this.auth.hasRole(Role.Doctor);
+    this.isCoordinator = this.auth.hasRole(Role.Coodirnator);
+    this.isVolunteer = this.auth.hasRole(Role.Volunteer);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.init && !this.once) {
       this.once = true;
       this.service.getUserInfo(this.user.id).subscribe((res: Response) => {
+        this.loading = false;
         if (res.ok) {
           this.user.setInfo(res.data);
-          this.doctor = find(this.service.doctors, { id: this.user.doctorId }) as Doctor;
         } else {
           this.alert.error();
         }
       });
+    }
+
+    if (this.full) {
+      this.loading = false;
     }
   }
 
@@ -77,67 +91,39 @@ export class UserInfoComponent implements OnInit, OnChanges {
       .pipe(filter((val: UserInfo) => !isNil(val) && !isEmpty(val)))
       .subscribe((val: UserInfo) => {
         assign(this.user, val);
-        this.doctor = find(this.service.doctors, { id: this.user.doctorId }) as Doctor;
       });
   }
 
   editCondition(): void {
-    let result: UserConditionType;
     this.dialog
       .open(UserConditionPickerComponent, {
-        data: this.user.condition,
+        data: this.user,
         width: '80%'
       })
       .afterClosed()
-      .pipe(
-        filter((val: UserConditionType) => isNumber(val)),
-        concatMap((val: UserConditionType) => {
-          result = val;
-          return this.service.setCondition(this.user.patientConditionId, val);
-        })
-      )
-      .subscribe((res: Response) => {
-        if (res.ok) {
-          this.user.condition = result;
-          this.alert.success('userInfo.supportUpdated');
-        } else {
-          this.alert.error();
-        }
+      .pipe(filter((val: UserConditionType) => isNumber(val)))
+      .subscribe((val: UserConditionType) => {
+        this.user.condition = val;
       });
   }
 
   editSupport(): void {
-    let result: Support[];
     this.dialog
       .open(SupportPickerComponent, {
-        data: this.user.supports,
+        data: this.user,
         width: '80%'
       })
       .afterClosed()
-      .pipe(
-        filter((val: Support[]) => !isNil(val) && !isString(val)),
-        concatMap((val: Support[]) => {
-          result = val;
-          return this.service.setSupports(
-            this.user.doctorAssignmentId,
-            val.map(({ id }: { id: number }) => id)
-          );
-        })
-      )
-      .subscribe((res: Response) => {
-        if (res.ok) {
-          this.user.supports = result;
-          this.alert.success('userInfo.supportUpdated');
-        } else {
-          this.alert.error();
-        }
+      .pipe(filter((val: UserSupport[]) => !isNil(val) && !isString(val)))
+      .subscribe((data: UserSupport[]) => {
+        this.user.supports = data;
       });
   }
 
   showUserNote(): void {
     this.dialog
       .open(UserNoteComponent, {
-        data: this.user.id,
+        data: this.user.doctorAssignmentId,
         width: '100%',
         height: '100%',
         maxWidth: '100vw',
@@ -157,14 +143,55 @@ export class UserInfoComponent implements OnInit, OnChanges {
   addNote(): void {
     this.dialog
       .open(AddNoteComponent, {
-        data: this.user.id,
+        data: this.user.doctorAssignmentId,
         width: '100%',
         height: '100%',
         maxWidth: '100vw',
         maxHeight: '100vh'
       })
       .afterClosed()
-      .pipe(filter((val: Support[]) => !isNil(val) && !isEmpty(val)))
+      .pipe(filter((val: UserSupport[]) => !isNil(val) && !isEmpty(val)))
+      .subscribe();
+  }
+
+  editDoctor(): void {
+    this.dialog
+      .open(DoctorPickerComponent, {
+        data: this.user,
+        width: '80%'
+      })
+      .afterClosed()
+      .pipe(filter((val: Doctor) => !isNil(val) && !isString(val)))
+      .subscribe((res: Doctor) => {
+        this.user.doctor = res;
+      });
+  }
+
+  editSupportStatus(): void {
+    this.dialog
+      .open(UserSupportEditComponent, {
+        data: this.user,
+        width: '100%',
+        maxWidth: '96vw'
+      })
+      .afterClosed()
+      .pipe(filter((val: UserSupport[]) => !isNil(val) && !isString(val)))
+      .subscribe((res: UserSupport[]) => {
+        this.user.supports = this.user.supports.map((val: UserSupport) => {
+          val.status = find(res, { id: val.id })?.status || SupportStatus.Failed;
+          return val;
+        });
+      });
+  }
+
+  showSupportStatus(): void {
+    this.dialog
+      .open(UserSupportDetailComponent, {
+        data: this.user,
+        width: '100%',
+        maxWidth: '96vw'
+      })
+      .afterClosed()
       .subscribe();
   }
 }

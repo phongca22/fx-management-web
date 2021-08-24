@@ -22,8 +22,8 @@ export class UserService extends BaseService {
     return this.http.post(`${this.api}/user/create`, data).pipe(this.getResponse(), this.getError());
   }
 
-  findByCode(data: string): Observable<any> {
-    return this.http.put(`${this.api}/user/search`, { code: data }).pipe(this.getResponse(), this.getError());
+  find(data: string): Observable<any> {
+    return this.http.put(`${this.api}/user/find`, { code: data }).pipe(this.getResponse(), this.getError());
   }
 
   updateUser(data: any): Observable<any> {
@@ -66,6 +66,14 @@ export class UserService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
+  updateUserSupport(data: any[]): Observable<any> {
+    return this.http.put(`${this.api}/user/supports/status`, data).pipe(this.getResponse(), this.getError());
+  }
+
+  getUserSupportDetail(id: number): Observable<any> {
+    return this.http.get(`${this.api}/user/${id}/supports/status`).pipe(this.getResponse(), this.getError());
+  }
+
   setCondition(id: number, data: UserConditionType): Observable<any> {
     return this.http
       .put(`${this.api}/user/condition`, {
@@ -75,13 +83,22 @@ export class UserService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
+  setDoctor(id: number, data: number): Observable<any> {
+    return this.http
+      .put(`${this.api}/user/doctors`, {
+        id: id,
+        doctorId: data
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
   getNotes(id: number): Observable<any> {
-    return this.http.get(`${this.api}/user/notes/` + id).pipe(this.getResponse(), this.getError());
+    return this.http.get(`${this.api}/user/${id}/notes/`).pipe(this.getResponse(), this.getError());
   }
 
   addNote(id: number, content: string): Observable<any> {
     return this.http
-      .put(`${this.api}/user/notes`, {
+      .put(`${this.api}/user/${id}/notes`, {
         id: id,
         content: content
       })

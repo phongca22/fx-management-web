@@ -2,7 +2,7 @@
   <div fxFlex fxLayout="column" fxLayoutGap="16px" class="body">
     <app-user-form [form]="form" [data]="data"></app-user-form>
   </div>
-  <div class="action" fxLayout="row" fxLayoutAlign="end">
+  <div class="action" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="16px">
     <div fxFlex fxLayout="column" *ngIf="loading">
       <div class="mat-body gray-color">{{'processing' | translate}}</div>
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>

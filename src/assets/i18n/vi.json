@@ -69,7 +69,7 @@
   },
   "processing": "Đang xử lý...",
   "supportPicker": {
-    "title": "Danh sách hỗ trợ"
+    "title": "Hỗ trợ"
   },
   "userNote": {},
   "addNote": {
@@ -85,6 +85,7 @@
     "statusUpdated": "Đã lưu",
     "emptySupport": "Chưa chỉ định",
     "supportUpdated": "Đã lưu",
+    "doctorUpdated": "Đã lưu",
     "copy": "Đã copy mã bệnh nhân"
   },
   "paginator": {
@@ -92,5 +93,23 @@
   },
   "userList": {
     "sum": "Có {{total}} bệnh nhân"
+  },
+  "doctorPicker": {
+    "label": "Bác sĩ"
+  },
+  "supportStatus": {
+    "pending": "Đang chờ",
+    "delivering": "Đang giao",
+    "delivered": "Đã giao",
+    "failed": "Hủy",
+    "unknown": "Không xác định"
+  },
+  "userSupportEdit": {
+    "title": "Thông tin vận chuyển",
+    "status": "Trạng thái"
+  },
+  "userSupportDetail": {
+    "title": "Lịch sử vận chuyển",
+    "pending": "Đang chờ"
   }
 }

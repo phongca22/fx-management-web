@@ -1,5 +1,6 @@
-import { reject } from 'lodash';
-import { Support } from './support';
+import { orderBy, reject, sortBy } from 'lodash';
+import { Doctor } from './doctor';
+import { UserSupport } from './user-support';
 import { UserConditionType } from './user-condition.enum';
 
 export class UserInfo {
@@ -15,8 +16,8 @@ export class UserInfo {
   addressLabel: string;
   condition: UserConditionType;
   code: string;
-  doctorId: number;
-  supports: Support[];
+  doctor: Doctor;
+  supports: UserSupport[];
   doctorAssignmentId: number;
   patientConditionId: any;
 
@@ -40,7 +41,6 @@ export class UserInfo {
       this.setAssignment(data.doctorAssignments);
     }
 
-    this.supports = data.supports;
     this.addressLabel = this.combineAddress();
   }
 
@@ -49,8 +49,16 @@ export class UserInfo {
   }
 
   setAssignment([data]: any[]) {
-    this.doctorId = data.doctorId;
+    this.doctor = new Doctor(data.doctor);
     this.doctorAssignmentId = data.id;
+    this.setSupport(data.supports);
+  }
+
+  setSupport(data: any[]): void {
+    this.supports = sortBy(
+      data.map((val: any) => new UserSupport(val)),
+      ['id']
+    );
   }
 
   setCondition(data: any) {
@@ -61,6 +69,5 @@ export class UserInfo {
   setInfo(data: any) {
     this.setAssignment(data.doctorAssignments);
     this.setCondition(data.condition);
-    this.supports = data.supports;
   }
 }

@@ -1,6 +1,6 @@
 <div fxFlex *ngIf="user" class="body" fxLayoutGap="16px" fxLayout="column">
   <div fxLayout="row" fxLayoutGap="32px">
-    <mat-icon svgIcon="account-outline" color="primary"></mat-icon>
+    <mat-icon svgIcon="account-outline" class="gray-icon-color"></mat-icon>
     <div fxLayout="column" fxFlex>
       <div fxLayout="column">
         <div fxLayout="row">
@@ -8,7 +8,7 @@
             <div class="mat-caption gray-color">{{'userForm.fullname' | translate}}</div>
             <div class="mat-h3">{{user.name}}</div>
           </div>
-          <button mat-icon-button color="primary" (click)="edit()">
+          <button mat-icon-button color="primary" (click)="edit()" *ngIf="isAdminOrDoctor || isCoordinator">
             <mat-icon svgIcon="pencil-outline"></mat-icon>
           </button>
         </div>
@@ -36,7 +36,7 @@
     </div>
   </div>
   <div fxLayout="row" fxLayoutGap="32px">
-    <mat-icon svgIcon="map-marker-outline" color="primary"></mat-icon>
+    <mat-icon svgIcon="map-marker-outline" class="gray-icon-color"></mat-icon>
     <div fxLayout="column" fxFlex>
       <div fxLayout="column">
         <div>
@@ -52,37 +52,32 @@
     </div>
   </div>
   <div fxLayout="row" fxLayoutGap="32px">
-    <mat-icon svgIcon="card-account-details-outline" color="primary"></mat-icon>
+    <mat-icon svgIcon="card-account-details-outline" class="gray-icon-color"></mat-icon>
     <div fxLayout="column" fxFlex>
       <div>
-        <div class="mat-caption gray-color">{{'userForm.doctor' | translate}}</div>
-        <div class="mat-h3">{{doctor?.name}}</div>
+        <div fxFlex>
+          <div class="mat-caption gray-color">{{'userForm.doctor' | translate}}</div>
+          <div class="mat-h3" *ngIf="!loading">{{user.doctor.name}}</div>
+          <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+        </div>
+        <button mat-icon-button color="primary" (click)="editDoctor()" [disabled]="loading"
+          *ngIf="isAdminOrDoctor || isCoordinator">
+          <mat-icon svgIcon="pencil-outline"></mat-icon>
+        </button>
       </div>
       <div>
         <div fxFlex>
           <div class="mat-caption gray-color">{{'userForm.status' | translate}}</div>
-          <div class="mat-h3">{{user.condition | userCondition | translate}}</div>
+          <div class="mat-h3" *ngIf="!loading">{{user.condition | userCondition | translate}}</div>
+          <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
         </div>
-        <button mat-icon-button color="primary" (click)="editCondition()" *ngIf="isAdminOrDoctor">
+        <button mat-icon-button color="primary" (click)="editCondition()" [disabled]="loading" *ngIf="isAdminOrDoctor">
           <mat-icon svgIcon="pencil-outline"></mat-icon>
         </button>
       </div>
-      <div class="mb-3">
-        <div fxFlex>
-          <div class="mat-caption gray-color">{{'userForm.support' | translate}}</div>
-          <ng-container *ngIf="hasSupports()">
-            <div class="mat-h3 mb-0" *ngFor="let item of user.supports">{{item.name}}</div>
-          </ng-container>
-          <div *ngIf="!hasSupports()" class="mat-h3">{{'userInfo.emptySupport' | translate}}</div>
-        </div>
-        <button mat-icon-button color="primary" (click)="editSupport()" *ngIf="isAdminOrDoctor">
-          <mat-icon svgIcon="pencil-outline"></mat-icon>
-        </button>
-      </div>
-      <div>
-        <div class="mat-caption gray-color">{{'userForm.note' | translate}}</div>
+      <div class="mb-3" fxLayout="column" fxLayoutAlign=" end">
         <div fxLayout="row">
-          <button mat-icon-button color="primary" (click)="showUserNote()">
+          <button mat-icon-button color="primary" (click)="showUserNote()" *ngIf="isAdminOrDoctor || isCoordinator">
             <mat-icon svgIcon="history"></mat-icon>
           </button>
           <button mat-icon-button color="primary" (click)="addNote()" *ngIf="isAdminOrDoctor">
@@ -90,6 +85,43 @@
           </button>
         </div>
       </div>
+      <mat-divider></mat-divider>
     </div>
   </div>
-</div>
+  <div fxLayout="row" fxLayoutGap="32px">
+    <mat-icon svgIcon="hospital-box-outline" class="gray-icon-color"></mat-icon>
+    <div fxLayout="column" fxFlex>
+      <div fxLayout="column" fxLayoutGap="16px">
+        <div>
+          <div class="mat-caption gray-color">{{'userForm.support' | translate}}</div>
+          <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+          <div *ngIf="hasSupports() && !loading">
+            <div *ngFor="let item of user.supports" fxLayout="row">
+              <div class="mat-h3 mb-0" fxFlex>{{item.support.name}}</div>
+              <mat-icon svgIcon="account-question-outline" *ngIf="item.status === 'pending'" class="gray-icon-color">
+              </mat-icon>
+              <mat-icon svgIcon="truck-delivery-outline" *ngIf="item.status === 'delivering'" style="color: #ff9800">
+              </mat-icon>
+              <mat-icon svgIcon="account-check-outline" *ngIf="item.status === 'delivered'" style="color: green">
+              </mat-icon>
+              <mat-icon svgIcon="alert-outline" *ngIf="item.status === 'failed'" color="warn"></mat-icon>
+            </div>
+          </div>
+          <div *ngIf="!hasSupports() && !loading" class="mat-h3">{{'userInfo.emptySupport' | translate}}</div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end">
+          <button mat-icon-button color="primary" [disabled]="loading" (click)="showSupportStatus()"
+            *ngIf="hasSupports()">
+            <mat-icon svgIcon="information-outline"></mat-icon>
+          </button>
+          <button mat-icon-button color="primary" (click)="editSupportStatus()" [disabled]="loading"
+            *ngIf="isVolunteer && hasSupports()">
+            <mat-icon svgIcon="format-list-checks"></mat-icon>
+          </button>
+          <button mat-icon-button color="primary" (click)="editSupport()" [disabled]="loading" *ngIf="isAdminOrDoctor">
+            <mat-icon svgIcon="pencil-outline"></mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

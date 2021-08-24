@@ -14,11 +14,11 @@ const routes: Routes = [
         redirectTo: 'profile',
         pathMatch: 'full'
       },
-      {
-        path: 'profile',
-        loadChildren: () => import('../../modules/profile/profile.module').then((m) => m.ProfileModule),
-        canActivate: [UserGuard]
-      },
+      // {
+      //   path: 'profile',
+      //   loadChildren: () => import('../../modules/profile/profile.module').then((m) => m.ProfileModule),
+      //   canActivate: [UserGuard]
+      // },
       {
         path: 'user-create',
         loadChildren: () => import('../../modules/user-create/user-create.module').then((m) => m.UserCreateModule),
@@ -29,10 +29,10 @@ const routes: Routes = [
         }
       },
       {
-        path: 'user-pending',
+        path: 'users',
         loadChildren: () => import('../user-list/user-list.module').then((m) => m.UserListModule),
-        canLoad: [UserGuard, UserGuard],
-        canActivate: [UserGuard, UserGuard],
+        canLoad: [UserGuard],
+        canActivate: [UserGuard],
         data: {
           role: [Role.Coodirnator, Role.Doctor, Role.Volunteer]
         }
@@ -40,8 +40,8 @@ const routes: Routes = [
       {
         path: 'search',
         loadChildren: () => import('../../modules/search/search.module').then((m) => m.SearchModule),
-        canLoad: [UserGuard, UserGuard],
-        canActivate: [UserGuard, UserGuard],
+        canLoad: [UserGuard],
+        canActivate: [UserGuard],
         data: {
           role: [Role.Coodirnator, Role.Doctor, Role.Volunteer]
         }

@@ -41,7 +41,7 @@
       <mat-label>{{'userForm.province' | translate}}</mat-label>
       <input matInput formControlName="province" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" *ngIf="!data">
       <mat-label>{{'userForm.doctor' | translate}}</mat-label>
       <mat-select formControlName="doctor">
         <mat-select-trigger>{{form.get('info.doctor')?.value?.name | translate}}</mat-select-trigger>

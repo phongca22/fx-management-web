@@ -20,11 +20,11 @@
           <mat-error *ngIf="form.get('pass')?.hasError('required')">{{'login.passwordRequired' | translate}}
           </mat-error>
         </mat-form-field>
-        <div class="mat-body gray-color">{{'login.hint' | translate}}</div>
+        <!-- <div class="mat-body gray-color">{{'login.hint' | translate}}</div> -->
       </div>
       <div fxLayout="row" fxLayoutGap="16px">
-        <button fxFlex mat-stroked-button color="primary" [disabled]="form.invalid || loading"
-          (click)="register()">{{'login.signUp' | translate}}</button>
+        <!-- <button fxFlex mat-stroked-button color="primary" [disabled]="form.invalid || loading"
+          (click)="register()">{{'login.signUp' | translate}}</button> -->
         <button fxFlex mat-raised-button color="primary" [disabled]="form.invalid || loading"
           (click)="login()">{{'login.signIn' | translate}}</button>
       </div>

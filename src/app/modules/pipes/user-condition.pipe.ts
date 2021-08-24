@@ -5,7 +5,7 @@ import { UserConditionType } from 'src/app/core/user-condition.enum';
   name: 'userCondition'
 })
 export class userConditionPipe implements PipeTransform {
-  transform(value: unknown, ...args: unknown[]): string {
+  transform(value: number, ...args: unknown[]): string {
     if (value === UserConditionType.Processing) {
       return 'userCondition.processing';
     } else if (value === UserConditionType.Recovered) {

@@ -2,17 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Doctor } from '../core/doctor';
 import { Response } from '../core/response';
 import { Support } from '../core/support';
 import { UserConditionType } from '../core/user-condition.enum';
+import { UserSupport } from '../core/user-support';
 import { BaseService } from './base-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService extends BaseService {
-  doctors: Doctor[];
   supports: Support[];
   status: UserConditionType[] = [
     UserConditionType.Processing,

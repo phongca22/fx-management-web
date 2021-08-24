@@ -43,10 +43,10 @@ export class UserFormComponent implements OnInit {
     );
 
     if (this.data) {
+      this.form.get('info.doctor')?.disable();
       this.form.patchValue({
         info: {
           ...this.data,
-          doctor: find(this.doctors, { id: this.data.doctorId }),
           fullname: this.data.name,
           gender: find(this.genders, { id: this.data.gender })
         }

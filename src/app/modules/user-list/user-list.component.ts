@@ -34,8 +34,10 @@ export class UserListComponent implements OnInit {
   line: number;
   size: number;
   worker: Subject<number>;
+  expandedList: Set<number>;
   constructor(private service: UserService, private alert: AlertService, private readonly $destroy: DestroyService) {
     this.worker = new Subject();
+    this.expandedList = new Set();
     this.worker
       .pipe(
         tap(() => (this.data = [])),
@@ -62,6 +64,7 @@ export class UserListComponent implements OnInit {
 
   setLine(i: number): void {
     this.line = i;
+    this.expandedList.add(i);
   }
 
   removeLine(): void {

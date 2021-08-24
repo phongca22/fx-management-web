@@ -17,6 +17,6 @@ function generate(url: string, name?: string): IPage {
 export const LOGIN: IPage = generate('login');
 export const USER_PROFILE: IPage = generate('main/profile');
 export const USER_CREATE: IPage = generate('main/user-create');
-export const USER_PENDING: IPage = generate('main/user-pending');
+export const USER_LIST: IPage = generate('main/users');
 export const SEARCH: IPage = generate('main/search');
 export const DENIED: IPage = generate('denied');

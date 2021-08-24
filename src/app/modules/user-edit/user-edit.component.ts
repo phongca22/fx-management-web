@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GENDER, IGender } from 'src/app/core/gender';
@@ -31,7 +31,7 @@ export class UserEditComponent implements OnInit {
   save(): void {
     this.loading = true;
     let data = { ...this.form.value.info };
-    data = { ...data, gender: data.gender.id, id: this.data.id, doctorId: data.doctor.id };
+    data = { ...data, gender: data.gender.id, id: this.data.id };
     delete data.doctor;
     this.service.updateUser(data).subscribe((res: Response) => {
       this.loading = false;

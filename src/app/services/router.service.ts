@@ -3,7 +3,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { find } from 'lodash';
 import { Subject } from 'rxjs';
 import { Page, StackedPage } from '../core/page';
-import { LOGIN, USER_PENDING, USER_PROFILE } from '../core/page-config';
+import { LOGIN, SEARCH, USER_LIST } from '../core/page-config';
 import { Role } from '../core/role';
 import { PageState } from '../modules/store/page/page-state';
 import { User } from '../modules/store/user/user';
@@ -53,9 +53,9 @@ export class RouterService {
 
   goHome(): void {
     if (find(this.user.roles, (id: Role) => id === Role.Coodirnator || id === Role.Doctor)) {
-      this.go(USER_PENDING);
+      this.go(USER_LIST);
     } else {
-      this.go(USER_PROFILE);
+      this.go(SEARCH);
     }
   }
 

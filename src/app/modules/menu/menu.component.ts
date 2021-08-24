@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { USER_CREATE, SEARCH, IPage, USER_PENDING } from 'src/app/core/page-config';
+import { USER_CREATE, SEARCH, IPage, USER_LIST } from 'src/app/core/page-config';
 import { RouterService } from 'src/app/services/router.service';
 import { SidenavService } from 'src/app/services/sidenav.service';
 
@@ -27,7 +27,7 @@ export class MenuComponent implements OnInit {
       },
       {
         name: 'menu.user.processing',
-        page: USER_PENDING,
+        page: USER_LIST,
         icon: 'clipboard-account-outline'
       }
     ];
