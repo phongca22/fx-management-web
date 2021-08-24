@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { Response } from '../core/response';
 import { Support } from '../core/support';
 import { UserConditionType } from '../core/user-condition.enum';
@@ -24,7 +25,7 @@ export class ConfigService extends BaseService {
   }
 
   getSupports(): Observable<any> {
-    return this.http.get('/config/supports').pipe(
+    return this.http.get(`${environment.host}/config/supports`).pipe(
       this.getResponse(),
       tap((res: Response) => {
         if (res.ok) {
