@@ -19,7 +19,7 @@
           </div>
           <div fxFlex>
             <div class="mat-caption gray-color">{{'userForm.age' | translate}}</div>
-            <div class="mat-h3">{{user.age}}</div>
+            <div class="mat-h3">{{user.age | age}}</div>
           </div>
         </div>
         <div fxLayout="row">
@@ -32,6 +32,43 @@
           </button>
         </div>
       </div>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="32px">
+    <mat-icon svgIcon="account-group-outline" class="gray-icon-color"></mat-icon>
+    <div fxLayout="column" fxFlex>
+      <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+      <ng-container *ngIf="!loading">
+        <div fxLayout="row" *ngIf="hasMembers()">
+          <div fxFlex>
+            <div class="mat-caption gray-color">{{'userInfo.family' | translate}}</div>
+            <div class="mb-3">
+              <div *ngFor="let item of user.members" fxLayout="row" class="mat-h3 mb-0">{{item.name}}</div>
+            </div>
+          </div>
+          <button mat-icon-button color="primary" (click)="addMember()" [disabled]="loading"
+            *ngIf="isAdminOrDoctor || isCoordinator">
+            <mat-icon svgIcon="account-plus-outline"></mat-icon>
+          </button>
+        </div>
+        <div fxLayout="row" *ngIf="user.agent">
+          <div fxFlex>
+            <div class="mat-caption gray-color">{{'userInfo.agent' | translate}}</div>
+            <div class="mat-h3">{{user.agent.name}}</div>
+          </div>
+        </div>
+        <div fxLayout="row" *ngIf="!hasMembers() && !user.agent">
+          <div fxFlex>
+            <div class="mat-caption gray-color">{{'userInfo.family' | translate}}</div>
+            <div *ngIf="!hasMembers()" class="mat-h3">{{'userInfo.noMember' | translate}}</div>
+          </div>
+          <button mat-icon-button color="primary" (click)="addMember()" [disabled]="loading"
+            *ngIf="isAdminOrDoctor || isCoordinator">
+            <mat-icon svgIcon="account-plus-outline"></mat-icon>
+          </button>
+        </div>
+      </ng-container>
       <mat-divider></mat-divider>
     </div>
   </div>
@@ -52,9 +89,9 @@
     </div>
   </div>
   <div fxLayout="row" fxLayoutGap="32px">
-    <mat-icon svgIcon="card-account-details-outline" class="gray-icon-color"></mat-icon>
+    <mat-icon svgIcon="badge-account-horizontal-outline" class="gray-icon-color"></mat-icon>
     <div fxLayout="column" fxFlex>
-      <div>
+      <div fxLayout="row">
         <div fxFlex>
           <div class="mat-caption gray-color">{{'userForm.doctor' | translate}}</div>
           <div class="mat-h3" *ngIf="!loading">{{user.doctor.name}}</div>
@@ -65,9 +102,9 @@
           <mat-icon svgIcon="pencil-outline"></mat-icon>
         </button>
       </div>
-      <div>
+      <div fxLayout="row">
         <div fxFlex>
-          <div class="mat-caption gray-color">{{'userForm.status' | translate}}</div>
+          <div class="mat-caption gray-color">{{'userForm.condition' | translate}}</div>
           <div class="mat-h3" *ngIf="!loading">{{user.condition | userCondition | translate}}</div>
           <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
         </div>
@@ -92,22 +129,32 @@
     <mat-icon svgIcon="hospital-box-outline" class="gray-icon-color"></mat-icon>
     <div fxLayout="column" fxFlex>
       <div fxLayout="column" fxLayoutGap="16px">
-        <div>
-          <div class="mat-caption gray-color">{{'userForm.support' | translate}}</div>
-          <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-          <div *ngIf="hasSupports() && !loading">
-            <div *ngFor="let item of user.supports" fxLayout="row">
-              <div class="mat-h3 mb-0" fxFlex>{{item.support.name}}</div>
-              <mat-icon svgIcon="account-question-outline" *ngIf="item.status === 'pending'" class="gray-icon-color">
-              </mat-icon>
-              <mat-icon svgIcon="truck-delivery-outline" *ngIf="item.status === 'delivering'" style="color: #ff9800">
-              </mat-icon>
-              <mat-icon svgIcon="account-check-outline" *ngIf="item.status === 'delivered'" style="color: green">
-              </mat-icon>
-              <mat-icon svgIcon="alert-outline" *ngIf="item.status === 'failed'" color="warn"></mat-icon>
-            </div>
+        <div fxLayout="row">
+          <div fxFlex>
+            <div class="mat-caption gray-color">{{'userForm.support' | translate}}</div>
+            <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+            <ng-container *ngIf="!loading">
+              <ng-container *ngIf="hasSupports()">
+                <div *ngFor="let item of user.supports" fxLayout="row">
+                  <div class="mat-h3 mb-0" fxFlex>{{item.support.name}}</div>
+                  <mat-icon svgIcon="account-question-outline" *ngIf="item.status === 'pending'"
+                    class="gray-icon-color">
+                  </mat-icon>
+                  <mat-icon svgIcon="truck-delivery-outline" *ngIf="item.status === 'delivering'"
+                    style="color: #ff9800">
+                  </mat-icon>
+                  <mat-icon svgIcon="account-check-outline" *ngIf="item.status === 'delivered'" style="color: green">
+                  </mat-icon>
+                  <mat-icon svgIcon="alert-outline" *ngIf="item.status === 'failed'" color="warn"></mat-icon>
+                </div>
+              </ng-container>
+              <div *ngIf="!hasSupports()" class="mat-h3">{{'userInfo.emptySupport' | translate}}</div>
+            </ng-container>
           </div>
-          <div *ngIf="!hasSupports() && !loading" class="mat-h3">{{'userInfo.emptySupport' | translate}}</div>
+          <button mat-icon-button color="primary" (click)="editSupport()" [disabled]="loading"
+            *ngIf="isAdminOrDoctor && !hasSupports()">
+            <mat-icon svgIcon="pencil-outline"></mat-icon>
+          </button>
         </div>
         <div fxLayout="row" fxLayoutAlign="end">
           <button mat-icon-button color="primary" [disabled]="loading" (click)="showSupportStatus()"
@@ -118,7 +165,8 @@
             *ngIf="isVolunteer && hasSupports()">
             <mat-icon svgIcon="format-list-checks"></mat-icon>
           </button>
-          <button mat-icon-button color="primary" (click)="editSupport()" [disabled]="loading" *ngIf="isAdminOrDoctor">
+          <button mat-icon-button color="primary" (click)="editSupport()" [disabled]="loading"
+            *ngIf="isAdminOrDoctor && hasSupports()">
             <mat-icon svgIcon="pencil-outline"></mat-icon>
           </button>
         </div>

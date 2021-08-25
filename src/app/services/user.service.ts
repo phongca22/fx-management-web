@@ -6,7 +6,9 @@ import { tap } from 'rxjs/operators';
 import { Doctor } from '../core/doctor';
 import { Response } from '../core/response';
 import { UserConditionType } from '../core/user-condition.enum';
+import { User } from '../modules/store/user/user';
 import { BaseService } from './base-service';
+import { StoreService } from './store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ import { BaseService } from './base-service';
 export class UserService extends BaseService {
   doctors: Doctor[];
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private store: StoreService) {
     super();
   }
 
@@ -54,7 +56,7 @@ export class UserService extends BaseService {
   }
 
   getUserInfo(id: number): Observable<any> {
-    return this.http.get(`${this.api}/user/${id}/info`).pipe(this.getResponse(), this.getError());
+    return this.http.get(`${this.api}/user/info/${id}`).pipe(this.getResponse(), this.getError());
   }
 
   setSupports(id: number, data: number[]): Observable<any> {
@@ -66,12 +68,12 @@ export class UserService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
-  updateUserSupport(data: any[]): Observable<any> {
-    return this.http.put(`${this.api}/user/supports/status`, data).pipe(this.getResponse(), this.getError());
+  setSupportStatus(data: any[]): Observable<any> {
+    return this.http.put(`${this.api}/user/support-status`, data).pipe(this.getResponse(), this.getError());
   }
 
-  getUserSupportDetail(id: number): Observable<any> {
-    return this.http.get(`${this.api}/user/${id}/supports/status`).pipe(this.getResponse(), this.getError());
+  getSupportStatusDetail(id: number): Observable<any> {
+    return this.http.get(`${this.api}/user/support-status/${id}`).pipe(this.getResponse(), this.getError());
   }
 
   setCondition(id: number, data: UserConditionType): Observable<any> {
@@ -93,15 +95,25 @@ export class UserService extends BaseService {
   }
 
   getNotes(id: number): Observable<any> {
-    return this.http.get(`${this.api}/user/${id}/notes/`).pipe(this.getResponse(), this.getError());
+    return this.http.get(`${this.api}/user/notes/${id}`).pipe(this.getResponse(), this.getError());
   }
 
   addNote(id: number, content: string): Observable<any> {
     return this.http
-      .put(`${this.api}/user/${id}/notes`, {
+      .put(`${this.api}/user/notes`, {
         id: id,
         content: content
       })
       .pipe(this.getResponse(), this.getError());
+  }
+
+  getProfile(): Observable<any> {
+    return this.http.get(`${this.api}/user/profile`).pipe(
+      this.getResponse(),
+      tap((res: Response) => {
+        this.store.setUser({ name: res.data.fullname } as User);
+      }),
+      this.getError()
+    );
   }
 }

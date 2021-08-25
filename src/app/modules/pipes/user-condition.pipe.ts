@@ -13,7 +13,7 @@ export class userConditionPipe implements PipeTransform {
     } else if (value === UserConditionType.Hospitalized) {
       return 'userCondition.hospitalized';
     } else {
-      return 'userCondition.unknown';
+      return 'unknown';
     }
   }
 }

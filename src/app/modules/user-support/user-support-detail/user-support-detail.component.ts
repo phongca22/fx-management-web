@@ -25,7 +25,7 @@ export class UserSupportDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.service
-      .getUserSupportDetail(this.data.doctorAssignmentId)
+      .getSupportStatusDetail(this.data.doctorAssignmentId)
       .pipe(takeUntil(this.$destroy))
       .subscribe((res: Response) => {
         if (res.ok) {

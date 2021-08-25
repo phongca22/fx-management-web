@@ -1,9 +1,7 @@
-export class Doctor {
-  id: number;
-  name: string;
+import { User } from './user';
 
+export class Doctor extends User {
   constructor(data: any) {
-    this.id = data.id;
-    this.name = data.fullname;
+    super(data);
   }
 }

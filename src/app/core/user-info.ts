@@ -1,7 +1,8 @@
-import { orderBy, reject, sortBy } from 'lodash';
+import { reject, sortBy } from 'lodash';
 import { Doctor } from './doctor';
-import { UserSupport } from './user-support';
+import { User } from './user';
 import { UserConditionType } from './user-condition.enum';
+import { UserSupport } from './user-support';
 
 export class UserInfo {
   id: number;
@@ -20,6 +21,8 @@ export class UserInfo {
   supports: UserSupport[];
   doctorAssignmentId: number;
   patientConditionId: any;
+  members: User[];
+  agent: User;
 
   constructor(data: any) {
     this.id = data.id;
@@ -33,14 +36,14 @@ export class UserInfo {
     this.province = data.province;
     this.condition = data.status;
     this.code = data.code;
-    if (data.condition) {
-      this.setCondition(data.condition);
-    }
+    this.setCondition(data.condition);
 
     if (data.doctorAssignments) {
       this.setAssignment(data.doctorAssignments);
     }
 
+    this.setMembers(data.members);
+    this.setAgent(data.agent);
     this.addressLabel = this.combineAddress();
   }
 
@@ -54,6 +57,24 @@ export class UserInfo {
     this.setSupport(data.supports);
   }
 
+  setMembers(data: any[]) {
+    if (data) {
+      this.members = data.map((val: any) => new User(val));
+    }
+  }
+
+  setAgent(data: any) {
+    if (data) {
+      this.agent = new User(data);
+      this.address = data.address;
+      this.ward = data.ward;
+      this.district = data.district;
+      this.province = data.province;
+      this.phone = data.phone;
+      this.addressLabel = this.combineAddress();
+    }
+  }
+
   setSupport(data: any[]): void {
     this.supports = sortBy(
       data.map((val: any) => new UserSupport(val)),
@@ -62,12 +83,21 @@ export class UserInfo {
   }
 
   setCondition(data: any) {
-    this.condition = data.conditionId;
-    this.patientConditionId = data.id;
+    if (data) {
+      this.condition = data.conditionId;
+      this.patientConditionId = data.id;
+    }
   }
 
   setInfo(data: any) {
     this.setAssignment(data.doctorAssignments);
     this.setCondition(data.condition);
+    this.setMembers(data.members);
+    this.setAgent(data.agent);
+  }
+
+  addMember(data: User): void {
+    this.members = this.members || [];
+    this.members.push(data);
   }
 }

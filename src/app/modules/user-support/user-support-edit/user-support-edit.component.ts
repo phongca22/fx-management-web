@@ -59,7 +59,7 @@ export class UserSupportEditComponent implements OnInit {
       id: id,
       status: value.id
     }));
-    this.service.updateUserSupport(t).subscribe((res: Response) => {
+    this.service.setSupportStatus(t).subscribe((res: Response) => {
       this.loading = false;
       if (res.ok) {
         this.dialog.close(t);

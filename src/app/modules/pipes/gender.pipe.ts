@@ -7,7 +7,7 @@ import { isNil } from 'lodash';
 export class GenderPipe implements PipeTransform {
   transform(value: unknown, ...args: unknown[]): string {
     if (isNil(value)) {
-      return 'gender.unknown';
+      return 'unknown';
     } else if (value === 0) {
       return 'gender.female';
     } else {

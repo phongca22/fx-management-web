@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { DoctorPickerModule } from '../doctor-picker/doctor-picker.module';
+import { FamilyModule } from '../family/family.module';
 import { PipeModule } from '../pipes/pipe.module';
 import { SharedModule } from '../shared-module';
 import { SupportPickerModule } from '../support-picker/support-picker.module';
@@ -25,7 +26,8 @@ import { UserInfoComponent } from './user-info.component';
     ClipboardModule,
     UserStatusPickerModule,
     DoctorPickerModule,
-    UserSupportModule
+    UserSupportModule,
+    FamilyModule
   ],
   exports: [UserInfoComponent]
 })

@@ -15,7 +15,7 @@ export class SupportStatusPipe implements PipeTransform {
     } else if (value === SupportStatus.Failed) {
       return 'supportStatus.failed';
     } else {
-      return 'supportStatus.unknown';
+      return 'unknown';
     }
   }
 }

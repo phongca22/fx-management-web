@@ -1,17 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { USER_CREATE, SEARCH, IPage, USER_LIST } from 'src/app/core/page-config';
+import { takeUntil } from 'rxjs/operators';
+import { IPage, SEARCH, USER_CREATE, USER_LIST } from 'src/app/core/page-config';
+import { DestroyService } from 'src/app/services/destroy.service';
 import { RouterService } from 'src/app/services/router.service';
 import { SidenavService } from 'src/app/services/sidenav.service';
+import { StoreService } from 'src/app/services/store.service';
+import { AuthService } from '../auth/auth.service';
+import { User } from '../store/user/user';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  styleUrls: ['./menu.component.scss'],
+  providers: [DestroyService]
 })
 export class MenuComponent implements OnInit {
   links: any[];
+  user: User | null;
 
-  constructor(private router: RouterService, private sidenav: SidenavService) {}
+  constructor(
+    private router: RouterService,
+    private sidenav: SidenavService,
+    private store: StoreService,
+    private readonly $destroy: DestroyService,
+    private auth: AuthService
+  ) {
+    this.store
+      .selectUser()
+      .pipe(takeUntil(this.$destroy))
+      .subscribe((val: User) => (this.user = val));
+  }
 
   ngOnInit(): void {
     this.links = [
@@ -36,5 +54,10 @@ export class MenuComponent implements OnInit {
   go(page: IPage): void {
     this.router.go(page);
     this.sidenav.left.close();
+  }
+
+  logout(): void {
+    this.auth.logout();
+    this.router.login();
   }
 }

@@ -7,6 +7,7 @@ import { Doctor } from 'src/app/core/doctor';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
 import { SupportStatus } from 'src/app/core/support-status';
+import { User } from 'src/app/core/user';
 import { UserConditionType } from 'src/app/core/user-condition.enum';
 import { UserInfo } from 'src/app/core/user-info';
 import { UserSupport } from 'src/app/core/user-support';
@@ -14,6 +15,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
 import { DoctorPickerComponent } from '../doctor-picker/doctor-picker.component';
+import { MemberAddComponent } from '../family/member-add/member-add.component';
 import { SupportPickerComponent } from '../support-picker/support-picker.component';
 import { UserConditionPickerComponent } from '../user-condition-picker/user-condition-picker.component';
 import { UserEditComponent } from '../user-edit/user-edit.component';
@@ -73,6 +75,14 @@ export class UserInfoComponent implements OnInit, OnChanges {
   hasSupports(): boolean {
     if (this.user) {
       return this.user.supports?.length > 0;
+    } else {
+      return false;
+    }
+  }
+
+  hasMembers(): boolean {
+    if (this.user) {
+      return this.user.members?.length > 0;
     } else {
       return false;
     }
@@ -193,5 +203,18 @@ export class UserInfoComponent implements OnInit, OnChanges {
       })
       .afterClosed()
       .subscribe();
+  }
+
+  addMember(): void {
+    this.dialog
+      .open(MemberAddComponent, {
+        data: this.user,
+        width: '80%'
+      })
+      .afterClosed()
+      .pipe(filter((val: User) => !isNil(val) && !isString(val)))
+      .subscribe((data: User) => {
+        this.user.addMember(data);
+      });
   }
 }

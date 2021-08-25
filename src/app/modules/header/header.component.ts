@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { SEARCH } from 'src/app/core/page-config';
 import { RouterService } from 'src/app/services/router.service';
 import { SidenavService, SidenavType } from 'src/app/services/sidenav.service';
-import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -9,16 +9,15 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  constructor(private auth: AuthService, private router: RouterService, private sidenav: SidenavService) {}
+  constructor(private router: RouterService, private sidenav: SidenavService) {}
 
   ngOnInit(): void {}
 
-  logout(): void {
-    this.auth.logout();
-    this.router.login();
-  }
-
   showMenu(): void {
     this.sidenav.toggle(SidenavType.Menu);
+  }
+
+  search(): void {
+    this.router.go(SEARCH);
   }
 }

@@ -21,7 +21,8 @@
       "create": "Thêm bệnh nhân",
       "search": "Tìm bệnh nhân",
       "processing": "Danh sách bệnh nhân"
-    }
+    },
+    "logout": "Đăng xuất"
   },
   "userForm": {
     "fullname": "Họ và tên",
@@ -32,12 +33,12 @@
     "ward": "Phường",
     "district": "Quận",
     "province": "Tỉnh/Thành phố",
-    "fullnameRequired": "Nhập tên tài khoản",
+    "fullnameRequired": "Nhập họ và tên",
     "passRequired": "Nhập mật khẩu",
     "phoneRequired": "Nhập số điện thoại",
     "doctor": "Bác sĩ",
     "support": "Hỗ trợ",
-    "status": "Tình trạng",
+    "condition": "Tình trạng",
     "note": "Ghi chú",
     "code": "Mã bệnh nhận"
   },
@@ -46,8 +47,7 @@
   },
   "gender": {
     "male": "Nam",
-    "female": "Nữ",
-    "unknown": "Không xác định"
+    "female": "Nữ"
   },
   "error": {
     "general": "Có lỗi xảy ra",
@@ -61,8 +61,7 @@
   "userCondition": {
     "processing": "Đang điều trị",
     "recovered": "Hồi phục",
-    "hospitalized": "Chuyển viện",
-    "unknown": "Không xác định"
+    "hospitalized": "Chuyển viện"
   },
   "userEdit": {
     "success": "Đã lưu"
@@ -86,7 +85,10 @@
     "emptySupport": "Chưa chỉ định",
     "supportUpdated": "Đã lưu",
     "doctorUpdated": "Đã lưu",
-    "copy": "Đã copy mã bệnh nhân"
+    "copy": "Đã copy mã bệnh nhân",
+    "family": "Gia đình",
+    "noMember": "Chưa có thành viên",
+    "agent": "Chủ hộ"
   },
   "paginator": {
     "page": "Trang {{page}} / {{total}}"
@@ -101,8 +103,7 @@
     "pending": "Đang chờ",
     "delivering": "Đang giao",
     "delivered": "Đã giao",
-    "failed": "Hủy",
-    "unknown": "Không xác định"
+    "failed": "Hủy"
   },
   "userSupportEdit": {
     "title": "Thông tin vận chuyển",
@@ -111,5 +112,13 @@
   "userSupportDetail": {
     "title": "Lịch sử vận chuyển",
     "pending": "Đang chờ"
+  },
+  "unknown": "Không xác định",
+  "role": {
+    "admin": "Quản trị viên",
+    "doctor": "Bác sĩ",
+    "coodirnator": "Điều phối viên",
+    "volunteer": "Tình nguyện viên",
+    "user": "Bệnh nhân"
   }
 }
