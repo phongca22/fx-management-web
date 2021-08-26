@@ -2,7 +2,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { assign, find, isEmpty, isNil, isNumber, isString } from 'lodash';
-import { concatMap, filter } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
@@ -19,7 +19,6 @@ import { MemberAddComponent } from '../family/member-add/member-add.component';
 import { SupportPickerComponent } from '../support-picker/support-picker.component';
 import { UserConditionPickerComponent } from '../user-condition-picker/user-condition-picker.component';
 import { UserEditComponent } from '../user-edit/user-edit.component';
-import { AddNoteComponent } from '../user-note/add-note/add-note.component';
 import { UserNoteComponent } from '../user-note/user-note.component';
 import { UserSupportDetailComponent } from '../user-support/user-support-detail/user-support-detail.component';
 import { UserSupportEditComponent } from '../user-support/user-support-edit/user-support-edit.component';
@@ -130,15 +129,12 @@ export class UserInfoComponent implements OnInit, OnChanges {
       });
   }
 
-  showUserNote(): void {
+  showNote(): void {
     this.dialog
       .open(UserNoteComponent, {
-        data: this.user.doctorAssignmentId,
+        data: this.user,
         width: '100%',
-        height: '100%',
-        maxWidth: '100vw',
-        maxHeight: '100vh',
-        panelClass: 'gray-dialog-background',
+        maxWidth: '96vw',
         autoFocus: false
       })
       .afterClosed()
@@ -148,20 +144,6 @@ export class UserInfoComponent implements OnInit, OnChanges {
   copy(): void {
     this.clipboard.copy(this.user.code);
     this.alert.info('userInfo.copy');
-  }
-
-  addNote(): void {
-    this.dialog
-      .open(AddNoteComponent, {
-        data: this.user.doctorAssignmentId,
-        width: '100%',
-        height: '100%',
-        maxWidth: '100vw',
-        maxHeight: '100vh'
-      })
-      .afterClosed()
-      .pipe(filter((val: UserSupport[]) => !isNil(val) && !isEmpty(val)))
-      .subscribe();
   }
 
   editDoctor(): void {

@@ -5,7 +5,8 @@
     "search": "Tìm",
     "edit": "Cập nhật",
     "remove": "Xóa",
-    "back": "Trở lại"
+    "back": "Trở lại",
+    "add": "Thêm"
   },
   "login": {
     "user": "Tên tài khoản",
@@ -70,7 +71,9 @@
   "supportPicker": {
     "title": "Hỗ trợ"
   },
-  "userNote": {},
+  "userNote": {
+    "title": "Ghi chú của bệnh nhân"
+  },
   "addNote": {
     "success": "Đã thêm ghi chú",
     "content": "Nhập nội dung...",

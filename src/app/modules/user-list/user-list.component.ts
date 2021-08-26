@@ -17,7 +17,7 @@ export class MatPaginatorIntlCro extends MatPaginatorIntl {
 
   getRangeLabel = (page: number, pageSize: number, length: number): string => {
     return this.translate.instant('paginator.page', {
-      page: page + 1,
+      page: length === 0 ? 0 : page + 1,
       total: Math.ceil(length / pageSize)
     });
   };

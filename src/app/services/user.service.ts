@@ -94,19 +94,6 @@ export class UserService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
-  getNotes(id: number): Observable<any> {
-    return this.http.get(`${this.api}/user/notes/${id}`).pipe(this.getResponse(), this.getError());
-  }
-
-  addNote(id: number, content: string): Observable<any> {
-    return this.http
-      .put(`${this.api}/user/notes`, {
-        id: id,
-        content: content
-      })
-      .pipe(this.getResponse(), this.getError());
-  }
-
   getProfile(): Observable<any> {
     return this.http.get(`${this.api}/user/profile`).pipe(
       this.getResponse(),

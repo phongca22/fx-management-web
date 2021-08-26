@@ -31,7 +31,7 @@ export class UserEditComponent implements OnInit {
   save(): void {
     this.loading = true;
     let data = { ...this.form.value.info };
-    data = { ...data, gender: data.gender.id, id: this.data.id };
+    data = { ...data, gender: data.gender?.id, id: this.data.id };
     delete data.doctor;
     this.service.updateUser(data).subscribe((res: Response) => {
       this.loading = false;

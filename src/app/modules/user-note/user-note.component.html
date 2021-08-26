@@ -1,19 +1,27 @@
-<div fxFill fxLayout="column" fxLayoutGap="16px">
-  <div fxFlex fxLayout="column" fxLayoutGap="16px" class="wrapper">
-    <mat-card *ngFor="let item of notes">
-      <mat-card-content>
-        <div class="mat-caption gray-color" fxLayout="row" fxLayoutAlign="space-between">
-          <div>{{item.date}}</div>
-          <div>{{item.time}}</div>
-        </div>
-        <div class="mat-h3">{{item.content}}</div>
-      </mat-card-content>
-    </mat-card>
-    <div *ngIf="isEmpty()" class="gray-color mat-headline">{{'empty' | translate}}</div>
+<h2 mat-dialog-title>{{'userNote.title' | translate}}</h2>
+<mat-dialog-content fxLayout="column" fxLayoutGap="16px" class="wrapper">
+  <div *ngFor="let g of groups">
+    <div class="group">{{g.name}}</div>
+    <div fxLayout="column" fxLayoutGap="16px">
+      <div *ngFor="let item of g.notes">
+        <mat-card>
+          <div fxLayout="row">
+            <div fxFlex class="mat-body">{{item.author}}</div>
+            <div class="mat-caption gray-color">{{item.role | role | translate}}</div>
+          </div>
+          <mat-card-content>
+            {{item.content}}
+          </mat-card-content>
+          <div class="mat-caption gray-color">
+            {{item.time}}
+          </div>
+        </mat-card>
+      </div>
+    </div>
   </div>
-  <div class="action" fxLayout="row" fxLayoutAlign="end">
-    <button mat-raised-button mat-dialog-close style="width: 8em">
-      {{'action.back' | translate}}
-    </button>
-  </div>
-</div>
+</mat-dialog-content>
+<!-- <div *ngIf="isEmpty()" class="gray-color mat-headline">{{'empty' | translate}}</div> -->
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close> {{'action.back' | translate}}</button>
+  <button mat-button (click)="addNote()" color="primary">{{'action.add' | translate}}</button>
+</mat-dialog-actions>

@@ -112,22 +112,37 @@
           <mat-icon svgIcon="pencil-outline"></mat-icon>
         </button>
       </div>
-      <div class="mb-3" fxLayout="column" fxLayoutAlign=" end">
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="16px">
+    <button fxFlex mat-stroked-button color="primary" (click)="showNote()">
+      <mat-icon svgIcon="account-details-outline" style="margin-right: 8px;"></mat-icon>
+      Ghi chú
+    </button>
+    <button fxFlex mat-stroked-button color="primary" (click)="editSupport()" [disabled]="loading"
+      *ngIf="isAdminOrDoctor">
+      <mat-icon svgIcon="account-edit-outline" style="margin-right: 8px;"></mat-icon>
+      Hỗ trợ
+    </button>
+  </div>
+  <!-- <div fxLayout="row" fxLayoutGap="32px">
+    <mat-icon svgIcon="hospital-box-outline" class="gray-icon-color"></mat-icon>
+    <div fxLayout="column" fxFlex>
+      <div fxLayout="row">
+        <div class="mat-body" fxFlex>{{'userForm.support' | translate}}</div>
         <div fxLayout="row">
+          <button mat-icon-button color="primary" (click)="editSupportStatus()" [disabled]="loading"
+            *ngIf="isVolunteer && hasSupports()">
+            <mat-icon svgIcon="format-list-checks"></mat-icon>
+          </button>
           <button mat-icon-button color="primary" (click)="showUserNote()" *ngIf="isAdminOrDoctor || isCoordinator">
             <mat-icon svgIcon="history"></mat-icon>
           </button>
-          <button mat-icon-button color="primary" (click)="addNote()" *ngIf="isAdminOrDoctor">
-            <mat-icon svgIcon="text-box-plus-outline"></mat-icon>
+          <button mat-icon-button color="primary" (click)="editSupport()" [disabled]="loading" *ngIf="isAdminOrDoctor">
+            <mat-icon svgIcon="pencil-outline"></mat-icon>
           </button>
         </div>
       </div>
-      <mat-divider></mat-divider>
-    </div>
-  </div>
-  <div fxLayout="row" fxLayoutGap="32px">
-    <mat-icon svgIcon="hospital-box-outline" class="gray-icon-color"></mat-icon>
-    <div fxLayout="column" fxFlex>
       <div fxLayout="column" fxLayoutGap="16px">
         <div fxLayout="row">
           <div fxFlex>
@@ -172,4 +187,4 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
