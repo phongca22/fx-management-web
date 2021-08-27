@@ -1,27 +1,23 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { assign, find, isEmpty, isNil, isNumber, isString } from 'lodash';
+import { assign, isEmpty, isNil, isNumber, isString } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
-import { SupportStatus } from 'src/app/core/support-status';
 import { User } from 'src/app/core/user';
 import { UserConditionType } from 'src/app/core/user-condition.enum';
 import { UserInfo } from 'src/app/core/user-info';
-import { UserSupport } from 'src/app/core/user-support';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
 import { DoctorPickerComponent } from '../doctor-picker/doctor-picker.component';
 import { MemberAddComponent } from '../family/member-add/member-add.component';
-import { SupportPickerComponent } from '../support-picker/support-picker.component';
 import { UserConditionPickerComponent } from '../user-condition-picker/user-condition-picker.component';
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { UserNoteComponent } from '../user-note/user-note.component';
-import { UserSupportDetailComponent } from '../user-support/user-support-detail/user-support-detail.component';
-import { UserSupportEditComponent } from '../user-support/user-support-edit/user-support-edit.component';
+import { UserSupportComponent } from '../user-support/user-support.component';
 
 @Component({
   selector: 'app-user-info',
@@ -71,14 +67,6 @@ export class UserInfoComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {}
 
-  hasSupports(): boolean {
-    if (this.user) {
-      return this.user.supports?.length > 0;
-    } else {
-      return false;
-    }
-  }
-
   hasMembers(): boolean {
     if (this.user) {
       return this.user.members?.length > 0;
@@ -116,17 +104,16 @@ export class UserInfoComponent implements OnInit, OnChanges {
       });
   }
 
-  editSupport(): void {
+  showSupport(): void {
     this.dialog
-      .open(SupportPickerComponent, {
+      .open(UserSupportComponent, {
         data: this.user,
-        width: '80%'
+        width: '100%',
+        maxWidth: '96vw',
+        autoFocus: false
       })
       .afterClosed()
-      .pipe(filter((val: UserSupport[]) => !isNil(val) && !isString(val)))
-      .subscribe((data: UserSupport[]) => {
-        this.user.supports = data;
-      });
+      .subscribe();
   }
 
   showNote(): void {
@@ -158,35 +145,7 @@ export class UserInfoComponent implements OnInit, OnChanges {
         this.user.doctor = res;
       });
   }
-
-  editSupportStatus(): void {
-    this.dialog
-      .open(UserSupportEditComponent, {
-        data: this.user,
-        width: '100%',
-        maxWidth: '96vw'
-      })
-      .afterClosed()
-      .pipe(filter((val: UserSupport[]) => !isNil(val) && !isString(val)))
-      .subscribe((res: UserSupport[]) => {
-        this.user.supports = this.user.supports.map((val: UserSupport) => {
-          val.status = find(res, { id: val.id })?.status || SupportStatus.Failed;
-          return val;
-        });
-      });
-  }
-
-  showSupportStatus(): void {
-    this.dialog
-      .open(UserSupportDetailComponent, {
-        data: this.user,
-        width: '100%',
-        maxWidth: '96vw'
-      })
-      .afterClosed()
-      .subscribe();
-  }
-
+  
   addMember(): void {
     this.dialog
       .open(MemberAddComponent, {

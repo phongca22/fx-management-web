@@ -18,7 +18,6 @@ export class UserInfo {
   condition: UserConditionType;
   code: string;
   doctor: Doctor;
-  supports: UserSupport[];
   doctorAssignmentId: number;
   patientConditionId: any;
   members: User[];
@@ -54,7 +53,6 @@ export class UserInfo {
   setAssignment([data]: any[]) {
     this.doctor = new Doctor(data.doctor);
     this.doctorAssignmentId = data.id;
-    this.setSupport(data.supports);
   }
 
   setMembers(data: any[]) {
@@ -73,13 +71,6 @@ export class UserInfo {
       this.phone = data.phone;
       this.addressLabel = this.combineAddress();
     }
-  }
-
-  setSupport(data: any[]): void {
-    this.supports = sortBy(
-      data.map((val: any) => new UserSupport(val)),
-      ['id']
-    );
   }
 
   setCondition(data: any) {

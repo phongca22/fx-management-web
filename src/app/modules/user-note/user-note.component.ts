@@ -81,6 +81,7 @@ export class UserNoteComponent implements OnInit {
       .pipe(filter((val: UserNote) => !isNil(val) && !isEmpty(val)))
       .subscribe((val: UserNote) => {
         this.notes.unshift(val);
+        this.combineData();
       });
   }
 }

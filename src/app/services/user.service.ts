@@ -59,15 +59,6 @@ export class UserService extends BaseService {
     return this.http.get(`${this.api}/user/info/${id}`).pipe(this.getResponse(), this.getError());
   }
 
-  setSupports(id: number, data: number[]): Observable<any> {
-    return this.http
-      .put(`${this.api}/user/supports`, {
-        id: id,
-        supports: data
-      })
-      .pipe(this.getResponse(), this.getError());
-  }
-
   setSupportStatus(data: any[]): Observable<any> {
     return this.http.put(`${this.api}/user/support-status`, data).pipe(this.getResponse(), this.getError());
   }

@@ -1,0 +1,89 @@
+<h2 mat-dialog-title>{{'userSupport.title' | translate}}</h2>
+<mat-dialog-content fxLayout="column" fxLayoutGap="16px" class="wrapper">
+  <div *ngFor="let g of groups">
+    <div class="group">{{g.name}}</div>
+    <div fxLayout="column" fxLayoutGap="16px">
+      <div *ngFor="let item of g.notes">
+        <mat-card (click)="updateStatus(g, item)">
+          <mat-card-content fxLayoutGap="16px" fxLayout="column">
+            <div fxLayout="row">
+              <div fxFlex fxLayout="column">
+                <div class="mat-caption gray-color">{{item.time}}</div>
+                <div class="mat-subheading-2 mb-0">{{item.support.name}}</div>
+              </div>
+              <div fxLayout="column" fxLayoutAlign=" end">
+                <div class="mat-caption gray-color" fxFlex>{{'userSupport.amount' | translate}}</div>
+                <div class="mat-title mb-0">{{item.amount}}</div>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign=" center">
+              <div fxFlex>
+                <div class="mat-caption gray-color">{{'userSupport.status' | translate}}</div>
+                <div class="mat-subheading-2 mb-0">{{item.status | supportStatus}}</div>
+              </div>
+              <mat-icon mat-list-icon svgIcon="account-question-outline" class="status-icon"
+                *ngIf="item.status === 'pending'" class="gray-icon-color"></mat-icon>
+              <mat-icon mat-list-icon svgIcon="truck-delivery-outline" class="status-icon"
+                *ngIf="item.status === 'delivering'" style="color: #ff9800"></mat-icon>
+              <mat-icon mat-list-icon svgIcon="account-check-outline" class="status-icon"
+                *ngIf="item.status === 'delivered'" style="color: green">
+              </mat-icon>
+              <mat-icon mat-list-icon svgIcon="alert-outline" class="status-icon" *ngIf="item.status === 'failed'"
+                color="warn">
+              </mat-icon>
+            </div>
+            <div style="position: relative;" *ngIf="item.transporterName">
+              <mat-divider></mat-divider>
+            </div>
+            <div fxLayout="row" *ngIf="item.status === 'delivering'">
+              <div fxFlex fxLayout="column">
+                <div class="mat-caption gray-color">{{'userSupport.volunteer' | translate}}</div>
+                <div class="mat-subheading-2 mb-0">{{item.transporterName}}</div>
+              </div>
+              <div fxFlex fxLayout="column" fxLayoutAlign=" end">
+                <div class="mat-caption gray-color">{{'userSupport.startDate' | translate}}</div>
+                <div class="mat-body">{{item.deliveringDate | date: 'HH:mm'}}</div>
+                <div class="mat-body">{{item.deliveringDate | date: 'dd-MM-YYYY'}}</div>
+              </div>
+            </div>
+            <div fxLayout="column" *ngIf="item.status === 'delivered'">
+              <div fxFlex fxLayout="column" fxLayoutAlign="center">
+                <div class="mat-caption gray-color">{{'userSupport.volunteer' | translate}}</div>
+                <div class="mat-subheading-2 mb-0">{{item.transporterName}}</div>
+              </div>
+              <div fxLayout="row">
+                <div fxFlex fxLayout="column" fxLayoutAlign=" center">
+                  <div class="mat-caption gray-color">{{'userSupport.startDate' | translate}}</div>
+                  <div class="mat-body">{{item.deliveringDate | date: 'HH:mm'}}</div>
+                  <div class="mat-body">{{item.deliveringDate | date: 'dd-MM-YYYY'}}</div>
+                </div>
+                <div fxFlex fxLayout="column" fxLayoutAlign=" center">
+                  <ng-container *ngIf="item.deliveredDate">
+                    <div class="mat-caption gray-color">{{'userSupport.completeDate' | translate}}</div>
+                    <div class="mat-body">{{item.deliveredDate | date: 'HH:mm'}}</div>
+                    <div class="mat-body">{{item.deliveredDate | date: 'dd-MM-YYYY'}}</div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row" *ngIf="item.status === 'failed'">
+              <div fxLayout="column">
+                <div class="mat-caption gray-color">{{'userSupport.volunteer' | translate}}</div>
+                <div class="mat-subheading-2 mb-0">{{item.transporterName}}</div>
+              </div>
+              <div fxLayout="column" fxFlex>
+                <div class="mat-caption gray-color">{{'userSupport.reason' | translate}}</div>
+                <div class="mat-body">{{item.reason}}</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<!-- <div *ngIf="isEmpty()" class="gray-color mat-headline">{{'empty' | translate}}</div> -->
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close> {{'action.back' | translate}}</button>
+  <button mat-button (click)="add()" *ngIf="isDoctor" color="primary">{{'action.add' | translate}}</button>
+</mat-dialog-actions>

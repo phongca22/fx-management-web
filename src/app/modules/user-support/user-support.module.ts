@@ -4,12 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { PipeModule } from '../pipes/pipe.module';
 import { SharedModule } from '../shared-module';
-import { UserSupportDetailComponent } from './user-support-detail/user-support-detail.component';
-import { UserSupportEditComponent } from './user-support-edit/user-support-edit.component';
+import { AddSupportComponent } from './add-support/add-support.component';
+import { UserSupportComponent } from './user-support.component';
+import { SupportStatusUpdateComponent } from './support-status-update/support-status-update.component';
 
 @NgModule({
-  declarations: [UserSupportEditComponent, UserSupportDetailComponent],
+  declarations: [UserSupportComponent, AddSupportComponent, SupportStatusUpdateComponent],
   imports: [CommonModule, SharedModule, TranslateModule.forChild({}), ReactiveFormsModule, PipeModule],
-  exports: [UserSupportEditComponent, UserSupportDetailComponent]
+  exports: [AddSupportComponent]
 })
 export class UserSupportModule {}
