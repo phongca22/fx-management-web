@@ -10,4 +10,4 @@ import { MemberAddComponent } from './member-add/member-add.component';
   imports: [CommonModule, SharedModule, TranslateModule.forChild({}), ReactiveFormsModule],
   exports: [MemberAddComponent]
 })
-export class FamilyModule {}
+export class MemberModule {}

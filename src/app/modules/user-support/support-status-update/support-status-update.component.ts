@@ -37,7 +37,7 @@ export class SupportStatusUpdateComponent implements OnInit {
 
   setupForm(): void {
     this.form = this.builder.group({
-      reason: [],
+      reason: [this.data.support.reason],
       status: [this.data.support.status, Validators.required]
     });
   }

@@ -1,8 +1,8 @@
-import { reject, sortBy } from 'lodash';
+import { reject } from 'lodash';
 import { Doctor } from './doctor';
+import { General } from './general';
 import { User } from './user';
 import { UserConditionType } from './user-condition.enum';
-import { UserSupport } from './user-support';
 
 export class UserInfo {
   id: number;
@@ -20,7 +20,7 @@ export class UserInfo {
   doctor: Doctor;
   doctorAssignmentId: number;
   patientConditionId: any;
-  members: User[];
+  members: General[];
   agent: User;
 
   constructor(data: any) {
@@ -47,7 +47,10 @@ export class UserInfo {
   }
 
   combineAddress() {
-    return reject([this.address, this.ward ? 'P' + this.ward : null, this.district, this.province], [null]).join(', ');
+    return reject(
+      [this.address, this.ward ? 'P.' + this.ward : null, this.district ? 'Q.' + this.district : null, this.province],
+      [null]
+    ).join(', ');
   }
 
   setAssignment([data]: any[]) {
@@ -57,7 +60,7 @@ export class UserInfo {
 
   setMembers(data: any[]) {
     if (data) {
-      this.members = data.map((val: any) => new User(val));
+      this.members = data.map((val: any) => new General(val));
     }
   }
 
@@ -85,10 +88,5 @@ export class UserInfo {
     this.setCondition(data.condition);
     this.setMembers(data.members);
     this.setAgent(data.agent);
-  }
-
-  addMember(data: User): void {
-    this.members = this.members || [];
-    this.members.push(data);
   }
 }

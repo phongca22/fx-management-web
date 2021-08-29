@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { General } from 'src/app/core/general';
 import { Response } from 'src/app/core/response';
-import { User } from 'src/app/core/user';
 import { UserInfo } from 'src/app/core/user-info';
 import { AlertService } from '../../alert/alert.service';
 import { DoctorPickerComponent } from '../../doctor-picker/doctor-picker.component';
-import { FamilyService } from '../family.service';
+import { MemberService } from '../member.service';
 
 @Component({
   selector: 'app-member-add',
@@ -16,13 +16,16 @@ import { FamilyService } from '../family.service';
 export class MemberAddComponent implements OnInit {
   nameCtrl: FormControl;
   loading: boolean;
+  members: General[];
 
   constructor(
     private dialog: MatDialogRef<DoctorPickerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: UserInfo,
-    private service: FamilyService,
+    private service: MemberService,
     private alert: AlertService
-  ) {}
+  ) {
+    this.members = this.data.members;
+  }
 
   ngOnInit(): void {
     this.setupForm();
@@ -34,11 +37,24 @@ export class MemberAddComponent implements OnInit {
 
   save() {
     this.loading = true;
-    this.service.addMember(this.data.id, this.nameCtrl.value, this.data.doctor.id).subscribe((res: Response) => {
+    this.service.addMember(this.data.id, this.nameCtrl.value).subscribe((res: Response) => {
+      this.loading = false;
       if (res.ok) {
-        this.dialog.close(new User(res.data));
+        this.nameCtrl.reset();
+        this.members.push(new General(res.data));
       } else {
-        this.loading = false;
+        this.alert.error();
+      }
+    });
+  }
+
+  remove(item: General, index: number): void {
+    this.loading = true;
+    this.service.removeMember(this.data.id, item.id).subscribe((res: Response) => {
+      this.loading = false;
+      if (res.ok) {
+        this.members.splice(index, 1);
+      } else {
         this.alert.error();
       }
     });

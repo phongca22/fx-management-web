@@ -49,7 +49,7 @@
           </div>
           <button mat-icon-button color="primary" (click)="addMember()" [disabled]="loading"
             *ngIf="isAdminOrDoctor || isCoordinator">
-            <mat-icon svgIcon="account-plus-outline"></mat-icon>
+            <mat-icon svgIcon="pencil-outline"></mat-icon>
           </button>
         </div>
         <div fxLayout="row" *ngIf="user.agent">
@@ -65,7 +65,7 @@
           </div>
           <button mat-icon-button color="primary" (click)="addMember()" [disabled]="loading"
             *ngIf="isAdminOrDoctor || isCoordinator">
-            <mat-icon svgIcon="account-plus-outline"></mat-icon>
+            <mat-icon svgIcon="pencil-outline"></mat-icon>
           </button>
         </div>
       </ng-container>
@@ -124,66 +124,3 @@
       Hỗ trợ
     </button>
   </div>
-  <!-- <div fxLayout="row" fxLayoutGap="32px">
-    <mat-icon svgIcon="hospital-box-outline" class="gray-icon-color"></mat-icon>
-    <div fxLayout="column" fxFlex>
-      <div fxLayout="row">
-        <div class="mat-body" fxFlex>{{'userForm.support' | translate}}</div>
-        <div fxLayout="row">
-          <button mat-icon-button color="primary" (click)="editSupportStatus()" [disabled]="loading"
-            *ngIf="isVolunteer && hasSupports()">
-            <mat-icon svgIcon="format-list-checks"></mat-icon>
-          </button>
-          <button mat-icon-button color="primary" (click)="showUserNote()" *ngIf="isAdminOrDoctor || isCoordinator">
-            <mat-icon svgIcon="history"></mat-icon>
-          </button>
-          <button mat-icon-button color="primary" (click)="editSupport()" [disabled]="loading" *ngIf="isAdminOrDoctor">
-            <mat-icon svgIcon="pencil-outline"></mat-icon>
-          </button>
-        </div>
-      </div>
-      <div fxLayout="column" fxLayoutGap="16px">
-        <div fxLayout="row">
-          <div fxFlex>
-            <div class="mat-caption gray-color">{{'userForm.support' | translate}}</div>
-            <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-            <ng-container *ngIf="!loading">
-              <ng-container *ngIf="hasSupports()">
-                <div *ngFor="let item of user.supports" fxLayout="row">
-                  <div class="mat-h3 mb-0" fxFlex>{{item.support.name}}</div>
-                  <mat-icon svgIcon="account-question-outline" *ngIf="item.status === 'pending'"
-                    class="gray-icon-color">
-                  </mat-icon>
-                  <mat-icon svgIcon="truck-delivery-outline" *ngIf="item.status === 'delivering'"
-                    style="color: #ff9800">
-                  </mat-icon>
-                  <mat-icon svgIcon="account-check-outline" *ngIf="item.status === 'delivered'" style="color: green">
-                  </mat-icon>
-                  <mat-icon svgIcon="alert-outline" *ngIf="item.status === 'failed'" color="warn"></mat-icon>
-                </div>
-              </ng-container>
-              <div *ngIf="!hasSupports()" class="mat-h3">{{'userInfo.emptySupport' | translate}}</div>
-            </ng-container>
-          </div>
-          <button mat-icon-button color="primary" (click)="editSupport()" [disabled]="loading"
-            *ngIf="isAdminOrDoctor && !hasSupports()">
-            <mat-icon svgIcon="pencil-outline"></mat-icon>
-          </button>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="end">
-          <button mat-icon-button color="primary" [disabled]="loading" (click)="showSupportStatus()"
-            *ngIf="hasSupports()">
-            <mat-icon svgIcon="information-outline"></mat-icon>
-          </button>
-          <button mat-icon-button color="primary" (click)="editSupportStatus()" [disabled]="loading"
-            *ngIf="isVolunteer && hasSupports()">
-            <mat-icon svgIcon="format-list-checks"></mat-icon>
-          </button>
-          <button mat-icon-button color="primary" (click)="editSupport()" [disabled]="loading"
-            *ngIf="isAdminOrDoctor && hasSupports()">
-            <mat-icon svgIcon="pencil-outline"></mat-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div> -->

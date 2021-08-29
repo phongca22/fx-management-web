@@ -1,6 +1,6 @@
 .group {
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .wrapper {
@@ -10,4 +10,20 @@
 .status-icon {
   width: 2.5em;
   height: 2.5em;
+}
+
+.note-wrapper.pending {
+  border-left: 4px solid #757575;
+}
+
+.note-wrapper.delivering {
+  border-left: 4px solid #ff9800;
+}
+
+.note-wrapper.delivered {
+  border-left: 4px solid #4caf50;
+}
+
+.note-wrapper.failed {
+  border-left: 4px solid #f44336;
 }

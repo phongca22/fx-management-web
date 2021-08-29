@@ -29,8 +29,18 @@ export class UserCreateComponent implements OnInit {
   save(): void {
     this.loading = true;
     let data = { ...this.form.value.info };
-    data = { ...data, gender: data.gender?.id, doctorId: data.doctor.id };
+    data = {
+      ...data,
+      gender: data.gender?.id,
+      doctorId: data.doctor.id,
+      province: data.province?.name,
+      district: data.district?.name,
+      ward: data.ward?.name
+    };
     delete data.doctor;
+    delete data.province;
+    delete data.ward;
+    delete data.district;
     this.service.createUser(data).subscribe((res: Response) => {
       this.loading = false;
       if (res.ok) {

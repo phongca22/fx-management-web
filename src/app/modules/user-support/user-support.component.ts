@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as dayjs from 'dayjs';
+import * as customParseFormat from 'dayjs/plugin/customParseFormat';
 import { chain, groupBy, isEmpty, isNil, keys } from 'lodash';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Response } from 'src/app/core/response';
@@ -13,6 +14,7 @@ import { AuthService } from '../auth/auth.service';
 import { AddSupportComponent } from './add-support/add-support.component';
 import { SupportStatusUpdateComponent } from './support-status-update/support-status-update.component';
 import { SupportService } from './support.service';
+dayjs.extend(customParseFormat);
 
 export interface Group {
   id: number;
@@ -65,11 +67,11 @@ export class UserSupportComponent implements OnInit {
   }
 
   combineData(): void {
-    const t = groupBy(this.supports, 'date');
+    const t = groupBy(this.supports, 'dateLabel');
     this.groups = chain(keys(t))
       .map((date: string) => {
         return {
-          id: dayjs(date, 'DD-MM-YYYY').get('millisecond'),
+          id: dayjs(date, 'DD-MM-YYYY').millisecond(),
           name: date,
           notes: t[date]
         };

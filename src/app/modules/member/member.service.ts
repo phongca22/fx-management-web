@@ -6,18 +6,21 @@ import { BaseService } from 'src/app/services/base-service';
 @Injectable({
   providedIn: 'root'
 })
-export class FamilyService extends BaseService {
+export class MemberService extends BaseService {
   constructor(private http: HttpClient) {
     super();
   }
 
-  addMember(id: number, name: string, doctorId: number): Observable<any> {
+  addMember(id: number, name: string): Observable<any> {
     return this.http
-      .put(`${this.api}/family/member`, {
-        id: id,
-        name: name,
-        doctorId: doctorId
+      .put(`${this.api}/member`, {
+        userId: id,
+        name: name
       })
       .pipe(this.getResponse(), this.getError());
+  }
+
+  removeMember(userId: number, id: number): Observable<any> {
+    return this.http.delete(`${this.api}/member/${userId}/${id}`).pipe(this.getResponse(), this.getError());
   }
 }

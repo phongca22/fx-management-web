@@ -32,7 +32,7 @@
     "age": "Tuổi",
     "address": "Địa chỉ",
     "ward": "Phường",
-    "district": "Quận",
+    "district": "Quận/Thành phố",
     "province": "Tỉnh/Thành phố",
     "fullnameRequired": "Nhập họ và tên",
     "passRequired": "Nhập mật khẩu",
@@ -135,5 +135,8 @@
   "supportStatusUpdate": {
     "title": "Trạng thái vận chuyển",
     "reason": "Lý do"
+  },
+  "memberAdd": {
+    "title": "Thành viên"
   }
 }

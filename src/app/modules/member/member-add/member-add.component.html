@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{'memberAdd.title' | translate}}</h2>
+<mat-dialog-content fxLayout="column" fxLayoutGap="16px">
+  <mat-list>
+    <mat-list-item *ngFor="let item of members; let index = index">
+      <div fxFlex>{{item.name}}</div>
+      <button mat-icon-button color="warn" (click)="remove(item, index)">
+        <mat-icon svgIcon=trash-can-outline></mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+  <mat-form-field appearance="outline">
+    <mat-label>{{'userForm.fullname' | translate}}</mat-label>
+    <input matInput [formControl]="nameCtrl" required />
+    <mat-error *ngIf="nameCtrl.hasError('required')">{{'userForm.fullnameRequired' | translate}}
+    </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end" fxLayoutGap="16px">
+  <button mat-button [mat-dialog-close]="members" [disabled]="loading">{{'action.back' | translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="loading || nameCtrl.invalid">{{'action.save' |
+    translate}}</button>
+</mat-dialog-actions>

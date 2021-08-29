@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { assign, isEmpty, isNil, isNumber, isString } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
+import { General } from 'src/app/core/general';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
 import { User } from 'src/app/core/user';
@@ -13,7 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
 import { DoctorPickerComponent } from '../doctor-picker/doctor-picker.component';
-import { MemberAddComponent } from '../family/member-add/member-add.component';
+import { MemberAddComponent } from '../member/member-add/member-add.component';
 import { UserConditionPickerComponent } from '../user-condition-picker/user-condition-picker.component';
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { UserNoteComponent } from '../user-note/user-note.component';
@@ -145,17 +146,19 @@ export class UserInfoComponent implements OnInit, OnChanges {
         this.user.doctor = res;
       });
   }
-  
+
   addMember(): void {
     this.dialog
       .open(MemberAddComponent, {
         data: this.user,
-        width: '80%'
+        width: '80%',
+        autoFocus: false,
+        disableClose: true
       })
       .afterClosed()
-      .pipe(filter((val: User) => !isNil(val) && !isString(val)))
-      .subscribe((data: User) => {
-        this.user.addMember(data);
+      .pipe(filter((val: General[]) => !isNil(val)))
+      .subscribe((data: General[]) => {
+        this.user.members = data;
       });
   }
 }

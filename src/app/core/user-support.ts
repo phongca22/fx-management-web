@@ -8,20 +8,20 @@ export class UserSupport {
   reason: string;
   status: SupportStatus;
   support: Support;
-  date: string;
+  date: Date;
   amount: number;
-  time: string;
   transporterName: string;
   deliveringDate: Date;
   deliveredDate: Date;
+  dateLabel: string;
 
   constructor(data: any) {
     this.id = data.id;
     this.reason = data.reason;
     this.status = data.status;
     this.amount = data.amount;
-    this.time = dayjs(data.createdAt).format('HH:mm');
-    this.date = dayjs(data.createdAt).format('DD-MM-YYYY');
+    this.date = new Date(data.createdAt);
+    this.dateLabel = dayjs(data.createdAt).format('DD-MM-YYYY');
     if (data.transporter) {
       this.transporterName = data.transporter.fullname;
     }

@@ -4,12 +4,17 @@ import * as dayjs from 'dayjs';
 import { chain, groupBy, isEmpty, isNil, keys } from 'lodash';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Response } from 'src/app/core/response';
+import { Role } from 'src/app/core/role';
 import { UserInfo } from 'src/app/core/user-info';
 import { UserNote } from 'src/app/core/user-note';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { AlertService } from '../alert/alert.service';
+import { AuthService } from '../auth/auth.service';
 import { AddNoteComponent } from './add-note/add-note.component';
 import { NoteService } from './note.service';
+import * as customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
 
 @Component({
   selector: 'app-user-note',
@@ -21,14 +26,20 @@ export class UserNoteComponent implements OnInit {
   notes: UserNote[];
   loaded: boolean;
   groups: { id: number; name: string; notes: UserNote[] }[];
+  isCoordinator: boolean;
+  isDoctor: boolean;
 
   constructor(
     private service: NoteService,
     private readonly $destroy: DestroyService,
     private alert: AlertService,
     @Inject(MAT_DIALOG_DATA) public data: UserInfo,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private auth: AuthService
+  ) {
+    this.isCoordinator = this.auth.hasRole(Role.Coodirnator);
+    this.isDoctor = this.auth.hasRole(Role.Doctor);
+  }
 
   ngOnInit(): void {
     this.getData();
@@ -54,7 +65,7 @@ export class UserNoteComponent implements OnInit {
     this.groups = chain(keys(t))
       .map((date: string) => {
         return {
-          id: dayjs(date, 'DD-MM-YYYY').get('millisecond'),
+          id: dayjs(date, 'DD-MM-YYYY').millisecond(),
           name: date,
           notes: t[date]
         };

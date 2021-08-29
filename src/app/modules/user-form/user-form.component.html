@@ -30,16 +30,31 @@
       <input matInput formControlName="address" />
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <mat-label>{{'userForm.ward' | translate}}</mat-label>
-      <input matInput formControlName="ward" />
+      <mat-label>{{'userForm.province' | translate}}</mat-label>
+      <mat-select formControlName="province">
+        <mat-select-trigger>{{form.get('info.province')?.value?.name | translate}}</mat-select-trigger>
+        <mat-option *ngFor="let item of provinces" [value]="item">
+          {{item.name | translate}}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>{{'userForm.district' | translate}}</mat-label>
-      <input matInput formControlName="district" />
+      <mat-select formControlName="district">
+        <mat-select-trigger>{{form.get('info.district')?.value?.name | translate}}</mat-select-trigger>
+        <mat-option *ngFor="let item of districts" [value]="item">
+          {{item.name | translate}}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline">
-      <mat-label>{{'userForm.province' | translate}}</mat-label>
-      <input matInput formControlName="province" />
+      <mat-label>{{'userForm.ward' | translate}}</mat-label>
+      <mat-select formControlName="ward">
+        <mat-select-trigger>{{form.get('info.ward')?.value?.name | translate}}</mat-select-trigger>
+        <mat-option *ngFor="let item of wards" [value]="item">
+          {{item.name | translate}}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline" *ngIf="!data">
       <mat-label>{{'userForm.doctor' | translate}}</mat-label>

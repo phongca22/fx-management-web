@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  host: 'https://z4f30080d-z32272cbc-gtw.qovery.io',
+  host: 'http://115.78.96.68:8889',
   version: '1.2'
 };

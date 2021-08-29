@@ -44,7 +44,7 @@ export class UserService extends BaseService {
   }
 
   getDoctors(): Observable<any> {
-    return this.http.get(`${this.api}/user/doctors`).pipe(
+    return this.http.get(`${this.api}/doctors`).pipe(
       this.getResponse(),
       tap((res: Response) => {
         if (res.ok) {
