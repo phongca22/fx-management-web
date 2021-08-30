@@ -1,6 +1,6 @@
 <div fxFlex fxLayout="column">
-  <mat-accordion fxFlex>
-    <mat-expansion-panel *ngFor="let item of data; let index = index" [expanded]="line === index"
+  <div fxFlex fxLayout="column" fxLayoutGap="16px" class="wrapper">
+    <!-- <mat-expansion-panel *ngFor="let item of data; let index = index" [expanded]="line === index"
       (closed)="removeLine()" (opened)="setLine(index)">
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -13,8 +13,16 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <app-user-info [user]="item" [init]="expandedList.has(index)"></app-user-info>
-    </mat-expansion-panel>
-  </mat-accordion>
+    </mat-expansion-panel> -->
+    <mat-card *ngFor="let item of data;" (click)="showInfo(item)">
+      <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+        <mat-icon svgIcon="account-circle-outline" class="gray-icon-color"></mat-icon>
+        <div>
+          {{item.name}}
+        </div>
+      </div>
+    </mat-card>
+  </div>
   <div fxLayout="row" fxLayoutAlign=" center">
     <div fxFlex class="mat-caption gray-color ml-3">{{'userList.sum' | translate: {total: size || 0} }}</div>
     <mat-paginator [length]="size" [pageSize]="10" [hidePageSize]="true" (page)="changePage($event)">

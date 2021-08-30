@@ -1,7 +1,6 @@
 import { reject } from 'lodash';
 import { Doctor } from './doctor';
 import { General } from './general';
-import { User } from './user';
 import { UserConditionType } from './user-condition.enum';
 
 export class UserInfo {
@@ -21,7 +20,7 @@ export class UserInfo {
   doctorAssignmentId: number;
   patientConditionId: any;
   members: General[];
-  agent: User;
+  member: number;
 
   constructor(data: any) {
     this.id = data.id;
@@ -35,15 +34,12 @@ export class UserInfo {
     this.province = data.province;
     this.condition = data.status;
     this.code = data.code;
+    this.member = data.member;
     this.setCondition(data.condition);
-
+    this.addressLabel = this.combineAddress();
     if (data.doctorAssignments) {
       this.setAssignment(data.doctorAssignments);
     }
-
-    this.setMembers(data.members);
-    this.setAgent(data.agent);
-    this.addressLabel = this.combineAddress();
   }
 
   combineAddress() {
@@ -58,24 +54,6 @@ export class UserInfo {
     this.doctorAssignmentId = data.id;
   }
 
-  setMembers(data: any[]) {
-    if (data) {
-      this.members = data.map((val: any) => new General(val));
-    }
-  }
-
-  setAgent(data: any) {
-    if (data) {
-      this.agent = new User(data);
-      this.address = data.address;
-      this.ward = data.ward;
-      this.district = data.district;
-      this.province = data.province;
-      this.phone = data.phone;
-      this.addressLabel = this.combineAddress();
-    }
-  }
-
   setCondition(data: any) {
     if (data) {
       this.condition = data.conditionId;
@@ -86,7 +64,5 @@ export class UserInfo {
   setInfo(data: any) {
     this.setAssignment(data.doctorAssignments);
     this.setCondition(data.condition);
-    this.setMembers(data.members);
-    this.setAgent(data.agent);
   }
 }

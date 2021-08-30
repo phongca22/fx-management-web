@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { AlertModule } from './modules/alert/alert.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AppConfigModule } from './modules/config/config.module';
-import { ConfirmModule } from './modules/confirm/confirm.module';
 import { SharedModule } from './modules/shared-module';
 import { AppStoreModule } from './modules/store/store.module';
 
@@ -26,7 +25,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     AppStoreModule,
     SharedModule,
-    ConfirmModule,
     HttpClientModule,
     AlertModule,
     AppConfigModule,

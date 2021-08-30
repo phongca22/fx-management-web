@@ -1,8 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as dayjs from 'dayjs';
-import { chain, groupBy, isEmpty, isNil, keys } from 'lodash';
-import { filter, takeUntil } from 'rxjs/operators';
+import * as customParseFormat from 'dayjs/plugin/customParseFormat';
+import { chain, groupBy, isEmpty, keys } from 'lodash';
+import { takeUntil } from 'rxjs/operators';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
 import { UserInfo } from 'src/app/core/user-info';
@@ -10,9 +10,7 @@ import { UserNote } from 'src/app/core/user-note';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
-import { AddNoteComponent } from './add-note/add-note.component';
 import { NoteService } from './note.service';
-import * as customParseFormat from 'dayjs/plugin/customParseFormat';
 
 dayjs.extend(customParseFormat);
 
@@ -23,7 +21,9 @@ dayjs.extend(customParseFormat);
   providers: [DestroyService]
 })
 export class UserNoteComponent implements OnInit {
-  notes: UserNote[];
+  @Input() user: UserInfo;
+  @Input() notes: UserNote[];
+  @Output() notesChange = new EventEmitter<UserNote[]>();
   loaded: boolean;
   groups: { id: number; name: string; notes: UserNote[] }[];
   isCoordinator: boolean;
@@ -33,12 +33,17 @@ export class UserNoteComponent implements OnInit {
     private service: NoteService,
     private readonly $destroy: DestroyService,
     private alert: AlertService,
-    @Inject(MAT_DIALOG_DATA) public data: UserInfo,
-    private dialog: MatDialog,
     private auth: AuthService
   ) {
     this.isCoordinator = this.auth.hasRole(Role.Coodirnator);
     this.isDoctor = this.auth.hasRole(Role.Doctor);
+    this.service
+      .listenNewNote()
+      .pipe(takeUntil(this.$destroy))
+      .subscribe((val: UserNote) => {
+        this.notes.unshift(val);
+        this.combineData();
+      });
   }
 
   ngOnInit(): void {
@@ -46,8 +51,13 @@ export class UserNoteComponent implements OnInit {
   }
 
   getData() {
+    if (!isEmpty(this.notes)) {
+      this.combineData();
+      return;
+    }
+
     this.service
-      .getNotes(this.data.id)
+      .getNotes(this.user.id)
       .pipe(takeUntil(this.$destroy))
       .subscribe((res: Response) => {
         this.loaded = true;
@@ -61,6 +71,7 @@ export class UserNoteComponent implements OnInit {
   }
 
   combineData(): void {
+    this.notesChange.emit(this.notes);
     const t = groupBy(this.notes, 'date');
     this.groups = chain(keys(t))
       .map((date: string) => {
@@ -72,27 +83,9 @@ export class UserNoteComponent implements OnInit {
       })
       .orderBy(['id'], ['desc'])
       .value();
-    console.log(t);
   }
 
   isEmpty(): boolean {
     return this.loaded && isEmpty(this.notes);
-  }
-
-  addNote(): void {
-    this.dialog
-      .open(AddNoteComponent, {
-        data: this.data,
-        width: '100%',
-        height: '100%',
-        maxWidth: '96vw',
-        maxHeight: '96vh'
-      })
-      .afterClosed()
-      .pipe(filter((val: UserNote) => !isNil(val) && !isEmpty(val)))
-      .subscribe((val: UserNote) => {
-        this.notes.unshift(val);
-        this.combineData();
-      });
   }
 }

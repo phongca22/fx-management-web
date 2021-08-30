@@ -5,12 +5,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PipeModule } from '../pipes/pipe.module';
 import { SharedModule } from '../shared-module';
 import { AddSupportComponent } from './add-support/add-support.component';
-import { UserSupportComponent } from './user-support.component';
 import { SupportStatusUpdateComponent } from './support-status-update/support-status-update.component';
+import { UserSupportComponent } from './user-support.component';
 
 @NgModule({
   declarations: [UserSupportComponent, AddSupportComponent, SupportStatusUpdateComponent],
   imports: [CommonModule, SharedModule, TranslateModule.forChild({}), ReactiveFormsModule, PipeModule],
-  exports: [AddSupportComponent]
+  exports: [AddSupportComponent, UserSupportComponent]
 })
 export class UserSupportModule {}

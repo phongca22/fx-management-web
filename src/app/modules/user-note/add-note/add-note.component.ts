@@ -38,7 +38,11 @@ export class AddNoteComponent implements OnInit, AfterViewInit {
 
   save(): void {
     this.loading = true;
-    this.service.addNote(this.data.id, this.contentCtrl.value).subscribe((res: Response) => {
+    const format = this.contentCtrl.value
+      .split(/\n/g)
+      .map((line: string) => `<span>${line}</span>`)
+      .join('<br/>');
+    this.service.addNote(this.data.id, format).subscribe((res: Response) => {
       if (res.ok) {
         this.dialog.close(new UserNote(res.data));
         this.alert.success('addNote.success');

@@ -2,9 +2,10 @@ import { Injectable, TemplateRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { isString } from 'lodash';
 import { Observable } from 'rxjs';
-import { DialogData } from '../confirm/confirm';
-import { ConfirmComponent } from '../confirm/confirm.component';
+import { map } from 'rxjs/operators';
+import { ConfirmComponent, DialogData } from '../confirm/confirm.component';
 import { AlertComponent } from './alert.component';
 import { Type } from './type.enum';
 @Injectable({
@@ -50,6 +51,7 @@ export class AlertService {
         data: data,
         ...option
       })
-      .afterClosed();
+      .afterClosed()
+      .pipe(map((result: boolean | string) => (isString(result) ? false : result)));
   }
 }

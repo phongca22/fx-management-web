@@ -1,4 +1,5 @@
 import { Component, Injectable, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
@@ -8,6 +9,7 @@ import { UserInfo } from 'src/app/core/user-info';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
+import { UserInfoComponent } from '../user-info/user-info.component';
 
 @Injectable()
 export class MatPaginatorIntlCro extends MatPaginatorIntl {
@@ -31,13 +33,15 @@ export class MatPaginatorIntlCro extends MatPaginatorIntl {
 })
 export class UserListComponent implements OnInit {
   data: UserInfo[] = [];
-  line: number;
   size: number;
   worker: Subject<number>;
-  expandedList: Set<number>;
-  constructor(private service: UserService, private alert: AlertService, private readonly $destroy: DestroyService) {
+  constructor(
+    private service: UserService,
+    private alert: AlertService,
+    private readonly $destroy: DestroyService,
+    private dialog: MatDialog
+  ) {
     this.worker = new Subject();
-    this.expandedList = new Set();
     this.worker
       .pipe(
         tap(() => (this.data = [])),
@@ -62,16 +66,17 @@ export class UserListComponent implements OnInit {
     return this.service.getUsers(page).pipe(takeUntil(this.$destroy));
   }
 
-  setLine(i: number): void {
-    this.line = i;
-    this.expandedList.add(i);
-  }
-
-  removeLine(): void {
-    this.line = -1;
-  }
-
-  changePage(event: PageEvent) {
+  changePage(event: PageEvent): void {
     this.worker.next(event.pageIndex);
+  }
+
+  showInfo(data: UserInfo): void {
+    this.dialog.open(UserInfoComponent, {
+      data: data,
+      width: '100%',
+      maxWidth: '100vw',
+      height: '100%',
+      maxHeight: '100vh'
+    });
   }
 }

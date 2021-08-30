@@ -1,9 +1,8 @@
-<h2 mat-dialog-title>{{'userSupport.title' | translate}}</h2>
-<mat-dialog-content fxLayout="column" fxLayoutGap="16px" class="wrapper">
+<div fxLayout="column" fxLayoutGap="16px">
   <div *ngFor="let g of groups">
     <div class="group mat-title">{{g.name}}</div>
     <div fxLayout="column" fxLayoutGap="16px">
-      <div *ngFor="let item of g.notes">
+      <div *ngFor="let item of g.supports">
         <mat-card class="note-wrapper" (click)="updateStatus(g, item)" [class.pending]="item.status === 'pending'"
           [class.delivering]="item.status === 'delivering'" [class.delivered]="item.status === 'delivered'"
           [class.failed]="item.status === 'failed'">
@@ -28,7 +27,7 @@
               <mat-icon mat-list-icon svgIcon="truck-delivery-outline" class="status-icon"
                 *ngIf="item.status === 'delivering'" style="color: #ff9800"></mat-icon>
               <mat-icon mat-list-icon svgIcon="account-check-outline" class="status-icon"
-                *ngIf="item.status === 'delivered'" style="color: green">
+                *ngIf="item.status === 'delivered'" style="color: #4caf50">
               </mat-icon>
               <mat-icon mat-list-icon svgIcon="alert-circle-outline" class="status-icon"
                 *ngIf="item.status === 'failed'" color="warn">
@@ -56,14 +55,22 @@
               </ng-container>
               <div class="mat-body" *ngIf="item.reason">{{item.reason}}</div>
             </div>
+            <ng-container *ngIf="showCollector(item)">
+              <div *ngIf="!item.revoke" fxLayout="row" fxLayoutAlign="end center">
+                <div class="mat-body">{{'Thu hồi bình Oxy'}}</div>
+                <button mat-icon-button color="primary" (click)="revoke(g, item); $event.stopPropagation()"
+                  [disabled]="loading">
+                  <mat-icon svgIcon="database-arrow-left-outline"></mat-icon>
+                </button>
+              </div>
+              <div *ngIf="item.revoke" fxLayout="row" fxLayoutAlign="end center">
+                <div class="mat-body">{{'Đã thu hồi bình Oxy'}}</div>
+                <mat-icon svgIcon="database-check-outline" style="color: #4caf50; margin: 0px 8px"></mat-icon>
+              </div>
+            </ng-container>
           </mat-card-content>
         </mat-card>
       </div>
     </div>
   </div>
-</mat-dialog-content>
-<!-- <div *ngIf="isEmpty()" class="gray-color mat-headline">{{'empty' | translate}}</div> -->
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close> {{'action.back' | translate}}</button>
-  <button mat-button (click)="add()" *ngIf="isDoctor" color="primary">{{'action.add' | translate}}</button>
-</mat-dialog-actions>
+</div>

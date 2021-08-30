@@ -51,21 +51,24 @@ export class UserFormComponent implements OnInit {
         ward: [''],
         district: [''],
         province: [''],
-        doctor: [null, Validators.required]
+        doctor: [null, Validators.required],
+        member: [0]
       })
     );
 
     this.form
       .get('info.province')
       ?.valueChanges.pipe(takeUntil(this.$destroy))
-      .subscribe(({ id }) => {
-        this.districts = this.address.getDistricts(id);
-        this.form.patchValue({
-          info: {
-            district: null,
-            ward: null
-          }
-        });
+      .subscribe((data: any) => {
+        if (data) {
+          this.districts = this.address.getDistricts(data.id);
+          this.form.patchValue({
+            info: {
+              district: null,
+              ward: null
+            }
+          });
+        }
       });
 
     this.form

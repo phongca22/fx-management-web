@@ -14,12 +14,16 @@ export class UserSupport {
   deliveringDate: Date;
   deliveredDate: Date;
   dateLabel: string;
+  revoke: boolean;
+  revokedDate: Date;
+  collectorName: string;
 
   constructor(data: any) {
     this.id = data.id;
     this.reason = data.reason;
     this.status = data.status;
     this.amount = data.amount;
+    this.revoke = data.revoke;
     this.date = new Date(data.createdAt);
     this.dateLabel = dayjs(data.createdAt).format('DD-MM-YYYY');
     if (data.transporter) {
@@ -31,6 +35,14 @@ export class UserSupport {
     }
 
     if (data.deliveredDate) {
+      this.deliveredDate = new Date(data.deliveredDate);
+    }
+
+    if (data.collector) {
+      this.collectorName = data.collector.fullname;
+    }
+
+    if (data.revokedDate) {
       this.deliveredDate = new Date(data.deliveredDate);
     }
 

@@ -1,1 +1,8 @@
-<p>confirm works!</p>
+<h2 mat-dialog-title *ngIf="data.title">{{data.title | translate}}</h2>
+<mat-dialog-content>
+  <div>{{data.message | translate}}</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" fxLayoutGap="16px">
+  <button mat-button mat-dialog-close>{{'action.back' | translate}}</button>
+  <button mat-raised-button color="primary" (click)="ok()">{{'action.confirm' | translate}}</button>
+</mat-dialog-actions>

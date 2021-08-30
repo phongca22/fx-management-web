@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Doctor } from 'src/app/core/doctor';
-import { REGISTER_100 } from 'src/app/core/error';
 import { GENDER, IGender } from 'src/app/core/gender';
 import { Response } from 'src/app/core/response';
 import { UserService } from 'src/app/services/user.service';
@@ -38,9 +37,6 @@ export class UserCreateComponent implements OnInit {
       ward: data.ward?.name
     };
     delete data.doctor;
-    delete data.province;
-    delete data.ward;
-    delete data.district;
     this.service.createUser(data).subscribe((res: Response) => {
       this.loading = false;
       if (res.ok) {
@@ -48,11 +44,7 @@ export class UserCreateComponent implements OnInit {
         this.wrapper.nativeElement.scroll(0, 0);
         this.alert.success('userCreate.success');
       } else {
-        if (res.errorCode === REGISTER_100) {
-          this.alert.error('error.register.100');
-        } else {
-          this.alert.error();
-        }
+        this.alert.error();
       }
     });
   }

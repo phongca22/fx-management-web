@@ -1,23 +1,23 @@
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { assign, isEmpty, isNil, isNumber, isString } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
-import { General } from 'src/app/core/general';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
-import { User } from 'src/app/core/user';
 import { UserConditionType } from 'src/app/core/user-condition.enum';
 import { UserInfo } from 'src/app/core/user-info';
+import { UserNote } from 'src/app/core/user-note';
+import { UserSupport } from 'src/app/core/user-support';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
 import { DoctorPickerComponent } from '../doctor-picker/doctor-picker.component';
-import { MemberAddComponent } from '../member/member-add/member-add.component';
 import { UserConditionPickerComponent } from '../user-condition-picker/user-condition-picker.component';
 import { UserEditComponent } from '../user-edit/user-edit.component';
-import { UserNoteComponent } from '../user-note/user-note.component';
+import { NoteService } from '../user-note/note.service';
+import { SupportService } from '../user-support/support.service';
 import { UserSupportComponent } from '../user-support/user-support.component';
 
 @Component({
@@ -27,30 +27,29 @@ import { UserSupportComponent } from '../user-support/user-support.component';
 })
 export class UserInfoComponent implements OnInit, OnChanges {
   @Input() user: UserInfo;
-  @Input() init: boolean;
-  @Input() full: boolean;
   doctor: Doctor;
-  isAdminOrDoctor: boolean;
-  once: boolean;
+  isDoctor: boolean;
   loading: boolean = true;
   isVolunteer: boolean;
   isCoordinator: boolean;
+  notes: UserNote[] = [];
+  supports: UserSupport[] = [];
 
   constructor(
     private service: UserService,
     private dialog: MatDialog,
     private alert: AlertService,
     private auth: AuthService,
-    private clipboard: Clipboard
+    private clipboard: Clipboard,
+    private note: NoteService,
+    private support: SupportService,
+    @Inject(MAT_DIALOG_DATA) public data: UserInfo
   ) {
-    this.isAdminOrDoctor = this.auth.hasRole(Role.Admin) || this.auth.hasRole(Role.Doctor);
+    this.isDoctor = this.auth.hasRole(Role.Doctor);
     this.isCoordinator = this.auth.hasRole(Role.Coodirnator);
     this.isVolunteer = this.auth.hasRole(Role.Volunteer);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.init && !this.once) {
-      this.once = true;
+    if (this.data) {
+      this.user = this.data;
       this.service.getUserInfo(this.user.id).subscribe((res: Response) => {
         this.loading = false;
         if (res.ok) {
@@ -60,11 +59,9 @@ export class UserInfoComponent implements OnInit, OnChanges {
         }
       });
     }
-
-    if (this.full) {
-      this.loading = false;
-    }
   }
+
+  ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnInit(): void {}
 
@@ -117,16 +114,12 @@ export class UserInfoComponent implements OnInit, OnChanges {
       .subscribe();
   }
 
-  showNote(): void {
-    this.dialog
-      .open(UserNoteComponent, {
-        data: this.user,
-        width: '100%',
-        maxWidth: '96vw',
-        autoFocus: false
-      })
-      .afterClosed()
-      .subscribe();
+  addNote(): void {
+    this.note.showAddNote(this.user).subscribe();
+  }
+
+  addSupports(): void {
+    this.support.showAddSupports(this.user).subscribe();
   }
 
   copy(): void {
@@ -144,21 +137,6 @@ export class UserInfoComponent implements OnInit, OnChanges {
       .pipe(filter((val: Doctor) => !isNil(val) && !isString(val)))
       .subscribe((res: Doctor) => {
         this.user.doctor = res;
-      });
-  }
-
-  addMember(): void {
-    this.dialog
-      .open(MemberAddComponent, {
-        data: this.user,
-        width: '80%',
-        autoFocus: false,
-        disableClose: true
-      })
-      .afterClosed()
-      .pipe(filter((val: General[]) => !isNil(val)))
-      .subscribe((data: General[]) => {
-        this.user.members = data;
       });
   }
 }

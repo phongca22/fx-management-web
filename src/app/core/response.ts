@@ -7,7 +7,6 @@ export class Response {
   headers?: HttpHeaders;
   type?: string;
   progress?: number;
-  errorCode: number;
 
   constructor(data: any) {
     this.ok = data.ok;
@@ -17,6 +16,5 @@ export class Response {
     this.headers = data.headers;
     this.type = data.type;
     this.progress = data.progress;
-    this.errorCode = data.errorCode;
   }
 }

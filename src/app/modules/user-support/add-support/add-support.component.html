@@ -6,11 +6,11 @@
         <div fxLayout="row" fxLayoutAlign=" center">
           <div fxFlex>{{item.get('name')?.value}}</div>
           <div fxLayout="row" fxLayoutAlign=" center">
-            <button mat-icon-button>
+            <button mat-icon-button class="gray-icon-color">
               <mat-icon svgIcon="minus" (click)="update(item, -1)"></mat-icon>
             </button>
             <div class="mat-title mb-0 error-color">{{item.get('value')?.value}}</div>
-            <button mat-icon-button (click)="update(item, 1)">
+            <button mat-icon-button (click)="update(item, 1)" class="gray-icon-color">
               <mat-icon svgIcon="plus"></mat-icon>
             </button>
           </div>

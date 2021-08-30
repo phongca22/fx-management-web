@@ -1,126 +1,104 @@
-<div fxFlex *ngIf="user" class="body" fxLayoutGap="16px" fxLayout="column">
-  <div fxLayout="row" fxLayoutGap="32px">
-    <mat-icon svgIcon="account-outline" class="gray-icon-color"></mat-icon>
-    <div fxLayout="column" fxFlex>
-      <div fxLayout="column">
-        <div fxLayout="row">
-          <div fxFlex>
-            <div class="mat-caption gray-color">{{'userForm.fullname' | translate}}</div>
-            <div class="mat-h3">{{user.name}}</div>
-          </div>
-          <button mat-icon-button color="primary" (click)="edit()" *ngIf="isAdminOrDoctor || isCoordinator">
-            <mat-icon svgIcon="pencil-outline"></mat-icon>
-          </button>
-        </div>
-        <div fxLayout="row">
-          <div fxFlex>
-            <div class="mat-caption gray-color">{{'userForm.gender' | translate}}</div>
-            <div class="mat-h3">{{user.gender | gender | translate}}</div>
-          </div>
-          <div fxFlex>
-            <div class="mat-caption gray-color">{{'userForm.age' | translate}}</div>
-            <div class="mat-h3">{{user.age | age}}</div>
-          </div>
-        </div>
-        <div fxLayout="row">
-          <div fxFlex>
-            <div class="mat-caption gray-color">{{'userForm.code' | translate}}</div>
-            <div class="mat-h3">{{user.code}}</div>
-          </div>
-          <button mat-icon-button color="primary" (click)="copy()">
-            <mat-icon svgIcon="content-copy"></mat-icon>
-          </button>
-        </div>
-      </div>
-      <mat-divider></mat-divider>
-    </div>
-  </div>
-  <div fxLayout="row" fxLayoutGap="32px">
-    <mat-icon svgIcon="account-group-outline" class="gray-icon-color"></mat-icon>
-    <div fxLayout="column" fxFlex>
-      <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-      <ng-container *ngIf="!loading">
-        <div fxLayout="row" *ngIf="hasMembers()">
-          <div fxFlex>
-            <div class="mat-caption gray-color">{{'userInfo.family' | translate}}</div>
-            <div class="mb-3">
-              <div *ngFor="let item of user.members" fxLayout="row" class="mat-h3 mb-0">{{item.name}}</div>
+<div fxFill fxLayout="column">
+  <div fxFlex class="wrapper">
+    <mat-tab-group fxFill>
+      <mat-tab label="Thông tin">
+        <ng-template matTabContent>
+          <div fxLayout="column" fxLayoutGap="16px">
+            <div fxLayout="column" class="mt-3">
+              <div fxLayout="column">
+                <div fxLayout="row">
+                  <div fxFlex>
+                    <div class="mat-caption gray-color">{{'userForm.fullname' | translate}}</div>
+                    <div class="mat-h3">{{user.name}}</div>
+                  </div>
+                  <button mat-icon-button color="primary" (click)="edit()" *ngIf="isDoctor || isCoordinator">
+                    <mat-icon svgIcon="pencil-outline"></mat-icon>
+                  </button>
+                </div>
+                <div fxLayout="row">
+                  <div fxFlex>
+                    <div class="mat-caption gray-color">{{'userForm.gender' | translate}}</div>
+                    <div class="mat-h3">{{user.gender | gender | translate}}</div>
+                  </div>
+                  <div fxFlex>
+                    <div class="mat-caption gray-color">{{'userForm.age' | translate}}</div>
+                    <div class="mat-h3">{{user.age | age}}</div>
+                  </div>
+                </div>
+                <div fxLayout="row">
+                  <div fxFlex>
+                    <div class="mat-caption gray-color">{{'userForm.code' | translate}}</div>
+                    <div class="mat-h3">{{user.code}}</div>
+                  </div>
+                  <button mat-icon-button color="primary" (click)="copy()">
+                    <mat-icon svgIcon="content-copy"></mat-icon>
+                  </button>
+                </div>
+                <div fxLayout="column" *ngIf="user.member > 1">
+                  <div class="mat-caption gray-color">{{'userForm.member' | translate}}</div>
+                  <div class="mat-h3">{{user.member}}</div>
+                </div>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div fxLayout="column">
+              <div fxLayout="column">
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.address' | translate}}</div>
+                  <div class="mat-h3">{{user.addressLabel}}</div>
+                </div>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.phone' | translate}}</div>
+                  <div class="mat-h3">{{user.phone}}</div>
+                </div>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div fxLayout="column">
+              <div fxLayout="row">
+                <div fxFlex>
+                  <div class="mat-caption gray-color">{{'userForm.doctor' | translate}}</div>
+                  <div class="mat-h3" *ngIf="!loading">{{user.doctor.name}}</div>
+                  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+                </div>
+                <button mat-icon-button color="primary" (click)="editDoctor()" [disabled]="loading"
+                  *ngIf="isDoctor || isCoordinator">
+                  <mat-icon svgIcon="pencil-outline"></mat-icon>
+                </button>
+              </div>
+              <div fxLayout="row">
+                <div fxFlex>
+                  <div class="mat-caption gray-color">{{'userInfo.condition' | translate}}</div>
+                  <div class="mat-h3" *ngIf="!loading">{{user.condition | userCondition | translate}}</div>
+                  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+                </div>
+                <button mat-icon-button color="primary" (click)="editCondition()" [disabled]="loading" *ngIf="isDoctor">
+                  <mat-icon svgIcon="pencil-outline"></mat-icon>
+                </button>
+              </div>
             </div>
           </div>
-          <button mat-icon-button color="primary" (click)="addMember()" [disabled]="loading"
-            *ngIf="isAdminOrDoctor || isCoordinator">
-            <mat-icon svgIcon="pencil-outline"></mat-icon>
-          </button>
-        </div>
-        <div fxLayout="row" *ngIf="user.agent">
-          <div fxFlex>
-            <div class="mat-caption gray-color">{{'userInfo.agent' | translate}}</div>
-            <div class="mat-h3">{{user.agent.name}}</div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Ghi chú">
+        <ng-template matTabContent>
+          <div class="note-wrapper">
+            <app-user-note [user]="user" [(notes)]="notes"></app-user-note>
           </div>
-        </div>
-        <div fxLayout="row" *ngIf="!hasMembers() && !user.agent">
-          <div fxFlex>
-            <div class="mat-caption gray-color">{{'userInfo.family' | translate}}</div>
-            <div *ngIf="!hasMembers()" class="mat-h3">{{'userInfo.noMember' | translate}}</div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Hỗ trợ">
+        <ng-template matTabContent>
+          <div class="support-wrapper">
+            <app-user-support [user]="user" [(supports)]="supports"></app-user-support>
           </div>
-          <button mat-icon-button color="primary" (click)="addMember()" [disabled]="loading"
-            *ngIf="isAdminOrDoctor || isCoordinator">
-            <mat-icon svgIcon="pencil-outline"></mat-icon>
-          </button>
-        </div>
-      </ng-container>
-      <mat-divider></mat-divider>
-    </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
   </div>
-  <div fxLayout="row" fxLayoutGap="32px">
-    <mat-icon svgIcon="map-marker-outline" class="gray-icon-color"></mat-icon>
-    <div fxLayout="column" fxFlex>
-      <div fxLayout="column">
-        <div>
-          <div class="mat-caption gray-color">{{'userForm.address' | translate}}</div>
-          <div class="mat-h3">{{user.addressLabel}}</div>
-        </div>
-        <div>
-          <div class="mat-caption gray-color">{{'userForm.phone' | translate}}</div>
-          <div class="mat-h3">{{user.phone}}</div>
-        </div>
-      </div>
-      <mat-divider></mat-divider>
-    </div>
-  </div>
-  <div fxLayout="row" fxLayoutGap="32px">
-    <mat-icon svgIcon="badge-account-horizontal-outline" class="gray-icon-color"></mat-icon>
-    <div fxLayout="column" fxFlex>
-      <div fxLayout="row">
-        <div fxFlex>
-          <div class="mat-caption gray-color">{{'userForm.doctor' | translate}}</div>
-          <div class="mat-h3" *ngIf="!loading">{{user.doctor.name}}</div>
-          <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-        </div>
-        <button mat-icon-button color="primary" (click)="editDoctor()" [disabled]="loading"
-          *ngIf="isAdminOrDoctor || isCoordinator">
-          <mat-icon svgIcon="pencil-outline"></mat-icon>
-        </button>
-      </div>
-      <div fxLayout="row">
-        <div fxFlex>
-          <div class="mat-caption gray-color">{{'userForm.condition' | translate}}</div>
-          <div class="mat-h3" *ngIf="!loading">{{user.condition | userCondition | translate}}</div>
-          <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-        </div>
-        <button mat-icon-button color="primary" (click)="editCondition()" [disabled]="loading" *ngIf="isAdminOrDoctor">
-          <mat-icon svgIcon="pencil-outline"></mat-icon>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div fxLayout="row" fxLayoutGap="16px">
-    <button fxFlex mat-stroked-button color="primary" (click)="showNote()">
-      <mat-icon svgIcon="account-details-outline" style="margin-right: 8px;"></mat-icon>
-      Ghi chú
-    </button>
-    <button fxFlex mat-stroked-button color="primary" (click)="showSupport()">
-      <mat-icon svgIcon="account-edit-outline" style="margin-right: 8px;"></mat-icon>
-      Hỗ trợ
-    </button>
-  </div>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>{{'action.back' | translate}}</button>
+    <button mat-button color="primary" (click)="addNote()">{{'userInfo.addNote' | translate}}</button>
+    <button mat-button color="primary" (click)="addSupports()">{{'userInfo.addSupport' | translate}}</button>
+  </mat-dialog-actions>
+</div>

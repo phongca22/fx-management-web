@@ -39,10 +39,6 @@ export class UserEditComponent implements OnInit {
       district: data.district?.name,
       ward: data.ward?.name
     };
-    delete data.doctor;
-    delete data.province;
-    delete data.ward;
-    delete data.district;
     this.service.updateUser(data).subscribe((res: Response) => {
       this.loading = false;
       if (res.ok) {

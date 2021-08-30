@@ -1,29 +1,25 @@
-<h2 mat-dialog-title>{{'userNote.title' | translate}}</h2>
-<mat-dialog-content fxLayout="column" fxLayoutGap="px" class="wrapper">
+<div fxLayout="column" fxLayoutGap="16px">
   <div *ngFor="let g of groups">
     <div class="group mat-title">{{g.name}}</div>
     <div fxLayout="column" fxLayoutGap="32px">
       <div *ngFor="let item of g.notes">
         <mat-card>
-          <div fxLayout="row space-between" class="header">
-            <div fxFlex class="mat-body">{{item.author}}</div>
-            <div class="mat-caption gray-color">{{item.role | role | translate}}</div>
-          </div>
           <mat-card-content>
-            <div class="mat-body">
-              {{item.content}}
-            </div>
+            <div class="mat-body" [innerHTML]="item.content"> </div>
           </mat-card-content>
-          <div class="mat-caption gray-color">
-            {{item.time}}
+          <div fxLayout="row" fxLayoutAlign="space-between end">
+            <div class="mat-caption gray-color">
+              {{item.time}}
+            </div>
+            <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="8px">
+              <mat-icon svgIcon="account-edit-outline" class="gray-icon-color" *ngIf="item.role === 3"></mat-icon>
+              <mat-icon svgIcon="card-account-details-outline" class="gray-icon-color" *ngIf="item.role === 2">
+              </mat-icon>
+              <div class="mat-body">{{item.author}}</div>
+            </div>
           </div>
         </mat-card>
       </div>
     </div>
   </div>
-</mat-dialog-content>
-<!-- <div *ngIf="isEmpty()" class="gray-color mat-headline">{{'empty' | translate}}</div> -->
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close> {{'action.back' | translate}}</button>
-  <button mat-button (click)="addNote()" *ngIf="isDoctor || isCoordinator" color="primary">{{'action.add' | translate}}</button>
-</mat-dialog-actions>
+</div>

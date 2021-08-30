@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@an
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
-import { REGISTER_100, SIGN_IN_101 } from 'src/app/core/error';
 import { Response } from 'src/app/core/response';
 import { AlertService } from 'src/app/modules/alert/alert.service';
 import { RouterService } from 'src/app/services/router.service';
@@ -58,11 +57,7 @@ export class LoginComponent implements OnInit {
         this.getConfig();
       } else {
         this.loading = false;
-        if (res.errorCode === SIGN_IN_101) {
-          this.alert.error(this.translate.instant('error.login.101'));
-        } else {
-          this.alert.error(res.message);
-        }
+        this.alert.error('login.error');
       }
     });
   }
@@ -83,11 +78,11 @@ export class LoginComponent implements OnInit {
         this.alert.success(this.translate.instant('login.register.ok'));
       } else {
         this.loading = false;
-        if (res.errorCode === REGISTER_100) {
-          this.alert.error(this.translate.instant('error.register.100'));
-        } else {
-          this.alert.error(res.message);
-        }
+        // if (res.errorCode === REGISTER_100) {
+        //   this.alert.error(this.translate.instant('error.register.100'));
+        // } else {
+        //   this.alert.error(res.message);
+        // }
       }
     });
   }

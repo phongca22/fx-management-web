@@ -6,7 +6,8 @@
     "edit": "Cập nhật",
     "remove": "Xóa",
     "back": "Trở lại",
-    "add": "Thêm"
+    "add": "Thêm",
+    "confirm": "Xác nhận"
   },
   "login": {
     "user": "Tên tài khoản",
@@ -15,7 +16,8 @@
     "userRequired": "Nhập tên tài khoản",
     "passwordRequired": "Nhập mật khẩu",
     "signUp": "Đăng ký",
-    "hint": "Nếu bạn chưa có tài khoản, vui lòng chọn Đăng ký"
+    "hint": "Nếu bạn chưa có tài khoản, vui lòng chọn Đăng ký",
+    "error": "Tài khoản hoặc mật khẩu không đúng"
   },
   "menu": {
     "user": {
@@ -38,10 +40,8 @@
     "passRequired": "Nhập mật khẩu",
     "phoneRequired": "Nhập số điện thoại",
     "doctor": "Bác sĩ",
-    "support": "Hỗ trợ",
-    "condition": "Tình trạng",
-    "note": "Ghi chú",
-    "code": "Mã bệnh nhận"
+    "code": "Mã bệnh nhận",
+    "member": "Số người F0"
   },
   "userCreate": {
     "success": "Đã tạo mới"
@@ -71,9 +71,6 @@
   "supportPicker": {
     "title": "Hỗ trợ"
   },
-  "userNote": {
-    "title": "Ghi chú của bệnh nhân"
-  },
   "addNote": {
     "success": "Đã thêm ghi chú",
     "content": "Nhập nội dung...",
@@ -89,9 +86,10 @@
     "supportUpdated": "Đã lưu",
     "doctorUpdated": "Đã lưu",
     "copy": "Đã copy mã bệnh nhân",
-    "family": "Gia đình",
-    "noMember": "Chưa có thành viên",
-    "agent": "Chủ hộ"
+    "agent": "Chủ hộ",
+    "addNote": "Thêm ghi chú",
+    "addSupport": "Thêm hỗ trợ",
+    "condition": "Tình trạng"
   },
   "paginator": {
     "page": "Trang {{page}} / {{total}}"
@@ -124,13 +122,13 @@
     "title": "Thông tin hỗ trợ"
   },
   "userSupport": {
-    "title": "Lịch sử hỗ trợ",
     "amount": "Số lượng",
     "status": "Trạng thái",
     "volunteer": "Tình nguyện viên",
     "startDate": "Ngày nhận",
     "completeDate": "Hoàn thành",
-    "reason": "Lý do"
+    "reason": "Lý do",
+    "revokeMessage": "Bạn đã thu hồi bình Oxy của bệnh nhân này?"
   },
   "supportStatusUpdate": {
     "title": "Trạng thái vận chuyển",
