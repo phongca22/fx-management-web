@@ -23,7 +23,7 @@
     "user": {
       "create": "Thêm bệnh nhân",
       "search": "Tìm bệnh nhân",
-      "processing": "Danh sách bệnh nhân"
+      "list": "Danh sách bệnh nhân"
     },
     "logout": "Đăng xuất"
   },
@@ -57,7 +57,7 @@
     "search": "Không tìm thấy"
   },
   "search": {
-    "keyword": "Nhập mã bệnh nhân"
+    "keyword": "Nhập mã hoặc số điện thoại"
   },
   "userCondition": {
     "processing": "Đang điều trị",
@@ -68,8 +68,8 @@
     "success": "Đã lưu"
   },
   "processing": "Đang xử lý...",
-  "supportPicker": {
-    "title": "Hỗ trợ"
+  "volunteerPicker": {
+    "label": "Chọn tình nguyện viên"
   },
   "addNote": {
     "success": "Đã thêm ghi chú",
@@ -102,6 +102,7 @@
   },
   "supportStatus": {
     "pending": "Đang chờ",
+    "accepted": "Đã xác nhận",
     "delivering": "Đang giao",
     "delivered": "Đã giao",
     "failed": "Hủy"
@@ -128,7 +129,9 @@
     "startDate": "Ngày nhận",
     "completeDate": "Hoàn thành",
     "reason": "Lý do",
-    "revokeMessage": "Bạn đã thu hồi bình Oxy của bệnh nhân này?"
+    "revokeMessage": "Bạn đã thu hồi bình Oxy của bệnh nhân này?",
+    "revokeOxyTitle": "Thu hồi bình Oxy",
+    "revoked": "Đã thu hồi bình Oxy"
   },
   "supportStatusUpdate": {
     "title": "Trạng thái vận chuyển",

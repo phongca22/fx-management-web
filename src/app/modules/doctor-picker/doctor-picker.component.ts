@@ -5,7 +5,6 @@ import { find } from 'lodash';
 import { Doctor } from 'src/app/core/doctor';
 import { Response } from 'src/app/core/response';
 import { UserInfo } from 'src/app/core/user-info';
-import { ConfigService } from 'src/app/services/config.service';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
 
@@ -39,7 +38,7 @@ export class DoctorPickerComponent implements OnInit {
   save() {
     this.loading = true;
     if (this.selectCtrl.value !== this.data) {
-      this.service.setDoctor(this.data.doctorAssignmentId, this.selectCtrl.value.id).subscribe((res: Response) => {
+      this.service.setDoctor(this.data, this.selectCtrl.value.id).subscribe((res: Response) => {
         if (res.ok) {
           this.dialog.close(this.selectCtrl.value);
         } else {

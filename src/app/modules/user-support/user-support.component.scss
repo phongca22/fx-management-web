@@ -4,22 +4,22 @@
 }
 
 .status-icon {
-  width: 2.5em;
-  height: 2.5em;
+  width: 2em;
+  height: 2em;
 }
 
-.note-wrapper.pending {
-  border-top: 4px solid #757575;
-}
+// .note-wrapper.pending {
+//   border-top: 4px solid #757575;
+// }
 
-.note-wrapper.delivering {
-  border-top: 4px solid #ff9800;
-}
+// .note-wrapper.delivering {
+//   border-top: 4px solid #ff9800;
+// }
 
-.note-wrapper.delivered {
-  border-top: 4px solid #4caf50;
-}
+// .note-wrapper.delivered {
+//   border-top: 4px solid #4caf50;
+// }
 
-.note-wrapper.failed {
-  border-top: 4px solid #f44336;
-}
+// .note-wrapper.failed {
+//   border-top: 4px solid #f44336;
+// }

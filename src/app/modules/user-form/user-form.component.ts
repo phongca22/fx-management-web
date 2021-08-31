@@ -52,7 +52,7 @@ export class UserFormComponent implements OnInit {
         district: [''],
         province: [''],
         doctor: [null, Validators.required],
-        member: [0]
+        member: [1]
       })
     );
 

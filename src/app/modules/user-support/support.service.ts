@@ -33,6 +33,17 @@ export class SupportService extends BaseService {
     return this.http.get(`${this.api}/support/${id}`).pipe(this.getResponse(), this.getError());
   }
 
+  setVolunteer({ doctorAssignmentId, id }: UserInfo, psId: number, volunteerId: number): Observable<any> {
+    return this.http
+      .put(`${this.api}/support/volunteer`, {
+        userId: id,
+        daId: doctorAssignmentId,
+        psId: psId,
+        transporterId: volunteerId
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
   updateStatus(
     { doctorAssignmentId, id }: UserInfo,
     psId: number,

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { find } from 'lodash';
 import { Subject } from 'rxjs';
 import { Page, StackedPage } from '../core/page';
-import { LOGIN, SEARCH, USER_LIST } from '../core/page-config';
-import { Role } from '../core/role';
+import { LOGIN, USER_LIST } from '../core/page-config';
 import { PageState } from '../modules/store/page/page-state';
 import { User } from '../modules/store/user/user';
 import { StoreService } from './store.service';
@@ -52,11 +50,7 @@ export class RouterService {
   }
 
   goHome(): void {
-    if (find(this.user.roles, (id: Role) => id === Role.Coodirnator || id === Role.Doctor)) {
-      this.go(USER_LIST);
-    } else {
-      this.go(SEARCH);
-    }
+    this.go(USER_LIST);
   }
 
   exitStackedPage() {

@@ -12,6 +12,7 @@ import { UserSupport } from 'src/app/core/user-support';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
+import { TransporterPickerComponent } from '../transporter-picker/transporter-picker.component';
 import { SupportStatusUpdateComponent } from './support-status-update/support-status-update.component';
 import { SupportService } from './support.service';
 dayjs.extend(customParseFormat);
@@ -35,7 +36,7 @@ export class UserSupportComponent implements OnInit {
   loaded: boolean;
   groups: Group[];
   isVolunteer: boolean;
-  isDoctor: boolean;
+  isCoordinator: boolean;
   loading: boolean;
 
   constructor(
@@ -46,7 +47,7 @@ export class UserSupportComponent implements OnInit {
     private auth: AuthService
   ) {
     this.isVolunteer = this.auth.hasRole(Role.Volunteer);
-    this.isDoctor = this.auth.hasRole(Role.Doctor);
+    this.isCoordinator = this.auth.hasRole(Role.Coordinator);
     this.supportsChange = new EventEmitter();
     this.service
       .listenNewSupports()
@@ -100,11 +101,35 @@ export class UserSupportComponent implements OnInit {
     return this.loaded && isEmpty(this.supports);
   }
 
-  updateStatus(group: Group, data: UserSupport): void {
-    if (!this.isVolunteer) {
+  select(group: Group, data: UserSupport): void {
+    if (this.isVolunteer) {
+      this.updateStatus(group, data);
+    } else if (this.isCoordinator) {
+      this.showVolunteerPicker(group, data);
+    } else {
       return;
     }
+  }
 
+  showVolunteerPicker(group: Group, data: UserSupport): void {
+    this.dialog
+      .open(TransporterPickerComponent, {
+        data: {
+          info: this.user,
+          support: data
+        },
+        width: '100%',
+        maxWidth: '96vw',
+        autoFocus: false
+      })
+      .afterClosed()
+      .pipe(filter((val: UserSupport) => !isNil(val) && !isEmpty(val)))
+      .subscribe((val: UserSupport) => {
+        group.supports.splice(group.supports.indexOf(data), 1, val);
+      });
+  }
+
+  updateStatus(group: Group, data: UserSupport): void {
     this.dialog
       .open(SupportStatusUpdateComponent, {
         data: {
@@ -137,7 +162,7 @@ export class UserSupportComponent implements OnInit {
         concatMap(() => this.service.revoke(this.user, data.id, true)),
         tap(() => (this.loading = false))
       )
-      .subscribe(() => (res: Response) => {
+      .subscribe((res: Response) => {
         if (res.ok) {
           group.supports.splice(group.supports.indexOf(data), 1, new UserSupport(res.data));
         } else {

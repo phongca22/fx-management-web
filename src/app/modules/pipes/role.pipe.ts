@@ -11,7 +11,7 @@ export class RolePipe implements PipeTransform {
       return 'role.admin';
     } else if (isEqual(Role.Doctor, value)) {
       return 'role.doctor';
-    } else if (isEqual(Role.Coodirnator, value)) {
+    } else if (isEqual(Role.Coordinator, value)) {
       return 'role.coodirnator';
     } else if (isEqual(Role.Volunteer, value)) {
       return 'role.volunteer';

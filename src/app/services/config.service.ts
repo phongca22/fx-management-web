@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment';
 import { Response } from '../core/response';
 import { Support } from '../core/support';
 import { UserConditionType } from '../core/user-condition.enum';
-import { UserSupport } from '../core/user-support';
 import { BaseService } from './base-service';
 
 @Injectable({

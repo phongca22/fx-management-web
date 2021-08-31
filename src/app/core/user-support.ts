@@ -2,6 +2,7 @@ import * as dayjs from 'dayjs';
 import { find } from 'lodash';
 import { Support } from './support';
 import { SupportStatus } from './support-status';
+import { User } from './user';
 
 export class UserSupport {
   id: number;
@@ -10,7 +11,7 @@ export class UserSupport {
   support: Support;
   date: Date;
   amount: number;
-  transporterName: string;
+  transporter: User;
   deliveringDate: Date;
   deliveredDate: Date;
   dateLabel: string;
@@ -27,7 +28,7 @@ export class UserSupport {
     this.date = new Date(data.createdAt);
     this.dateLabel = dayjs(data.createdAt).format('DD-MM-YYYY');
     if (data.transporter) {
-      this.transporterName = data.transporter.fullname;
+      this.transporter = new User(data.transporter);
     }
 
     if (data.deliveringDate) {

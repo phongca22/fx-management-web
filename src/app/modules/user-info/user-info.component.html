@@ -3,7 +3,7 @@
     <mat-tab-group fxFill>
       <mat-tab label="Thông tin">
         <ng-template matTabContent>
-          <div fxLayout="column" fxLayoutGap="16px">
+          <div fxLayout="column">
             <div fxLayout="column" class="mt-3">
               <div fxLayout="column">
                 <div fxLayout="row">
@@ -26,21 +26,25 @@
                   </div>
                 </div>
                 <div fxLayout="row">
-                  <div fxFlex>
+                  <div fxLayout="column" fxFlex>
                     <div class="mat-caption gray-color">{{'userForm.code' | translate}}</div>
-                    <div class="mat-h3">{{user.code}}</div>
+                    <div fxLayout="row" fxLayoutAlign=" center">
+                      <div class="mat-h3 mb-0">{{user.code}}</div>
+                      <button mat-icon-button class="gray-icon-color" (click)="copy()">
+                        <mat-icon svgIcon="content-copy"></mat-icon>
+                      </button>
+                    </div>
                   </div>
-                  <button mat-icon-button color="primary" (click)="copy()">
-                    <mat-icon svgIcon="content-copy"></mat-icon>
-                  </button>
-                </div>
-                <div fxLayout="column" *ngIf="user.member > 1">
-                  <div class="mat-caption gray-color">{{'userForm.member' | translate}}</div>
-                  <div class="mat-h3">{{user.member}}</div>
+                  <div fxLayout="column" fxFlex>
+                    <div class="mat-caption gray-color">{{'userForm.member' | translate}}</div>
+                    <div class="mat-h3">{{user.member}}</div>
+                  </div>
                 </div>
               </div>
             </div>
-            <mat-divider></mat-divider>
+            <div class="mb-3">
+              <mat-divider></mat-divider>
+            </div>
             <div fxLayout="column">
               <div fxLayout="column">
                 <div>
@@ -53,7 +57,9 @@
                 </div>
               </div>
             </div>
-            <mat-divider></mat-divider>
+            <div class="mb-3">
+              <mat-divider></mat-divider>
+            </div>
             <div fxLayout="column">
               <div fxLayout="row">
                 <div fxFlex>
@@ -96,9 +102,13 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-  <mat-dialog-actions align="end">
+  <mat-dialog-actions align="end" style="flex-wrap: nowrap;">
     <button mat-button mat-dialog-close>{{'action.back' | translate}}</button>
-    <button mat-button color="primary" (click)="addNote()">{{'userInfo.addNote' | translate}}</button>
-    <button mat-button color="primary" (click)="addSupports()">{{'userInfo.addSupport' | translate}}</button>
+    <button mat-stroked-button color="primary" (click)="addNote()">
+      <mat-icon svgIcon="account-details-outline"></mat-icon> {{'userInfo.addNote' | translate}}
+    </button>
+    <button mat-stroked-button color="primary" *ngIf="isDoctor" (click)="addSupports()">
+      <mat-icon svgIcon="account-edit-outline"></mat-icon> {{'userInfo.addSupport' | translate}}
+    </button>
   </mat-dialog-actions>
 </div>

@@ -17,7 +17,7 @@ import { SupportService } from '../support.service';
 })
 export class SupportStatusUpdateComponent implements OnInit {
   form: FormGroup;
-  status: any[] = [SupportStatus.Pending, SupportStatus.Delivering, SupportStatus.Delivered, SupportStatus.Failed].map(
+  status: any[] = [SupportStatus.Delivering, SupportStatus.Delivered, SupportStatus.Failed].map(
     (val: SupportStatus) => ({ id: val, name: val })
   );
   loading: boolean;

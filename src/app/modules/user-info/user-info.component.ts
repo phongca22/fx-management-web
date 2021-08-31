@@ -46,7 +46,7 @@ export class UserInfoComponent implements OnInit, OnChanges {
     @Inject(MAT_DIALOG_DATA) public data: UserInfo
   ) {
     this.isDoctor = this.auth.hasRole(Role.Doctor);
-    this.isCoordinator = this.auth.hasRole(Role.Coodirnator);
+    this.isCoordinator = this.auth.hasRole(Role.Coordinator);
     this.isVolunteer = this.auth.hasRole(Role.Volunteer);
     if (this.data) {
       this.user = this.data;

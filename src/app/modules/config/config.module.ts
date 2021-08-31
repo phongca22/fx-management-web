@@ -15,7 +15,7 @@ export function getUser(auth: AuthService, user: UserService, config: ConfigServ
           if (token) {
             auth.setUser(token);
             return config.getSupports().pipe(
-              concatMap(() => forkJoin([user.getDoctors(), user.getProfile()])),
+              concatMap(() => forkJoin([user.getDoctors(), user.getVolunteers(), user.getProfile()])),
               map(() => true)
             );
           } else {

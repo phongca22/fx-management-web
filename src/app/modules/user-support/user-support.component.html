@@ -3,7 +3,7 @@
     <div class="group mat-title">{{g.name}}</div>
     <div fxLayout="column" fxLayoutGap="16px">
       <div *ngFor="let item of g.supports">
-        <mat-card class="note-wrapper" (click)="updateStatus(g, item)" [class.pending]="item.status === 'pending'"
+        <mat-card class="note-wrapper" (click)="select(g, item)" [class.pending]="item.status === 'pending'"
           [class.delivering]="item.status === 'delivering'" [class.delivered]="item.status === 'delivered'"
           [class.failed]="item.status === 'failed'">
           <mat-card-content fxLayoutGap="16px" fxLayout="column">
@@ -24,6 +24,8 @@
               </div>
               <mat-icon mat-list-icon svgIcon="account-question-outline" class="status-icon"
                 *ngIf="item.status === 'pending'" class="gray-icon-color"></mat-icon>
+              <mat-icon mat-list-icon svgIcon="account-arrouw-left-outline" class="status-icon"
+                *ngIf="item.status === 'accepted'" color="primary"></mat-icon>
               <mat-icon mat-list-icon svgIcon="truck-delivery-outline" class="status-icon"
                 *ngIf="item.status === 'delivering'" style="color: #ff9800"></mat-icon>
               <mat-icon mat-list-icon svgIcon="account-check-outline" class="status-icon"
@@ -33,13 +35,17 @@
                 *ngIf="item.status === 'failed'" color="warn">
               </mat-icon>
             </div>
-            <div style="position: relative;" *ngIf="item.transporterName">
+            <div *ngIf="item.reason">
+              <div class="mat-caption gray-color">{{'userSupport.reason' | translate}}</div>
+              <div class="mat-body">{{item.reason}}</div>
+            </div>
+            <div style="position: relative;" *ngIf="item.transporter">
               <mat-divider></mat-divider>
             </div>
-            <div *ngIf="item.transporterName" fxLayout="column" fxLayoutGap="4px">
+            <div *ngIf="item.transporter" fxLayout="column" fxLayoutGap="4px">
               <div fxLayout="row">
                 <div class="mat-body" fxFlex>{{'userSupport.volunteer' | translate}}</div>
-                <div class="mat-body">{{item.transporterName}}</div>
+                <div class="mat-body">{{item.transporter.name}}</div>
               </div>
               <ng-container *ngIf="!item.reason">
                 <div fxLayout="row" *ngIf="item.deliveringDate">
@@ -53,19 +59,18 @@
                   <div class="mat-body">{{item.deliveredDate | date: 'dd-MM-YYYY'}}</div>
                 </div>
               </ng-container>
-              <div class="mat-body" *ngIf="item.reason">{{item.reason}}</div>
             </div>
             <ng-container *ngIf="showCollector(item)">
               <div *ngIf="!item.revoke" fxLayout="row" fxLayoutAlign="end center">
-                <div class="mat-body">{{'Thu hồi bình Oxy'}}</div>
-                <button mat-icon-button color="primary" (click)="revoke(g, item); $event.stopPropagation()"
+                <div class="mat-body">{{'userSupport.revokeOxyTitle' | translate}}</div>
+                <button mat-icon-button color="warn" (click)="revoke(g, item); $event.stopPropagation()"
                   [disabled]="loading">
                   <mat-icon svgIcon="database-arrow-left-outline"></mat-icon>
                 </button>
               </div>
               <div *ngIf="item.revoke" fxLayout="row" fxLayoutAlign="end center">
-                <div class="mat-body">{{'Đã thu hồi bình Oxy'}}</div>
-                <mat-icon svgIcon="database-check-outline" style="color: #4caf50; margin: 0px 8px"></mat-icon>
+                <div class="mat-body">{{'userSupport.revoked' | translate}}</div>
+                <mat-icon svgIcon="database-check-outline" style="color: #4caf50; margin-left: 8px"></mat-icon>
               </div>
             </ng-container>
           </mat-card-content>

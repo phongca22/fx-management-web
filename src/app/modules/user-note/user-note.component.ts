@@ -35,7 +35,7 @@ export class UserNoteComponent implements OnInit {
     private alert: AlertService,
     private auth: AuthService
   ) {
-    this.isCoordinator = this.auth.hasRole(Role.Coodirnator);
+    this.isCoordinator = this.auth.hasRole(Role.Coordinator);
     this.isDoctor = this.auth.hasRole(Role.Doctor);
     this.service
       .listenNewNote()

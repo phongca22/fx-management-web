@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { IPage, SEARCH, USER_CREATE, USER_LIST } from 'src/app/core/page-config';
+import { Role } from 'src/app/core/role';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { RouterService } from 'src/app/services/router.service';
 import { SidenavService } from 'src/app/services/sidenav.service';
@@ -32,23 +33,53 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.links = [
-      {
-        name: 'menu.user.create',
-        page: USER_CREATE,
-        icon: 'account-plus'
-      },
-      {
-        name: 'menu.user.search',
-        page: SEARCH,
-        icon: 'account-search'
-      },
-      {
-        name: 'menu.user.processing',
-        page: USER_LIST,
-        icon: 'clipboard-account-outline'
-      }
-    ];
+    if (this.auth.hasRole(Role.Doctor)) {
+      this.links = [
+        {
+          name: 'menu.user.search',
+          page: SEARCH,
+          icon: 'account-search'
+        },
+        {
+          name: 'menu.user.list',
+          page: USER_LIST,
+          icon: 'clipboard-account-outline'
+        }
+      ];
+    } else if (this.auth.hasRole(Role.Coordinator)) {
+      this.links = [
+        {
+          name: 'menu.user.create',
+          page: USER_CREATE,
+          icon: 'account-plus'
+        },
+        {
+          name: 'menu.user.search',
+          page: SEARCH,
+          icon: 'account-search'
+        },
+        {
+          name: 'menu.user.list',
+          page: USER_LIST,
+          icon: 'clipboard-account-outline'
+        }
+      ];
+    } else if (this.auth.hasRole(Role.Volunteer)) {
+      this.links = [
+        {
+          name: 'menu.user.search',
+          page: SEARCH,
+          icon: 'account-search'
+        },
+        {
+          name: 'menu.user.list',
+          page: USER_LIST,
+          icon: 'clipboard-account-outline'
+        }
+      ];
+    } else {
+      this.links = [];
+    }
   }
 
   go(page: IPage): void {

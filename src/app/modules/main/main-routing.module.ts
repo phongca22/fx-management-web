@@ -25,7 +25,7 @@ const routes: Routes = [
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Coodirnator, Role.Doctor]
+          role: [Role.Coordinator]
         }
       },
       {
@@ -34,7 +34,7 @@ const routes: Routes = [
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Coodirnator, Role.Doctor, Role.Volunteer]
+          role: [Role.Coordinator, Role.Doctor, Role.Volunteer]
         }
       },
       {
@@ -43,7 +43,7 @@ const routes: Routes = [
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Coodirnator, Role.Doctor, Role.Volunteer]
+          role: [Role.Coordinator, Role.Doctor, Role.Volunteer]
         }
       }
     ]
