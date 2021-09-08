@@ -14,8 +14,6 @@ export class SupportStatusPipe implements PipeTransform {
   getKey(value: SupportStatus): string {
     if (value === SupportStatus.Pending) {
       return 'supportStatus.pending';
-    } else if (value === SupportStatus.Accepted) {
-      return 'supportStatus.accepted'
     } else if (value === SupportStatus.Delivering) {
       return 'supportStatus.delivering';
     } else if (value === SupportStatus.Delivered) {

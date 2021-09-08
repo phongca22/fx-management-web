@@ -23,7 +23,11 @@
     "user": {
       "create": "Thêm bệnh nhân",
       "search": "Tìm bệnh nhân",
-      "list": "Danh sách bệnh nhân"
+      "list": "Danh sách bệnh nhân",
+      "management": "Quản lý tài khoản"
+    },
+    "doctor": {
+      "list": "Danh sách bác sĩ"
     },
     "logout": "Đăng xuất"
   },
@@ -40,7 +44,6 @@
     "passRequired": "Nhập mật khẩu",
     "phoneRequired": "Nhập số điện thoại",
     "doctor": "Bác sĩ",
-    "code": "Mã bệnh nhận",
     "member": "Số người F0"
   },
   "userCreate": {
@@ -65,16 +68,17 @@
     "hospitalized": "Chuyển viện"
   },
   "userEdit": {
-    "success": "Đã lưu"
+    "success": "Đã lưu",
+    "title": "Thông tin bệnh nhân"
   },
   "processing": "Đang xử lý...",
-  "volunteerPicker": {
-    "label": "Chọn tình nguyện viên"
+  "transporterPicker": {
+    "label": "Chọn người vận chuyển"
   },
   "addNote": {
     "success": "Đã thêm ghi chú",
     "content": "Nhập nội dung...",
-    "label": "Ghi chú"
+    "title": "Ghi chú"
   },
   "empty": "Chưa có dữ liệu",
   "userStatusPicker": {
@@ -85,24 +89,28 @@
     "emptySupport": "Chưa chỉ định",
     "supportUpdated": "Đã lưu",
     "doctorUpdated": "Đã lưu",
-    "copy": "Đã copy mã bệnh nhân",
-    "agent": "Chủ hộ",
+    "copied": "Đã sao chép",
     "addNote": "Thêm ghi chú",
     "addSupport": "Thêm hỗ trợ",
-    "condition": "Tình trạng"
+    "condition": "Tình trạng",
+    "doctor": "Bác sĩ",
+    "phone": "Số điện thoại",
+    "code": "Mã bệnh nhận",
+    "age": "Tuổi",
+    "gender": "Giới tính"
   },
   "paginator": {
     "page": "Trang {{page}} / {{total}}"
   },
   "userList": {
-    "sum": "Có {{total}} bệnh nhân"
+    "sum": "Có {{total}} bệnh nhân",
+    "title": "Danh sách bệnh nhân"
   },
   "doctorPicker": {
     "label": "Bác sĩ"
   },
   "supportStatus": {
     "pending": "Đang chờ",
-    "accepted": "Đã xác nhận",
     "delivering": "Đang giao",
     "delivered": "Đã giao",
     "failed": "Hủy"
@@ -113,14 +121,15 @@
   },
   "unknown": "Không xác định",
   "role": {
-    "admin": "Quản trị viên",
+    "admin": "Admin",
     "doctor": "Bác sĩ",
-    "coodirnator": "Điều phối viên",
+    "coodirnator": "Điều phối",
     "volunteer": "Tình nguyện viên",
     "user": "Bệnh nhân"
   },
   "addSupport": {
-    "title": "Thông tin hỗ trợ"
+    "title": "Thông tin hỗ trợ",
+    "emergency": "Khẩn cấp"
   },
   "userSupport": {
     "amount": "Số lượng",
@@ -137,7 +146,42 @@
     "title": "Trạng thái vận chuyển",
     "reason": "Lý do"
   },
-  "memberAdd": {
-    "title": "Thành viên"
+  "userManagement": {
+    "name": "Tên",
+    "role": "Phân quyền",
+    "createOk": "Đã tạo",
+    "updateOk": "Đã lưu",
+    "duplicatedAccount": "Tên tài khoản đã tồn tại",
+    "user": "Tên tài khoản",
+    "pass": "Mật khẩu",
+    "userRequired": "Nhập tên tài khoản",
+    "passRequired": "Nhập mật khẩu",
+    "fullname": "Họ và tên",
+    "fullnameRequired": "Nhập họ và tên",
+    "roleRequired": "Chọn phần quyền",
+    "accountInfo": "Thông tin tài khoản",
+    "title": "Danh sách thành viên",
+    "sum": "Có {{total}} thành viên"
+  },
+  "profile": {
+    "logout": "Đăng xuất",
+    "userManagement": "Quản lý tài khoản",
+    "doctorManagement": "Quản lý bác sỹ"
+  },
+  "doctorManagement": {
+    "title": "Danh sách bác sĩ"
+  },
+  "userNote": {
+    "reason": "Lý do: {{message}}",
+    "selectTransporter": "Chọn người vận chuyển",
+    "update": "Cập nhật",
+    "emergency": "Khẩn cấp"
+  },
+  "userFilter": {
+    "all": "Tất cả",
+    "byDoctor": "Theo bác sĩ",
+    "byTransporter": "Theo tình nguyện viên",
+    "byPending": "Chưa có người vận chuyển",
+    "byEmergency": "Khẩn cấp"
   }
 }

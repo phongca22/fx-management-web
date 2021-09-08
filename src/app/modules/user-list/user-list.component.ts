@@ -2,18 +2,15 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { TranslateService } from '@ngx-translate/core';
-import { EMPTY, Observable, Subject } from 'rxjs';
-import { switchMap, takeUntil, tap } from 'rxjs/operators';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
 import { UserInfo } from 'src/app/core/user-info';
 import { DestroyService } from 'src/app/services/destroy.service';
-import { StoreService } from 'src/app/services/store.service';
-import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
-import { User } from '../store/user/user';
-import { UserInfoComponent } from '../user-info/user-info.component';
+import { UserCreateComponent } from '../user-create/user-create.component';
 
 @Injectable()
 export class MatPaginatorIntlCro extends MatPaginatorIntl {
@@ -39,21 +36,33 @@ export class UserListComponent implements OnInit {
   data: UserInfo[] = [];
   size: number;
   worker: Subject<number>;
-  user: User;
+  filterEvent: Subject<Function>;
+  isDoctor: boolean;
+  isCoordinator: boolean;
+  currentPage: number;
+  isAdmin: boolean;
+
   constructor(
-    private service: UserService,
     private alert: AlertService,
     private readonly $destroy: DestroyService,
-    private dialog: MatDialog,
     private auth: AuthService,
-    private store: StoreService
+    private dialog: MatDialog
   ) {
-    this.store.selectUser().subscribe((val: User) => (this.user = val));
+    this.filterEvent = new Subject();
     this.worker = new Subject();
-    this.worker
+    this.isDoctor = this.auth.hasRole(Role.Doctor);
+    this.isCoordinator = this.auth.hasRole(Role.Coordinator);
+    this.isAdmin = this.auth.hasRole(Role.Admin);
+  }
+
+  ngOnInit(): void {
+    combineLatest([this.worker, this.filterEvent])
       .pipe(
-        tap(() => (this.data = [])),
-        switchMap((val: number) => this.getData(val)),
+        tap(([page]) => {
+          this.data = [];
+          this.currentPage = page;
+        }),
+        switchMap(([page, fn]) => this.getData(page, fn)),
         takeUntil(this.$destroy)
       )
       .subscribe((res: Response) => {
@@ -64,39 +73,35 @@ export class UserListComponent implements OnInit {
           this.alert.error();
         }
       });
-  }
 
-  ngOnInit(): void {
     this.worker.next(0);
   }
 
-  getData(page?: number): Observable<any> {
-    return this.getService(page).pipe(takeUntil(this.$destroy));
+  selectFilter(data: Function): void {
+    this.filterEvent.next(data);
   }
 
-  getService(page?: number): Observable<any> {
-    if (this.auth.hasRole(Role.Doctor)) {
-      return this.service.getByDoctor(this.user.id, page);
-    } else if (this.auth.hasRole(Role.Coordinator)) {
-      return this.service.getPending(page);
-    } else if (this.auth.hasRole(Role.Volunteer)) {
-      return this.service.getByTransporter(this.user.id, page);
-    } else {
-      return EMPTY;
-    }
+  getData(page: number, fn: Function): Observable<any> {
+    return fn(page).pipe(takeUntil(this.$destroy));
   }
 
   changePage(event: PageEvent): void {
     this.worker.next(event.pageIndex);
   }
 
-  showInfo(data: UserInfo): void {
-    this.dialog.open(UserInfoComponent, {
-      data: data,
-      width: '100%',
-      maxWidth: '100vw',
-      height: '100%',
-      maxHeight: '100vh'
-    });
+  showAddUser() {
+    this.dialog
+      .open(UserCreateComponent, {
+        data: this.data,
+        width: '100%',
+        maxWidth: '100vw',
+        height: '100%',
+        maxHeight: '100vh',
+        autoFocus: false,
+        panelClass: 'mat-dialog-no-padding'
+      })
+      .afterClosed()
+      .pipe(filter((val: boolean) => val))
+      .subscribe(() => this.worker.next(this.currentPage));
   }
 }

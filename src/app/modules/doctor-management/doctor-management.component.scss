@@ -1,0 +1,16 @@
+:host {
+  height: 100%;
+}
+
+:host > div > * {
+  overflow: auto;
+}
+
+.header {
+  padding: 16px 8px 16px 16px;
+}
+
+.title {
+  text-align: center;
+  margin: 0px;
+}

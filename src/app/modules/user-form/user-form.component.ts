@@ -1,13 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { find } from 'lodash';
+import { find, sumBy } from 'lodash';
 import { takeUntil } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { GENDER, IGender } from 'src/app/core/gender';
+import { Response } from 'src/app/core/response';
 import { UserInfo } from 'src/app/core/user-info';
 import { DestroyService } from 'src/app/services/destroy.service';
-import { UserService } from 'src/app/services/user.service';
+import { DoctorService } from 'src/app/services/doctor.service';
 import { AddressService } from '../address/address.service';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
   selector: 'app-user-form',
@@ -24,14 +26,15 @@ export class UserFormComponent implements OnInit {
   provinces: any[];
   districts: any[];
   wards: any[];
+  total: number;
 
   constructor(
     private builder: FormBuilder,
-    private service: UserService,
     private address: AddressService,
-    private readonly $destroy: DestroyService
+    private doctor: DoctorService,
+    private readonly $destroy: DestroyService,
+    private alert: AlertService
   ) {
-    this.doctors = this.service.doctors;
     this.provinces = this.address.getProvinces();
   }
 
@@ -115,6 +118,17 @@ export class UserFormComponent implements OnInit {
         });
       });
     } else {
+      this.doctor
+        .getActiveDoctors()
+        .pipe(takeUntil(this.$destroy))
+        .subscribe((res: Response) => {
+          if (res.ok) {
+            this.doctors = res.data.map((val: any) => new Doctor({ count: val.count, ...val.doctor }));
+            this.total = sumBy(this.doctors, 'count');
+          } else {
+            this.alert.error();
+          }
+        });
       this.form.patchValue({
         info: {
           province: this.provinces[0]

@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { isEmpty } from 'lodash';
-import { Observable, Subject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { isString } from 'lodash';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { SupportStatus } from 'src/app/core/support-status';
 import { UserInfo } from 'src/app/core/user-info';
-import { UserSupport } from 'src/app/core/user-support';
 import { BaseService } from 'src/app/services/base-service';
 import { AddSupportComponent } from './add-support/add-support.component';
 
@@ -14,17 +13,16 @@ import { AddSupportComponent } from './add-support/add-support.component';
   providedIn: 'root'
 })
 export class SupportService extends BaseService {
-  newSupportEvent: Subject<UserSupport[]>;
   constructor(private http: HttpClient, private dialog: MatDialog) {
     super();
-    this.newSupportEvent = new Subject();
   }
 
-  addSupports(id: number, data: any[]): Observable<any> {
+  addSupports({ id, doctorAssignmentId }: UserInfo, data: any[], emergency: boolean): Observable<any> {
     return this.http
-      .post(`${this.api}/support/add`, {
-        userId: id,
-        supports: data
+      .post(`${this.api}/support/${id}/create`, {
+        daId: doctorAssignmentId,
+        supports: data,
+        emergency: emergency
       })
       .pipe(this.getResponse(), this.getError());
   }
@@ -33,13 +31,13 @@ export class SupportService extends BaseService {
     return this.http.get(`${this.api}/support/${id}`).pipe(this.getResponse(), this.getError());
   }
 
-  setVolunteer({ doctorAssignmentId, id }: UserInfo, psId: number, volunteerId: number): Observable<any> {
+  setTransporter({ doctorAssignmentId, id }: UserInfo, psId: number, transporter: number): Observable<any> {
     return this.http
-      .put(`${this.api}/support/volunteer`, {
+      .put(`${this.api}/support/transporter/assign`, {
         userId: id,
         daId: doctorAssignmentId,
         psId: psId,
-        transporterId: volunteerId
+        transporterId: transporter
       })
       .pipe(this.getResponse(), this.getError());
   }
@@ -51,7 +49,7 @@ export class SupportService extends BaseService {
     reason: string
   ): Observable<any> {
     return this.http
-      .put(`${this.api}/support/status`, {
+      .put(`${this.api}/support/transporter/update-status`, {
         userId: id,
         daId: doctorAssignmentId,
         psId: psId,
@@ -61,18 +59,7 @@ export class SupportService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
-  revoke({ id, doctorAssignmentId }: UserInfo, psId: number, revoke: boolean): Observable<any> {
-    return this.http
-      .put(`${this.api}/support/revoke`, {
-        userId: id,
-        daId: doctorAssignmentId,
-        psId: psId,
-        revoke: revoke
-      })
-      .pipe(this.getResponse(), this.getError());
-  }
-
-  showAddSupports(data: UserInfo): Observable<UserSupport[] | null> {
+  showAddSupports(data: UserInfo): Observable<boolean> {
     return this.dialog
       .open(AddSupportComponent, {
         data: data,
@@ -82,16 +69,13 @@ export class SupportService extends BaseService {
       })
       .afterClosed()
       .pipe(
-        map((val: UserSupport[] | string) => (isEmpty(val) ? null : (val as UserSupport[]))),
-        tap((val: UserSupport[] | null) => {
-          if (val) {
-            this.newSupportEvent.next(val);
+        map((val: any) => {
+          if (isString(val)) {
+            return false;
+          } else {
+            return val;
           }
         })
       );
-  }
-
-  listenNewSupports() {
-    return this.newSupportEvent;
   }
 }

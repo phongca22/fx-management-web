@@ -1,6 +1,5 @@
 import { reject } from 'lodash';
 import { Doctor } from './doctor';
-import { General } from './general';
 import { UserConditionType } from './user-condition.enum';
 
 export class UserInfo {
@@ -19,7 +18,6 @@ export class UserInfo {
   doctor: Doctor;
   doctorAssignmentId: number;
   patientConditionId: any;
-  members: General[];
   member: number;
 
   constructor(data: any) {
@@ -36,14 +34,14 @@ export class UserInfo {
     this.code = data.code;
     this.member = data.member;
     this.setCondition(data.condition);
-    this.addressLabel = this.combineAddress();
+    this.combineAddress();
     if (data.doctorAssignments) {
       this.setAssignment(data.doctorAssignments);
     }
   }
 
   combineAddress() {
-    return reject(
+    this.addressLabel = reject(
       [this.address, this.ward ? 'P.' + this.ward : null, this.district ? 'Q.' + this.district : null, this.province],
       [null]
     ).join(', ');
@@ -61,8 +59,16 @@ export class UserInfo {
     }
   }
 
-  setInfo(data: any) {
-    this.setAssignment(data.doctorAssignments);
-    this.setCondition(data.condition);
+  setInfo(data: UserInfo): void {
+    this.name = data.name;
+    this.gender = data.gender;
+    this.member = data.member;
+    this.phone = data.phone;
+    this.age = data.age;
+    this.province = data.province;
+    this.district = data.district;
+    this.ward = data.ward;
+    this.address = data.address;
+    this.combineAddress();
   }
 }

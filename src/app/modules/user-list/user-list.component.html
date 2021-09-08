@@ -1,17 +1,17 @@
 <div fxFlex fxLayout="column">
-  <div fxFlex fxLayout="column" fxLayoutGap="16px" class="wrapper">
-    <mat-card *ngFor="let item of data;" (click)="showInfo(item)">
-      <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
-        <mat-icon svgIcon="account-circle-outline" class="gray-icon-color"></mat-icon>
-        <div>
-          {{item.name}}
-        </div>
-      </div>
-    </mat-card>
-  </div>
-  <div fxLayout="row" fxLayoutAlign=" center">
+  <mat-toolbar color="primary" fxLayout="row">
+    <div class="mat-title title" fxFlex>{{'userList.title' | translate}}</div>
+    <button mat-icon-button (click)="showAddUser()" *ngIf="isDoctor || isCoordinator || isAdmin">
+      <mat-icon svgIcon="account-plus-outline"></mat-icon>
+    </button>
+    <app-user-filter (change)="selectFilter($event)"></app-user-filter>
+  </mat-toolbar>
+  <div fxLayout="row" fxLayoutAlign=" center" class="paginator">
     <div fxFlex class="mat-caption gray-color ml-3">{{'userList.sum' | translate: {total: size || 0} }}</div>
     <mat-paginator [length]="size" [pageSize]="10" [hidePageSize]="true" (page)="changePage($event)">
     </mat-paginator>
+  </div>
+  <div fxFlex fxLayout="column" fxLayoutGap="16px" class="wrapper">
+    <app-user-card *ngFor="let item of data" [data]="item"></app-user-card>
   </div>
 </div>

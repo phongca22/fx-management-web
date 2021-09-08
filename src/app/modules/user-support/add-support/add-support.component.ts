@@ -41,7 +41,8 @@ export class AddSupportComponent implements OnInit {
 
   setupForm(): void {
     this.form = this.builder.group({
-      list: this.builder.array([])
+      list: this.builder.array([]),
+      emergency: []
     });
 
     this.supports.map((val: Support) => {
@@ -59,17 +60,16 @@ export class AddSupportComponent implements OnInit {
     this.loading = true;
     const t = this.form
       .get('list')
-      ?.value.map(({ id, value }: any) => ({
+      ?.value.map(({ id, value, name }: any) => ({
         id: id,
+        name: name,
         amount: value
       }))
       .filter(({ amount }: any) => amount > 0);
-    this.service.addSupports(this.data.id, t).subscribe((res: Response) => {
+    this.service.addSupports(this.data, t, this.form.value.emergency).subscribe((res: Response) => {
       this.loading = false;
       if (res.ok) {
-        this.dialog.close(
-          res.data.map((val: any) => new UserSupport({ ...val, support: find(this.supports, { id: val.supportId }) }))
-        );
+        this.dialog.close(true);
       } else {
         this.alert.error();
       }

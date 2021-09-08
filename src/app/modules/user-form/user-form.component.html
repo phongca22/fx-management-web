@@ -1,15 +1,15 @@
-<div fxFlex fxLayout="column" fxLayoutGap="16px" class="wrapper" [formGroup]="form">
+<div fxFlex fxLayout="column" class="wrapper" [formGroup]="form">
   <ng-container formGroupName="info">
     <mat-form-field appearance="outline">
       <mat-label>{{'userForm.fullname' | translate}}</mat-label>
       <input matInput formControlName="fullname" required />
-      <mat-error *ngIf="form.get('fullname')?.hasError('required')">{{'userForm.fullnameRequired' | translate}}
+      <mat-error *ngIf="form.get('info.fullname')?.invalid">{{'userForm.fullnameRequired' | translate}}
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>{{'userForm.phone' | translate}}</mat-label>
       <input matInput formControlName="phone" required />
-      <mat-error *ngIf="form.get('phone')?.hasError('required')">{{'userForm.phoneRequired' | translate}}
+      <mat-error *ngIf="form.get('info.phone')?.invalid">{{'userForm.phoneRequired' | translate}}
       </mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
@@ -62,10 +62,10 @@
     </mat-form-field>
     <mat-form-field appearance="outline" *ngIf="!data">
       <mat-label>{{'userForm.doctor' | translate}}</mat-label>
-      <mat-select formControlName="doctor">
+      <mat-select formControlName="doctor" required>
         <mat-select-trigger>{{form.get('info.doctor')?.value?.name | translate}}</mat-select-trigger>
         <mat-option *ngFor="let item of doctors" [value]="item">
-          {{item.name | translate}}
+          {{item.name }} {{item.count}}/{{total}}
         </mat-option>
       </mat-select>
     </mat-form-field>

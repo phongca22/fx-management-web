@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>{{'supportStatusUpdate.title' | translate}}</h2>
 <div [formGroup]="form" fxLayoutGap="16px" fxLayout="column">
-  <mat-radio-group formControlName="status" fxLayout="column" fxLayoutGap="16px">
+  <mat-radio-group formControlName="status" fxLayout="column" fxLayoutGap="16px" required>
     <mat-radio-button *ngFor="let item of status" [value]="item.id">
       {{item.name | supportStatus}}
     </mat-radio-button>
@@ -12,7 +12,7 @@
 </div>
 <mat-dialog-actions align="end" fxLayoutGap="16px">
   <button mat-button mat-dialog-close [disabled]="loading">{{'action.back' | translate}}</button>
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="loading">
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="loading || form.invalid">
     {{'action.save' | translate}}
   </button>
 </mat-dialog-actions>

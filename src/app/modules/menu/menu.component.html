@@ -1,18 +1,9 @@
-<div fxFill fxLayout="column">
-  <mat-action-list fxFlex>
-    <mat-list-item *ngFor="let link of links" (click)="go(link.page)">
-      <mat-icon mat-list-icon class="gray-icon-color" [svgIcon]="link.icon"></mat-icon>
-      <div mat-line>{{link.name | translate}}</div>
-    </mat-list-item>
-  </mat-action-list>
-  <mat-divider></mat-divider>
-  <div fxLayout="row" style="margin: 12px 8px 12px 16px">
-    <div fxFlex>
-      <div class="mat-caption gray-color">{{user?.role | role | translate}}</div>
-      <div class="mat-body">{{user?.name}}</div>
-    </div>
-    <button mat-icon-button class="gray-icon-color" (click)="logout()">
-      <mat-icon svgIcon="logout-variant"></mat-icon>
-    </button>
-  </div>
-</div>
+<nav mat-tab-nav-bar mat-align-tabs="center">
+  <a mat-tab-link (click)="go(userListMenu.page)" [active]="activePage === userListMenu.page" fxFlex>
+    <mat-icon [svgIcon]="userListMenu.icon" [color]="activePage === userListMenu.page ? 'primary' : ''"
+      [matBadge]="count" matBadgeColor="warn" [matBadgeHidden]="count === 0"></mat-icon>
+  </a>
+  <a mat-tab-link *ngFor="let page of pages" (click)="go(page.page)" [active]="activePage === page.page" fxFlex>
+    <mat-icon [svgIcon]="page.icon" [color]="activePage === page.page ? 'primary' : ''"></mat-icon>
+  </a>
+</nav>

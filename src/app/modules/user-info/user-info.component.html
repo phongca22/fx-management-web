@@ -1,114 +1,33 @@
 <div fxFill fxLayout="column">
+  <mat-toolbar color="primary" fxLayout="row" fxLayoutGap="16px">
+    <button mat-icon-button (click)="close()">
+      <mat-icon svgIcon="keyboard-backspace"></mat-icon>
+    </button>
+    <div fxFlex class="mat-title mb-0">{{user.name}}</div>
+    <div>
+      <button mat-icon-button (click)="edit()" *ngIf="isDoctor || isCoordinator || isAdmin">
+        <mat-icon svgIcon="account-edit-outline"></mat-icon>
+      </button>
+      <button mat-icon-button (click)="addNote()">
+        <mat-icon svgIcon="comment-plus-outline"></mat-icon>
+      </button>
+      <button mat-icon-button (click)="addSupports()" *ngIf="isDoctor">
+        <mat-icon svgIcon="briefcase-plus-outline"></mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
   <div fxFlex class="wrapper">
-    <mat-tab-group fxFill>
-      <mat-tab label="Thông tin">
-        <ng-template matTabContent>
-          <div fxLayout="column">
-            <div fxLayout="column" class="mt-3">
-              <div fxLayout="column">
-                <div fxLayout="row">
-                  <div fxFlex>
-                    <div class="mat-caption gray-color">{{'userForm.fullname' | translate}}</div>
-                    <div class="mat-h3">{{user.name}}</div>
-                  </div>
-                  <button mat-icon-button color="primary" (click)="edit()" *ngIf="isDoctor || isCoordinator">
-                    <mat-icon svgIcon="pencil-outline"></mat-icon>
-                  </button>
-                </div>
-                <div fxLayout="row">
-                  <div fxFlex>
-                    <div class="mat-caption gray-color">{{'userForm.gender' | translate}}</div>
-                    <div class="mat-h3">{{user.gender | gender | translate}}</div>
-                  </div>
-                  <div fxFlex>
-                    <div class="mat-caption gray-color">{{'userForm.age' | translate}}</div>
-                    <div class="mat-h3">{{user.age | age}}</div>
-                  </div>
-                </div>
-                <div fxLayout="row">
-                  <div fxLayout="column" fxFlex>
-                    <div class="mat-caption gray-color">{{'userForm.code' | translate}}</div>
-                    <div fxLayout="row" fxLayoutAlign=" center">
-                      <div class="mat-h3 mb-0">{{user.code}}</div>
-                      <button mat-icon-button class="gray-icon-color" (click)="copy()">
-                        <mat-icon svgIcon="content-copy"></mat-icon>
-                      </button>
-                    </div>
-                  </div>
-                  <div fxLayout="column" fxFlex>
-                    <div class="mat-caption gray-color">{{'userForm.member' | translate}}</div>
-                    <div class="mat-h3">{{user.member}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="mb-3">
-              <mat-divider></mat-divider>
-            </div>
-            <div fxLayout="column">
-              <div fxLayout="column">
-                <div>
-                  <div class="mat-caption gray-color">{{'userForm.address' | translate}}</div>
-                  <div class="mat-h3">{{user.addressLabel}}</div>
-                </div>
-                <div>
-                  <div class="mat-caption gray-color">{{'userForm.phone' | translate}}</div>
-                  <div class="mat-h3">{{user.phone}}</div>
-                </div>
-              </div>
-            </div>
-            <div class="mb-3">
-              <mat-divider></mat-divider>
-            </div>
-            <div fxLayout="column">
-              <div fxLayout="row">
-                <div fxFlex>
-                  <div class="mat-caption gray-color">{{'userForm.doctor' | translate}}</div>
-                  <div class="mat-h3" *ngIf="!loading">{{user.doctor.name}}</div>
-                  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-                </div>
-                <button mat-icon-button color="primary" (click)="editDoctor()" [disabled]="loading"
-                  *ngIf="isDoctor || isCoordinator">
-                  <mat-icon svgIcon="pencil-outline"></mat-icon>
-                </button>
-              </div>
-              <div fxLayout="row">
-                <div fxFlex>
-                  <div class="mat-caption gray-color">{{'userInfo.condition' | translate}}</div>
-                  <div class="mat-h3" *ngIf="!loading">{{user.condition | userCondition | translate}}</div>
-                  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-                </div>
-                <button mat-icon-button color="primary" (click)="editCondition()" [disabled]="loading" *ngIf="isDoctor">
-                  <mat-icon svgIcon="pencil-outline"></mat-icon>
-                </button>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </mat-tab>
-      <mat-tab label="Ghi chú">
-        <ng-template matTabContent>
-          <div class="note-wrapper">
-            <app-user-note [user]="user" [(notes)]="notes"></app-user-note>
-          </div>
-        </ng-template>
-      </mat-tab>
-      <mat-tab label="Hỗ trợ">
-        <ng-template matTabContent>
-          <div class="support-wrapper">
-            <app-user-support [user]="user" [(supports)]="supports"></app-user-support>
-          </div>
-        </ng-template>
-      </mat-tab>
-    </mat-tab-group>
+    <app-user-note [user]="user" [(notes)]="notes"></app-user-note>
   </div>
-  <mat-dialog-actions align="end" style="flex-wrap: nowrap;">
-    <button mat-button mat-dialog-close>{{'action.back' | translate}}</button>
-    <button mat-stroked-button color="primary" (click)="addNote()">
-      <mat-icon svgIcon="account-details-outline"></mat-icon> {{'userInfo.addNote' | translate}}
-    </button>
-    <button mat-stroked-button color="primary" *ngIf="isDoctor" (click)="addSupports()">
-      <mat-icon svgIcon="account-edit-outline"></mat-icon> {{'userInfo.addSupport' | translate}}
-    </button>
-  </mat-dialog-actions>
+  <mat-divider></mat-divider>
+  <div fxLayout="row" fxLayoutAlign=" center" class="doctor-wrapper">
+    <div (click)="editDoctor()" fxFlex>
+      <div class="mat-caption gray-color">{{'userInfo.doctor' | translate}}</div>
+      <div class="mat-subheading-2 mb-0">{{user.doctor?.name}}</div>
+    </div>
+    <div (click)="editCondition()" fxFlex>
+      <div class="mat-caption gray-color">{{'userInfo.condition' | translate}}</div>
+      <div class="mat-subheading-2 mb-0">{{user.condition | userCondition}}</div>
+    </div>
+  </div>
 </div>

@@ -17,16 +17,14 @@ import { SupportService } from '../support.service';
 })
 export class SupportStatusUpdateComponent implements OnInit {
   form: FormGroup;
-  status: any[] = [SupportStatus.Delivering, SupportStatus.Delivered, SupportStatus.Failed].map(
-    (val: SupportStatus) => ({ id: val, name: val })
-  );
+  status: any[] = [SupportStatus.Delivered, SupportStatus.Failed].map((val: SupportStatus) => ({ id: val, name: val }));
   loading: boolean;
   supports: Support[];
 
   constructor(
     private builder: FormBuilder,
     private dialog: MatDialogRef<AddSupportComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { info: UserInfo; support: UserSupport },
+    @Inject(MAT_DIALOG_DATA) public data: { info: UserInfo; patientSupport: UserSupport },
     private alert: AlertService,
     private service: SupportService
   ) {}
@@ -37,21 +35,23 @@ export class SupportStatusUpdateComponent implements OnInit {
 
   setupForm(): void {
     this.form = this.builder.group({
-      reason: [this.data.support.reason],
-      status: [this.data.support.status, Validators.required]
+      reason: [null],
+      status: [null, Validators.required]
     });
   }
 
   save() {
     this.loading = true;
     const { status, reason } = this.form.value;
-    this.service.updateStatus(this.data.info, this.data.support.id, status, reason).subscribe((res: Response) => {
-      this.loading = false;
-      if (res.ok) {
-        this.dialog.close(new UserSupport(res.data));
-      } else {
-        this.alert.error();
-      }
-    });
+    this.service
+      .updateStatus(this.data.info, this.data.patientSupport.id, status, reason)
+      .subscribe((res: Response) => {
+        this.loading = false;
+        if (res.ok) {
+          this.dialog.close(true);
+        } else {
+          this.alert.error();
+        }
+      });
   }
 }

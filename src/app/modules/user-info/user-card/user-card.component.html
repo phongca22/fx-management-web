@@ -1,0 +1,36 @@
+<mat-card (click)="showInfo()">
+  <div fxLayout="column" fxLayoutGap="16px">
+    <div fxLayout="row" fxLayoutAlign=" center">
+      <div fxFlex>
+        <div class="mat-title mb-0">
+          <span *ngIf="data.member > 1" [matBadge]="data.member" matBadgeColor="primary"
+            matBadgeOverlap="false">{{data.name}}</span>
+          <ng-container *ngIf="data.member === 1">{{data.name}}</ng-container>
+        </div>
+        <div class="mat-body">{{data.addressLabel}}</div>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="space-between center">
+      <div fxFlex (click)="copy(data.phone); $event.stopPropagation()">
+        <div class="mat-caption gray-color">{{'userInfo.phone' | translate}}</div>
+        <div class="mat-body">{{data.phone}}</div>
+      </div>
+      <div fxFlex fxLayout="row">
+        <div fxFlex>
+          <div class="mat-caption gray-color">{{'userInfo.gender' | translate}}</div>
+          <div class="mat-body">{{data.gender | gender}}</div>
+        </div>
+        <div fxFlex>
+          <div class="mat-caption gray-color">{{'userInfo.age' | translate}}</div>
+          <div class="mat-body">{{data.age}}</div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="space-between center">
+      <div fxFlex (click)="copy(data.code); $event.stopPropagation()">
+        <div class="mat-caption gray-color">{{'userInfo.code' | translate}}</div>
+        <div class="mat-body">{{data.code}}</div>
+      </div>
+    </div>
+  </div>
+</mat-card>

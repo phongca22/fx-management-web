@@ -9,10 +9,11 @@ import { UserStatusPickerModule } from '../user-condition-picker/user-condition-
 import { UserEditModule } from '../user-edit/user-edit.module';
 import { UserNoteModule } from '../user-note/user-note.module';
 import { UserSupportModule } from '../user-support/user-support.module';
+import { UserCardComponent } from './user-card/user-card.component';
 import { UserInfoComponent } from './user-info.component';
 
 @NgModule({
-  declarations: [UserInfoComponent],
+  declarations: [UserInfoComponent, UserCardComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -25,6 +26,6 @@ import { UserInfoComponent } from './user-info.component';
     DoctorPickerModule,
     UserSupportModule
   ],
-  exports: [UserInfoComponent]
+  exports: [UserCardComponent]
 })
 export class UserInfoModule {}

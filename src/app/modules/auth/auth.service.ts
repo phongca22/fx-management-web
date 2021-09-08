@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
-import { find, isNil } from 'lodash';
+import { every, intersection, isNil } from 'lodash';
 import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { Role } from 'src/app/core/role';
 import { BaseService } from 'src/app/services/base-service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -31,13 +32,17 @@ export class AuthService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
-  register(user: string, pass: string): Observable<any> {
-    return this.http
-      .post(`${this.api}/auth/signup`, {
-        user: user,
-        pass: pass
-      })
-      .pipe(this.getResponse(), this.getError());
+  // register(user: string, pass: string): Observable<any> {
+  //   return this.http
+  //     .post(`${this.api}/auth/signup`, {
+  //       user: user,
+  //       pass: pass
+  //     })
+  //     .pipe(this.getResponse(), this.getError());
+  // }
+
+  logoutAPI(): Observable<any> {
+    return this.http.get(`${this.api}/auth/signout`).pipe(this.getResponse(), this.getError());
   }
 
   getToken(): string | null {
@@ -58,11 +63,15 @@ export class AuthService extends BaseService {
   }
 
   hasAnyRole(data: Role[]): boolean {
-    return !!find(this.user?.roles, (val: Role) => data.includes(val));
+    return intersection(this.user?.roles, data).length > 0;
   }
 
   hasRole(data: Role): boolean {
-    return !!this.user?.roles.includes(data);
+    if (this.user?.roles) {
+      return this.user?.roles.includes(data);
+    } else {
+      return false;
+    }
   }
 
   isApiUrl(data: string): boolean {
@@ -75,7 +84,7 @@ export class AuthService extends BaseService {
     this.store.resetUser();
   }
 
-  logout(): void {
-    this.removeUser();
+  logout(): Observable<any> {
+    return this.logoutAPI().pipe(finalize(() => this.removeUser()));
   }
 }

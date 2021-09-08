@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Response } from 'src/app/core/response';
 import { UserInfo } from 'src/app/core/user-info';
 import { UserService } from 'src/app/services/user.service';
@@ -15,10 +16,14 @@ export class SearchComponent implements OnInit {
   loading: boolean;
   user: UserInfo | null;
 
-  constructor(private service: UserService, private alert: AlertService) {}
+  constructor(private service: UserService, private alert: AlertService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.keyword = new FormControl('', Validators.required);
+    const key = this.route.snapshot.paramMap.get('key');
+    this.keyword = new FormControl(key || '', Validators.required);
+    if (key) {
+      this.search();
+    }
   }
 
   search(): void {
@@ -28,10 +33,7 @@ export class SearchComponent implements OnInit {
       this.loading = false;
       if (res.ok) {
         if (res.data) {
-          this.user = new UserInfo({
-            ...res.data.user,
-            condition: res.data.condition
-          });
+          this.user = new UserInfo(res.data);
         } else {
           this.alert.error('error.search');
         }

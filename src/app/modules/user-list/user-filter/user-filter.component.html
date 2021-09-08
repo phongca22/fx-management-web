@@ -1,0 +1,6 @@
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon svgIcon="filter-variant"></mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item *ngFor="let item of filters" (click)="select(item)">{{item.name | translate}}</button>
+</mat-menu>

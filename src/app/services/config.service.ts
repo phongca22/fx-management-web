@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { sortBy } from 'lodash';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -28,7 +29,10 @@ export class ConfigService extends BaseService {
       this.getResponse(),
       tap((res: Response) => {
         if (res.ok) {
-          this.supports = res.data.map((val: any) => new Support(val));
+          this.supports = sortBy(
+            res.data.map((val: any) => new Support(val)),
+            ['id']
+          );
         }
       }),
       this.getError()

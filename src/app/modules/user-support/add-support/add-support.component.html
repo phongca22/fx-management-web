@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>{{'addSupport.title' | translate}}</h2>
-<div [formGroup]="form">
-  <div formArrayName="list" fxLayout="column" fxLayoutGap="16px">
+<h2 mat-title-dialog>{{'addSupport.title' | translate}}</h2>
+<div [formGroup]="form" fxLayout="column" fxLayoutGap="16px">
+  <div formArrayName="list" fxLayout="column" fxLayoutGap="8px">
     <ng-container *ngFor="let item of list.controls; let i = index">
       <ng-container [formGroupName]="i">
         <div fxLayout="row" fxLayoutAlign=" center">
@@ -9,7 +9,7 @@
             <button mat-icon-button class="gray-icon-color">
               <mat-icon svgIcon="minus" (click)="update(item, -1)"></mat-icon>
             </button>
-            <div class="mat-title mb-0 error-color">{{item.get('value')?.value}}</div>
+            <div class="mat-title mb-0 primary-color">{{item.get('value')?.value}}</div>
             <button mat-icon-button (click)="update(item, 1)" class="gray-icon-color">
               <mat-icon svgIcon="plus"></mat-icon>
             </button>
@@ -18,9 +18,12 @@
       </ng-container>
     </ng-container>
   </div>
+  <div fxLayout="row" fxLayoutAlign="end">
+    <mat-checkbox formControlName="emergency">{{'addSupport.emergency' | translate}}</mat-checkbox>
+  </div>
 </div>
 <mat-dialog-actions align="end" fxLayoutGap="16px">
-  <button mat-button mat-dialog-close [disabled]="loading">{{'action.back' | translate}}</button>
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="loading">{{'action.save' |
+  <button mat-button mat-dialog-close>{{'action.back' | translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="loading">{{'action.confirm' |
     translate}}</button>
 </mat-dialog-actions>

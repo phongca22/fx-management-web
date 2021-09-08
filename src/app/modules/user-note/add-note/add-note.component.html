@@ -1,22 +1,20 @@
 <div fxFill fxLayout="column">
-  <div fxFlex fxLayout="column" #wrapper>
+  <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+    <button mat-icon-button mat-dialog-close [disabled]="loading">
+      <mat-icon svgIcon="keyboard-backspace"></mat-icon>
+    </button>
+    <div class="mat-title mb-0" fxFlex>{{'addNote.title' | translate}}</div>
+  </mat-toolbar>
+  <div fxFlex fxLayout="column" #wrapper class="body">
     <mat-form-field appearance="outline">
-      <mat-label>{{'addNote.label' | translate}}</mat-label>
       <textarea rows="10" [ngStyle]="{height: height + 'px'}" matInput [formControl]="contentCtrl"
         [placeholder]="'addNote.content' | translate"></textarea>
     </mat-form-field>
   </div>
-  <div class="action" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="16px">
-    <div fxFlex fxLayout="column" *ngIf="loading">
-      <div class="mat-body gray-color">{{'processing' | translate}}</div>
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    </div>
-    <button mat-button mat-dialog-close *ngIf="!loading">
-      {{'action.back' | translate}}
-    </button>
-    <button mat-raised-button color="primary" [disabled]="contentCtrl.invalid || loading" (click)="save()"
+  <div fxLayout="row" fxLayoutAlign="center" class="footer">
+    <button fxFlex mat-raised-button color="primary" [disabled]="contentCtrl.invalid || loading" (click)="save()"
       *ngIf="!loading">
-      {{'action.save' | translate}}
+      {{'action.confirm' | translate}}
     </button>
   </div>
 </div>

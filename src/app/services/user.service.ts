@@ -1,30 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { isNil } from 'lodash';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { Doctor } from '../core/doctor';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Response } from '../core/response';
 import { UserConditionType } from '../core/user-condition.enum';
-import { UserInfo } from '../core/user-info';
-import { Volunteer } from '../core/volunteer';
-import { User } from '../modules/store/user/user';
+import { Transporter } from '../core/volunteer';
 import { BaseService } from './base-service';
-import { StoreService } from './store.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService extends BaseService {
-  doctors: Doctor[];
-  volunteers: Volunteer[];
+  private transporterLoaded: boolean;
+  private transporters: Transporter[];
 
-  constructor(private http: HttpClient, private store: StoreService) {
+  constructor(private http: HttpClient) {
     super();
   }
 
+  clearTransporters(): void {
+    this.transporterLoaded = false;
+    this.transporters = [];
+  }
+
   createUser(data: any): Observable<any> {
-    return this.http.post(`${this.api}/user/create`, data).pipe(this.getResponse(), this.getError());
+    return this.http.post(`${this.api}/auth/create`, data).pipe(this.getResponse(), this.getError());
   }
 
   find(data: string): Observable<any> {
@@ -35,10 +36,9 @@ export class UserService extends BaseService {
     return this.http.put(`${this.api}/user/update`, data).pipe(this.getResponse(), this.getError());
   }
 
-  getPending(page?: number): Observable<any> {
-    page = isNil(page) ? 0 : page;
+  getAllUsers(page: number): Observable<any> {
     return this.http
-      .get(`${this.api}/users/pending`, {
+      .get(`${this.api}/user/all`, {
         params: {
           page: page.toString()
         }
@@ -46,10 +46,9 @@ export class UserService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
-  getByDoctor(id: number, page?: number): Observable<any> {
-    page = isNil(page) ? 0 : page;
+  getByPendingSupport(page: number): Observable<any> {
     return this.http
-      .get(`${this.api}/users/doctor/${id}`, {
+      .get(`${this.api}/user/by/pending-support`, {
         params: {
           page: page.toString()
         }
@@ -57,10 +56,10 @@ export class UserService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
-  getByTransporter(id: number, page?: number): Observable<any> {
+  getByDoctor(page: number): Observable<any> {
     page = isNil(page) ? 0 : page;
     return this.http
-      .get(`${this.api}/users/transporter/${id}`, {
+      .get(`${this.api}/user/by/doctor`, {
         params: {
           page: page.toString()
         }
@@ -68,28 +67,48 @@ export class UserService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
-  getDoctors(): Observable<any> {
-    return this.http.get(`${this.api}/doctors`).pipe(
-      this.getResponse(),
-      tap((res: Response) => {
-        if (res.ok) {
-          this.doctors = res.data.map((val: any) => new Doctor(val));
+  getByTransporter(page: number): Observable<any> {
+    page = isNil(page) ? 0 : page;
+    return this.http
+      .get(`${this.api}/user/by/transporter`, {
+        params: {
+          page: page.toString()
         }
-      }),
-      this.getError()
-    );
+      })
+      .pipe(this.getResponse(), this.getError());
   }
 
-  getVolunteers(): Observable<any> {
-    return this.http.get(`${this.api}/volunteers`).pipe(
-      this.getResponse(),
-      tap((res: Response) => {
-        if (res.ok) {
-          this.volunteers = res.data.map((val: any) => new Volunteer(val));
+  getByEmergency(page: number): Observable<any> {
+    page = isNil(page) ? 0 : page;
+    return this.http
+      .get(`${this.api}/user/by/emergency`, {
+        params: {
+          page: page.toString()
         }
-      }),
-      this.getError()
-    );
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
+  getTransporters(): Observable<Transporter[]> {
+    if (this.transporterLoaded) {
+      return of(this.transporters);
+    } else {
+      return this.getTransportersAPI().pipe(
+        map((res: Response) => {
+          this.transporterLoaded = true;
+          if (res.ok) {
+            this.transporters = res.data.map((val: any) => new Transporter(val));
+            return this.transporters;
+          } else {
+            return [];
+          }
+        })
+      );
+    }
+  }
+
+  getTransportersAPI(): Observable<any> {
+    return this.http.get(`${this.api}/config/transporters`).pipe(this.getResponse(), this.getError());
   }
 
   getUserInfo(id: number): Observable<any> {
@@ -103,25 +122,5 @@ export class UserService extends BaseService {
         conditionId: data
       })
       .pipe(this.getResponse(), this.getError());
-  }
-
-  setDoctor(user: UserInfo, data: number): Observable<any> {
-    return this.http
-      .put(`${this.api}/user/doctor/change`, {
-        userId: user.id,
-        daId: user.doctorAssignmentId,
-        doctorId: data
-      })
-      .pipe(this.getResponse(), this.getError());
-  }
-
-  getProfile(): Observable<any> {
-    return this.http.get(`${this.api}/user/profile`).pipe(
-      this.getResponse(),
-      tap((res: Response) => {
-        this.store.setUser({ name: res.data.fullname } as User);
-      }),
-      this.getError()
-    );
   }
 }

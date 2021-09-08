@@ -1,17 +1,18 @@
-<div fxFill fxLayout="column" [formGroup]="form">
-  <div fxFlex fxLayout="column" fxLayoutGap="16px" class="body">
+<div fxFill fxLayout="column">
+  <mat-toolbar color="primary" fxLayout="row" fxLayoutGap="16px">
+    <button mat-icon-button mat-dialog-close [disabled]="loading">
+      <mat-icon svgIcon="keyboard-backspace"></mat-icon>
+    </button>
+    <div fxFlex fxLayout="column" fxLayoutAlign="center">
+      <div class="mat-title mb-0">{{'userEdit.title' | translate}}</div>
+    </div>
+  </mat-toolbar>
+  <div fxFlex fxLayout="column" class="body">
     <app-user-form [form]="form" [data]="data"></app-user-form>
   </div>
-  <div class="action" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="16px">
-    <div fxFlex fxLayout="column" *ngIf="loading">
-      <div class="mat-body gray-color">{{'processing' | translate}}</div>
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    </div>
-    <button mat-button mat-dialog-close *ngIf="!loading">
-      {{'action.back' | translate}}
-    </button>
-    <button mat-raised-button color="primary" [disabled]="form.invalid || loading" (click)="save()" *ngIf="!loading">
-      {{'action.save' | translate}}
+  <div fxLayout="row" fxLayoutAlign="center" class="footer">
+    <button mat-raised-button color="primary" [disabled]="form.invalid || loading" (click)="save()" fxFlex>
+      {{'action.confirm' | translate}}
     </button>
   </div>
 </div>

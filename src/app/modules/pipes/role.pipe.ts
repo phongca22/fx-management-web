@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { isEqual, isNil } from 'lodash';
+import { isEqual } from 'lodash';
 import { Role } from 'src/app/core/role';
 
 @Pipe({
@@ -16,7 +16,7 @@ export class RolePipe implements PipeTransform {
     } else if (isEqual(Role.Volunteer, value)) {
       return 'role.volunteer';
     } else {
-      return 'role.user';
+      return 'unknown';
     }
   }
 }

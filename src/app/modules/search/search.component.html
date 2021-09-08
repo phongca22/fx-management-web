@@ -4,7 +4,7 @@
       <mat-icon matPrefix svgIcon="magnify"></mat-icon>
     </button>
     <mat-form-field appearance="fill" fxFlex>
-      <input matInput [formControl]="keyword" [placeholder]="'search.keyword' | translate" />
+      <input matInput [formControl]="keyword" [placeholder]="'search.keyword' | translate" autocomplete="off" />
       <button mat-icon-button matSuffix (click)="keyword.reset()" *ngIf="keyword.value?.length > 0">
         <mat-icon matPrefix svgIcon="close"></mat-icon>
       </button>
@@ -12,6 +12,6 @@
   </div>
   <mat-divider></mat-divider>
   <div fxFlex *ngIf="user" class="body" fxLayout="column">
-    <app-user-info [user]="user"></app-user-info>
+    <app-user-card [data]="user"></app-user-card>
   </div>
 </div>

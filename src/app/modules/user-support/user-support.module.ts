@@ -7,10 +7,9 @@ import { SharedModule } from '../shared-module';
 import { TransporterPickerModule } from '../transporter-picker/transporter-picker.module';
 import { AddSupportComponent } from './add-support/add-support.component';
 import { SupportStatusUpdateComponent } from './support-status-update/support-status-update.component';
-import { UserSupportComponent } from './user-support.component';
 
 @NgModule({
-  declarations: [UserSupportComponent, AddSupportComponent, SupportStatusUpdateComponent],
+  declarations: [AddSupportComponent, SupportStatusUpdateComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -18,7 +17,6 @@ import { UserSupportComponent } from './user-support.component';
     ReactiveFormsModule,
     PipeModule,
     TransporterPickerModule
-  ],
-  exports: [AddSupportComponent, UserSupportComponent]
+  ]
 })
 export class UserSupportModule {}

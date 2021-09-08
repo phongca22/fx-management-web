@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Doctor } from 'src/app/core/doctor';
+import { MatDialogRef } from '@angular/material/dialog';
 import { GENDER, IGender } from 'src/app/core/gender';
 import { Response } from 'src/app/core/response';
 import { UserService } from 'src/app/services/user.service';
@@ -15,11 +15,13 @@ export class UserCreateComponent implements OnInit {
   form: FormGroup;
   genders: IGender[] = GENDER;
   loading: boolean;
-  doctors: Doctor[];
   @ViewChild('wrapper') wrapper: ElementRef;
 
-  constructor(private service: UserService, private alert: AlertService) {
-    this.doctors = this.service.doctors;
+  constructor(
+    private service: UserService,
+    private alert: AlertService,
+    private dialog: MatDialogRef<UserCreateComponent>
+  ) {
     this.form = new FormGroup({});
   }
 
@@ -41,8 +43,8 @@ export class UserCreateComponent implements OnInit {
       this.loading = false;
       if (res.ok) {
         this.form.reset();
-        this.wrapper.nativeElement.scroll(0, 0);
         this.alert.success('userCreate.success');
+        this.dialog.close(true);
       } else {
         this.alert.error();
       }

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { isEmpty } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
 import { Observable, Subject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { UserInfo } from 'src/app/core/user-info';
 import { UserNote } from 'src/app/core/user-note';
 import { BaseService } from 'src/app/services/base-service';
@@ -14,9 +14,11 @@ import { AddNoteComponent } from './add-note/add-note.component';
 })
 export class NoteService extends BaseService {
   newNoteEvent: Subject<UserNote>;
+  refreshEvent: Subject<void>;
   constructor(private http: HttpClient, private dialog: MatDialog) {
     super();
     this.newNoteEvent = new Subject();
+    this.refreshEvent = new Subject();
   }
 
   addNote(id: number, content: string): Observable<any> {
@@ -38,21 +40,24 @@ export class NoteService extends BaseService {
         data: data,
         width: '100%',
         height: '100%',
-        maxWidth: '96vw',
-        maxHeight: '96vh'
+        maxWidth: '100vw',
+        maxHeight: '100vh',
+        panelClass: 'mat-dialog-no-padding'
       })
       .afterClosed()
       .pipe(
-        map((val: UserNote | string) => (isEmpty(val) ? null : (val as UserNote))),
-        tap((val: UserNote | null) => {
-          if (val) {
-            this.newNoteEvent.next(val);
-          }
+        filter((val: UserNote) => !isEmpty(val) && !isNil(val)),
+        tap((val: UserNote) => {
+          this.newNoteEvent.next(val);
         })
       );
   }
 
   listenNewNote() {
     return this.newNoteEvent;
+  }
+
+  listenRefresh() {
+    return this.refreshEvent;
   }
 }

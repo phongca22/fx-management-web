@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SEARCH, USER_LIST, USER_PROFILE } from 'src/app/core/page-config';
 import { Role } from 'src/app/core/role';
 import { UserGuard } from '../auth/user.guard';
 import { MainComponent } from './main.component';
@@ -11,21 +12,16 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'profile',
+        redirectTo: 'users',
         pathMatch: 'full'
       },
-      // {
-      //   path: 'profile',
-      //   loadChildren: () => import('../../modules/profile/profile.module').then((m) => m.ProfileModule),
-      //   canActivate: [UserGuard]
-      // },
       {
-        path: 'user-create',
-        loadChildren: () => import('../../modules/user-create/user-create.module').then((m) => m.UserCreateModule),
+        path: 'profile',
+        loadChildren: () => import('../../modules/profile/profile.module').then((m) => m.ProfileModule),
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Coordinator]
+          page: USER_PROFILE
         }
       },
       {
@@ -34,7 +30,8 @@ const routes: Routes = [
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Coordinator, Role.Doctor, Role.Volunteer]
+          role: [Role.Admin, Role.Coordinator, Role.Doctor, Role.Volunteer],
+          page: USER_LIST
         }
       },
       {
@@ -43,7 +40,28 @@ const routes: Routes = [
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Coordinator, Role.Doctor, Role.Volunteer]
+          role: [Role.Admin, Role.Coordinator, Role.Doctor, Role.Volunteer],
+          page: SEARCH
+        }
+      },
+      {
+        path: 'doctor-management',
+        loadChildren: () =>
+          import('../../modules/doctor-management/doctor-management.module').then((m) => m.DoctorManagementModule),
+        canLoad: [UserGuard],
+        canActivate: [UserGuard],
+        data: {
+          role: [Role.Admin]
+        }
+      },
+      {
+        path: 'user-management',
+        loadChildren: () =>
+          import('../../modules/user-management/user-management.module').then((m) => m.UserManagementModule),
+        canLoad: [UserGuard],
+        canActivate: [UserGuard],
+        data: {
+          role: [Role.Admin]
         }
       }
     ]

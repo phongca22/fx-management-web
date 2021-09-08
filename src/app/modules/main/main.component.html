@@ -1,6 +1,6 @@
 <mat-sidenav-container fxFill class="sidenav-wrapper custom-theme">
   <mat-sidenav #leftSidenav mode="over" position="start" [autoFocus]="false">
-    <app-menu></app-menu>
+    <!-- <app-menu></app-menu> -->
   </mat-sidenav>
   <mat-sidenav #rightSidenav mode="over" position="end" [autoFocus]="false">
     <div fxFill fxLayout="column" class="right-sidenav">
@@ -9,10 +9,11 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <div fxFill fxLayout="column">
-      <app-header></app-header>
+      <!-- <app-header></app-header> -->
       <div fxFlex fxLayout="column" class="router-wrapper">
         <router-outlet></router-outlet>
       </div>
+      <app-menu></app-menu>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

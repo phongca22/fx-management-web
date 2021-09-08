@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { forkJoin } from 'rxjs';
 import { Response } from 'src/app/core/response';
 import { AlertService } from 'src/app/modules/alert/alert.service';
 import { RouterService } from 'src/app/services/router.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from '../auth/auth.service';
 
@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
     public router: RouterService,
     private cdr: ChangeDetectorRef,
     private translate: TranslateService,
-    private user: UserService
+    private user: UserService,
+    private socket: SocketService
   ) {
     this.setupForm();
   }
@@ -54,7 +55,8 @@ export class LoginComponent implements OnInit {
       if (res.ok) {
         this.auth.setUser(res.data.accessToken);
         this.auth.setToken(res.data.accessToken);
-        this.getConfig();
+        this.socket.init(res.data.accessToken, this.auth.user);
+        this.router.goHome();
       } else {
         this.loading = false;
         this.alert.error('login.error');
@@ -62,30 +64,24 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  getConfig() {
-    forkJoin([this.user.getDoctors(), this.user.getVolunteers(), this.user.getProfile()]).subscribe(() =>
-      this.router.goHome()
-    );
-  }
+  // register() {
+  //   if (this.loading || this.form.invalid) {
+  //     return;
+  //   }
 
-  register() {
-    if (this.loading || this.form.invalid) {
-      return;
-    }
-
-    this.loading = true;
-    const { user, pass } = this.form.value;
-    this.auth.register(user, pass).subscribe((res: Response) => {
-      if (res.ok) {
-        this.alert.success(this.translate.instant('login.register.ok'));
-      } else {
-        this.loading = false;
-        // if (res.errorCode === REGISTER_100) {
-        //   this.alert.error(this.translate.instant('error.register.100'));
-        // } else {
-        //   this.alert.error(res.message);
-        // }
-      }
-    });
-  }
+  //   this.loading = true;
+  //   const { user, pass } = this.form.value;
+  //   this.auth.register(user, pass).subscribe((res: Response) => {
+  //     if (res.ok) {
+  //       this.alert.success(this.translate.instant('login.register.ok'));
+  //     } else {
+  //       this.loading = false;
+  //       // if (res.errorCode === REGISTER_100) {
+  //       //   this.alert.error(this.translate.instant('error.register.100'));
+  //       // } else {
+  //       //   this.alert.error(res.message);
+  //       // }
+  //     }
+  //   });
+  // }
 }

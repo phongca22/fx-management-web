@@ -11,8 +11,8 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$fx-management-web-primary: mat.define-palette(mat.$indigo-palette);
-$fx-management-web-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$fx-management-web-primary: mat.define-palette(mat.$light-blue-palette);
+$fx-management-web-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $fx-management-web-warn: mat.define-palette(mat.$red-palette);
@@ -45,6 +45,14 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
+.accent-color {
+  color: mat.get-color-from-palette($fx-management-web-accent);
+}
+
+.primary-color {
+  color: mat.get-color-from-palette($fx-management-web-primary);
+}
+
 .error-color {
   color: #f44336;
 }
@@ -75,4 +83,8 @@ body {
 
 .mt-2 {
   margin-top: 8px;
+}
+
+.mat-dialog-no-padding > mat-dialog-container {
+  padding: 0px;
 }

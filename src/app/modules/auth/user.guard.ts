@@ -32,8 +32,8 @@ export class UserGuard implements CanActivate, CanLoad {
   }
 
   isAuthenticated(data: RouteData): boolean {
-    if (!data.role) {
-      return true; 
+    if (!data || !data.role) {
+      return true;
     }
 
     if (this.auth.hasAnyRole(data.role)) {

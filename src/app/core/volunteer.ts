@@ -1,6 +1,6 @@
 import { User } from './user';
 
-export class Volunteer extends User {
+export class Transporter extends User {
   constructor(data: any) {
     super(data);
   }

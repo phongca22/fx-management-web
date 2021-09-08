@@ -1,7 +1,6 @@
-import { Clipboard } from '@angular/cdk/clipboard';
-import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { assign, isEmpty, isNil, isNumber, isString } from 'lodash';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { isEmpty, isNil, isNumber, isString } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { Response } from 'src/app/core/response';
@@ -18,14 +17,13 @@ import { UserConditionPickerComponent } from '../user-condition-picker/user-cond
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { NoteService } from '../user-note/note.service';
 import { SupportService } from '../user-support/support.service';
-import { UserSupportComponent } from '../user-support/user-support.component';
 
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.scss']
 })
-export class UserInfoComponent implements OnInit, OnChanges {
+export class UserInfoComponent implements OnInit {
   @Input() user: UserInfo;
   doctor: Doctor;
   isDoctor: boolean;
@@ -34,26 +32,30 @@ export class UserInfoComponent implements OnInit, OnChanges {
   isCoordinator: boolean;
   notes: UserNote[] = [];
   supports: UserSupport[] = [];
+  isAdmin: boolean;
 
   constructor(
     private service: UserService,
     private dialog: MatDialog,
     private alert: AlertService,
     private auth: AuthService,
-    private clipboard: Clipboard,
     private note: NoteService,
     private support: SupportService,
-    @Inject(MAT_DIALOG_DATA) public data: UserInfo
+    @Inject(MAT_DIALOG_DATA) public data: UserInfo,
+    private dialogRef: MatDialogRef<UserInfoComponent>
   ) {
     this.isDoctor = this.auth.hasRole(Role.Doctor);
     this.isCoordinator = this.auth.hasRole(Role.Coordinator);
     this.isVolunteer = this.auth.hasRole(Role.Volunteer);
+    this.isAdmin = this.auth.hasRole(Role.Admin);
     if (this.data) {
       this.user = this.data;
       this.service.getUserInfo(this.user.id).subscribe((res: Response) => {
         this.loading = false;
         if (res.ok) {
-          this.user.setInfo(res.data);
+          const { condition, doctorAssignments } = res.data;
+          this.user.setAssignment(doctorAssignments);
+          this.user.setCondition(condition);
         } else {
           this.alert.error();
         }
@@ -61,17 +63,7 @@ export class UserInfoComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
-
   ngOnInit(): void {}
-
-  hasMembers(): boolean {
-    if (this.user) {
-      return this.user.members?.length > 0;
-    } else {
-      return false;
-    }
-  }
 
   edit(): void {
     this.dialog
@@ -80,16 +72,22 @@ export class UserInfoComponent implements OnInit, OnChanges {
         width: '100%',
         height: '100%',
         maxWidth: '100vw',
-        maxHeight: '100vh'
+        maxHeight: '100vh',
+        autoFocus: false,
+        panelClass: 'mat-dialog-no-padding'
       })
       .afterClosed()
       .pipe(filter((val: UserInfo) => !isNil(val) && !isEmpty(val)))
       .subscribe((val: UserInfo) => {
-        assign(this.user, val);
+        this.user.setInfo(val);
       });
   }
 
   editCondition(): void {
+    if (!this.isDoctor) {
+      return;
+    }
+
     this.dialog
       .open(UserConditionPickerComponent, {
         data: this.user,
@@ -102,32 +100,22 @@ export class UserInfoComponent implements OnInit, OnChanges {
       });
   }
 
-  showSupport(): void {
-    this.dialog
-      .open(UserSupportComponent, {
-        data: this.user,
-        width: '100%',
-        maxWidth: '96vw',
-        autoFocus: false
-      })
-      .afterClosed()
-      .subscribe();
-  }
-
   addNote(): void {
     this.note.showAddNote(this.user).subscribe();
   }
 
   addSupports(): void {
-    this.support.showAddSupports(this.user).subscribe();
-  }
-
-  copy(): void {
-    this.clipboard.copy(this.user.code);
-    this.alert.info('userInfo.copy');
+    this.support
+      .showAddSupports(this.user)
+      .pipe(filter((val: boolean) => val))
+      .subscribe(() => this.note.refreshEvent.next());
   }
 
   editDoctor(): void {
+    if (!this.isCoordinator) {
+      return;
+    }
+
     this.dialog
       .open(DoctorPickerComponent, {
         data: this.user,
@@ -138,5 +126,9 @@ export class UserInfoComponent implements OnInit, OnChanges {
       .subscribe((res: Doctor) => {
         this.user.doctor = res;
       });
+  }
+
+  close() {
+    this.dialogRef.close(this.user);
   }
 }

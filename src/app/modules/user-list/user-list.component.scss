@@ -4,4 +4,14 @@
 
 .wrapper {
   padding: 16px;
+  overflow: auto;
+}
+
+.title {
+  text-align: center;
+  margin: 0px;
+}
+
+.paginator {
+  background: #fff;
 }

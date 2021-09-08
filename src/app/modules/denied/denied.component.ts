@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterService } from 'src/app/services/router.service';
 
 @Component({
   selector: 'app-denied',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./denied.component.scss']
 })
 export class DeniedComponent implements OnInit {
+  constructor(private router: RouterService) {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  back() {
+    this.router.goHome();
   }
-
 }

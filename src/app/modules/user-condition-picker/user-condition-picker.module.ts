@@ -8,7 +8,6 @@ import { UserConditionPickerComponent } from './user-condition-picker.component'
 
 @NgModule({
   declarations: [UserConditionPickerComponent],
-  imports: [CommonModule, SharedModule, TranslateModule.forChild({}), ReactiveFormsModule, PipeModule],
-  exports: [UserConditionPickerComponent]
+  imports: [CommonModule, SharedModule, TranslateModule.forChild({}), ReactiveFormsModule, PipeModule]
 })
 export class UserStatusPickerModule {}

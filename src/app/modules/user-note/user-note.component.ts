@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import * as dayjs from 'dayjs';
 import * as customParseFormat from 'dayjs/plugin/customParseFormat';
 import { chain, groupBy, isEmpty, keys } from 'lodash';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
 import { UserInfo } from 'src/app/core/user-info';
@@ -10,6 +11,8 @@ import { UserNote } from 'src/app/core/user-note';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
+import { TransporterPickerComponent } from '../transporter-picker/transporter-picker.component';
+import { SupportStatusUpdateComponent } from '../user-support/support-status-update/support-status-update.component';
 import { NoteService } from './note.service';
 
 dayjs.extend(customParseFormat);
@@ -28,15 +31,18 @@ export class UserNoteComponent implements OnInit {
   groups: { id: number; name: string; notes: UserNote[] }[];
   isCoordinator: boolean;
   isDoctor: boolean;
+  isTransporter: boolean;
 
   constructor(
     private service: NoteService,
     private readonly $destroy: DestroyService,
     private alert: AlertService,
-    private auth: AuthService
+    public auth: AuthService,
+    private dialog: MatDialog
   ) {
     this.isCoordinator = this.auth.hasRole(Role.Coordinator);
     this.isDoctor = this.auth.hasRole(Role.Doctor);
+    this.isTransporter = this.auth.hasRole(Role.Volunteer);
     this.service
       .listenNewNote()
       .pipe(takeUntil(this.$destroy))
@@ -44,6 +50,11 @@ export class UserNoteComponent implements OnInit {
         this.notes.unshift(val);
         this.combineData();
       });
+
+    this.service
+      .listenRefresh()
+      .pipe(takeUntil(this.$destroy))
+      .subscribe(() => this.getData());
   }
 
   ngOnInit(): void {
@@ -51,11 +62,6 @@ export class UserNoteComponent implements OnInit {
   }
 
   getData() {
-    if (!isEmpty(this.notes)) {
-      this.combineData();
-      return;
-    }
-
     this.service
       .getNotes(this.user.id)
       .pipe(takeUntil(this.$destroy))
@@ -87,5 +93,37 @@ export class UserNoteComponent implements OnInit {
 
   isEmpty(): boolean {
     return this.loaded && isEmpty(this.notes);
+  }
+
+  showTransporterPicker(data: UserNote): void {
+    this.dialog
+      .open(TransporterPickerComponent, {
+        data: {
+          info: this.user,
+          patientSupport: data.patientSupport
+        },
+        width: '100%',
+        maxWidth: '96vw',
+        autoFocus: false
+      })
+      .afterClosed()
+      .pipe(filter((val: boolean) => val))
+      .subscribe(() => this.getData());
+  }
+
+  updateStatus(data: UserNote): void {
+    this.dialog
+      .open(SupportStatusUpdateComponent, {
+        data: {
+          info: this.user,
+          patientSupport: data.patientSupport
+        },
+        width: '100%',
+        maxWidth: '96vw',
+        autoFocus: false
+      })
+      .afterClosed()
+      .pipe(filter((val: boolean) => val))
+      .subscribe(() => this.getData());
   }
 }

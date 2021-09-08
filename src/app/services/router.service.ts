@@ -3,6 +3,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Page, StackedPage } from '../core/page';
 import { LOGIN, USER_LIST } from '../core/page-config';
+import { AuthService } from '../modules/auth/auth.service';
 import { PageState } from '../modules/store/page/page-state';
 import { User } from '../modules/store/user/user';
 import { StoreService } from './store.service';
@@ -21,7 +22,7 @@ export class RouterService {
   previousPage: PageState;
   user: User;
 
-  constructor(private router: Router, private store: StoreService) {
+  constructor(private router: Router, private store: StoreService, private auth: AuthService) {
     this.stackedPages$ = new Subject();
     this.store.selectPage().subscribe((page: PageState) => (this.currentPage = page));
     this.store.selectUser().subscribe((user: User) => (this.user = user));

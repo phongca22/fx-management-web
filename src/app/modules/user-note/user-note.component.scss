@@ -1,4 +1,32 @@
 .group {
-  text-align: center;
+  padding-left: 16px;
+}
+
+.author {
   margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.line-wrapper {
+  padding: 0px 16px;
+}
+
+.line-content {
+  padding-bottom: 16px;
+}
+
+.delivering-color {
+  color: #ff9800;
+}
+
+.delivered-color {
+  color: #4caf50;
+}
+
+.doctor-color {
+  color: #2196f3;
+}
+
+.coordinator-color {
+  color: #2196f3;
 }

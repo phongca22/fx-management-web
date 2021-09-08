@@ -1,25 +1,54 @@
 <div fxLayout="column" fxLayoutGap="16px">
   <div *ngFor="let g of groups">
     <div class="group mat-title">{{g.name}}</div>
-    <div fxLayout="column" fxLayoutGap="32px">
-      <div *ngFor="let item of g.notes">
-        <mat-card>
-          <mat-card-content>
-            <div class="mat-body" [innerHTML]="item.content"> </div>
-          </mat-card-content>
-          <div fxLayout="row" fxLayoutAlign="space-between end">
-            <div class="mat-caption gray-color">
-              {{item.time}}
-            </div>
-            <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="8px">
-              <mat-icon svgIcon="account-edit-outline" class="gray-icon-color" *ngIf="item.role === 3"></mat-icon>
-              <mat-icon svgIcon="card-account-details-outline" class="gray-icon-color" *ngIf="item.role === 2">
-              </mat-icon>
-              <mat-icon svgIcon="car-lifted-pickup" class="gray-icon-color" *ngIf="item.role === 5"></mat-icon>
-              <div class="mat-body">{{item.author}}</div>
-            </div>
+    <div fxLayout="column">
+      <div *ngFor="let item of g.notes" fxLayout="row" class="line-wrapper" fxLayoutGap="16px">
+        <div fxLayout="column" fxLayoutAlign=" center" class="icon-wrapper">
+          <mat-icon svgIcon="comment-text-outline" class="gray-icon-color" *ngIf="!item.type" class="gray-icon-color">
+          </mat-icon>
+          <mat-icon svgIcon="clipboard-edit-outline" *ngIf="item.type === 'support_pending'" class="gray-icon-color">
+          </mat-icon>
+          <mat-icon svgIcon="truck-delivery-outline" *ngIf="item.type === 'support_delivering'"
+            class="delivering-color"></mat-icon>
+          <mat-icon svgIcon="check-circle-outline" *ngIf="item.type === 'support_delivered'" class="delivered-color">
+          </mat-icon>
+          <mat-icon svgIcon="alert-circle-outline" *ngIf="item.type === 'support_failed'" color="warn">
+          </mat-icon>
+          <mat-divider fxFlex [vertical]="true"></mat-divider>
+        </div>
+        <div fxFlex class="line-content">
+          <div class="mat-body author">
+            {{item.author.name}}
+            <span class="mat-caption gray-color">{{item.time}}</span>
           </div>
-        </mat-card>
+          <mat-card>
+            <div *ngIf="item.type === 'support_failed'"
+              [innerHTML]="'userNote.reason' | translate: {message: item.content}"></div>
+            <div *ngIf="item.type !== 'support_failed'">
+              <div *ngIf="item.type === 'support_pending' && item.patientSupport.emergency" fxLayout="row">
+                <div [innerHTML]="item.content | translate" fxFlex></div>
+                <mat-chip-list>
+                  <mat-chip color="warn" selected>{{'userNote.emergency' | translate}}</mat-chip>
+                </mat-chip-list>
+              </div>
+              <div *ngIf="item.type !== 'support_pending'" [innerHTML]="item.content | translate"></div>
+            </div>
+            <div *ngIf="isCoordinator && item.type === 'support_pending' && item.patientSupport.status === 'pending'"
+              class="mt-3">
+              <button mat-stroked-button [color]="item.patientSupport.emergency ? 'warn' : 'primary'"
+                (click)="showTransporterPicker(item)">
+                <mat-icon svgIcon="truck-outline"></mat-icon> {{'userNote.selectTransporter' | translate}}
+              </button>
+            </div>
+            <div
+              *ngIf="isTransporter && auth.user?.id === item.author.id && item.type === 'support_delivering' && item.patientSupport.status === 'delivering'"
+              class="mt-3">
+              <button mat-stroked-button color="primary" (click)="updateStatus(item)">
+                <mat-icon svgIcon="list-status"></mat-icon> {{'userNote.update' | translate}}
+              </button>
+            </div>
+          </mat-card>
+        </div>
       </div>
     </div>
   </div>

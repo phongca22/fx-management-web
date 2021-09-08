@@ -7,7 +7,6 @@ import { TransporterPickerComponent } from './transporter-picker.component';
 
 @NgModule({
   declarations: [TransporterPickerComponent],
-  imports: [CommonModule, SharedModule, ReactiveFormsModule, TranslateModule.forChild({})],
-  exports: [TransporterPickerComponent]
+  imports: [CommonModule, SharedModule, ReactiveFormsModule, TranslateModule.forChild({})]
 })
 export class TransporterPickerModule {}
