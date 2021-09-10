@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DOCTOR_MANAGEMENT, USER_MANAGEMENT } from 'src/app/core/page-config';
 import { Role } from 'src/app/core/role';
-import { User } from 'src/app/core/user';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { RouterService } from 'src/app/services/router.service';
 import { AuthService } from '../auth/auth.service';
 import { ProfileService } from './profile.service';
+import { UserProfile } from './user-profile';
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +14,7 @@ import { ProfileService } from './profile.service';
   providers: [DestroyService]
 })
 export class ProfileComponent implements OnInit {
-  user: User | null;
+  user: UserProfile | null;
   isAdmin: boolean;
 
   constructor(private service: ProfileService, private router: RouterService, private auth: AuthService) {
@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.service.getProfile().subscribe((val: User) => (this.user = val));
+    this.service.getProfile().subscribe((val: UserProfile) => (this.user = val));
   }
 
   logout(): void {

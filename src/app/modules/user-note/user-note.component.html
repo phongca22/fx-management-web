@@ -18,16 +18,17 @@
         </div>
         <div fxFlex class="line-content">
           <div class="mat-body author">
-            {{item.author.name}}
-            <span class="mat-caption gray-color">{{item.time}}</span>
+            {{item.author.name}}, {{item.time}}
           </div>
           <mat-card>
-            <div *ngIf="item.type === 'support_failed'"
-              [innerHTML]="'userNote.reason' | translate: {message: item.content}"></div>
+            <div *ngIf="item.type === 'support_failed'">
+              <div>{{'supportStatus.failed' | translate}}</div>
+              <div [innerHTML]="'userNote.reason' | translate: {message: item.content}"></div>
+            </div>
             <div *ngIf="item.type !== 'support_failed'">
-              <div *ngIf="item.type === 'support_pending' && item.patientSupport.emergency" fxLayout="row">
+              <div *ngIf="item.type === 'support_pending'" fxLayout="row">
                 <div [innerHTML]="item.content | translate" fxFlex></div>
-                <mat-chip-list>
+                <mat-chip-list *ngIf="item.patientSupport.emergency">
                   <mat-chip color="warn" selected>{{'userNote.emergency' | translate}}</mat-chip>
                 </mat-chip-list>
               </div>

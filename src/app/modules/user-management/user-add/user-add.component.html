@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>{{'userManagement.accountInfo' | translate}}</h2>
-<div [formGroup]="form" fxLayoutGap="16px" fxLayout="column">
+<div [formGroup]="form" fxLayout="column">
   <div *ngIf="data">
     <div class="mat-caption gray-color">{{'userManagement.user' | translate}}</div>
     <div class="mat-body">{{form.get('user')?.value}}</div>
@@ -21,6 +21,15 @@
     <input matInput formControlName="name" required />
     <mat-error *ngIf="form.get('name')?.hasError('required')">{{'userManagement.fullnameRequired' | translate}}
     </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>{{'userForm.gender' | translate}}</mat-label>
+    <mat-select formControlName="gender">
+      <mat-select-trigger>{{form.get('info.gender')?.value?.name | translate}}</mat-select-trigger>
+      <mat-option *ngFor="let item of genders" [value]="item">
+        {{item.name | translate}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
   <mat-form-field appearance="outline" fxFlex>
     <mat-label>{{'userManagement.role' | translate}}</mat-label>

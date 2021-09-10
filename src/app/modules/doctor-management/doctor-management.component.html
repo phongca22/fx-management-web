@@ -5,7 +5,7 @@
   <div fxFlex class="wrapper">
     <mat-selection-list fxFlex (selectionChange)="change($event)">
       <mat-list-option *ngFor="let item of doctors" [value]="item" [selected]="item.active">
-        {{item.name}}
+        {{item.info.name}}
       </mat-list-option>
     </mat-selection-list>
   </div>

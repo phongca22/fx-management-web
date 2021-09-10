@@ -1,36 +1,43 @@
 import { Injectable } from '@angular/core';
-import { chain, filter, keys } from 'lodash';
-import { DISTRICT } from './district';
-import { WARD } from './ward';
-
-const DISTRICT_DATA = keys(DISTRICT).map((key: string) => {
-  return DISTRICT[key];
-});
-
-const WARD_DATA = keys(WARD).map((key: string) => {
-  return WARD[key];
-});
-
+import { chain, keys } from 'lodash';
+import { BINH_DUONG_WARD, HCM_WARD } from 'src/app/json/district';
+import { BINH_DUONG_DISTRICT, HCM_DISTRICT } from 'src/app/json/province';
+import { District } from './district';
+import { Province } from './province';
 @Injectable({
   providedIn: 'root'
 })
 export class AddressService {
   constructor() {}
 
-  getProvinces(): any[] {
+  getProvinces(): Province[] {
     return [
       {
         id: '79',
-        name: 'Hồ Chí Minh'
+        name: 'Hồ Chí Minh',
+        districts: this.convert(HCM_DISTRICT),
+        wards: this.convert(HCM_WARD)
+      },
+      {
+        id: '74',
+        name: 'Bình Dương',
+        districts: this.convert(BINH_DUONG_DISTRICT),
+        wards: this.convert(BINH_DUONG_WARD)
       }
     ];
   }
 
-  getDistricts(id: string): any[] {
-    return chain(DISTRICT).filter({ parent_code: id }).sortBy(['name']).value();
-  }
-
-  getWards(code: string): any[] {
-    return chain(WARD_DATA).filter({ parent_code: code }).orderBy(['name']).value();
+  private convert(data: any): District[] {
+    return chain(keys(data))
+      .filter((key: string) => key !== 'default')
+      .map((key: string) => {
+        const t = data[key];
+        return {
+          id: t.code,
+          name: t.name_with_type,
+          parent: t.parent_code
+        };
+      })
+      .value();
   }
 }

@@ -23,7 +23,7 @@
   <div fxLayout="row" fxLayoutAlign=" center" class="doctor-wrapper">
     <div (click)="editDoctor()" fxFlex>
       <div class="mat-caption gray-color">{{'userInfo.doctor' | translate}}</div>
-      <div class="mat-subheading-2 mb-0">{{user.doctor?.name}}</div>
+      <div class="mat-subheading-2 mb-0">{{user.doctor?.info?.name}}</div>
     </div>
     <div (click)="editCondition()" fxFlex>
       <div class="mat-caption gray-color">{{'userInfo.condition' | translate}}</div>

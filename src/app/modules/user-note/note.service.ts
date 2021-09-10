@@ -13,11 +13,9 @@ import { AddNoteComponent } from './add-note/add-note.component';
   providedIn: 'root'
 })
 export class NoteService extends BaseService {
-  newNoteEvent: Subject<UserNote>;
   refreshEvent: Subject<void>;
   constructor(private http: HttpClient, private dialog: MatDialog) {
     super();
-    this.newNoteEvent = new Subject();
     this.refreshEvent = new Subject();
   }
 
@@ -45,16 +43,7 @@ export class NoteService extends BaseService {
         panelClass: 'mat-dialog-no-padding'
       })
       .afterClosed()
-      .pipe(
-        filter((val: UserNote) => !isEmpty(val) && !isNil(val)),
-        tap((val: UserNote) => {
-          this.newNoteEvent.next(val);
-        })
-      );
-  }
-
-  listenNewNote() {
-    return this.newNoteEvent;
+      .pipe(filter((val: UserNote) => !isEmpty(val) && !isNil(val)));
   }
 
   listenRefresh() {

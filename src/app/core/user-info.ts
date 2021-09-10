@@ -16,28 +16,29 @@ export class UserInfo {
   condition: UserConditionType;
   code: string;
   doctor: Doctor;
-  doctorAssignmentId: number;
-  patientConditionId: any;
   member: number;
 
   constructor(data: any) {
-    this.id = data.id;
-    this.name = data.fullname;
-    this.phone = data.phone;
-    this.age = data.age;
-    this.gender = data.gender;
-    this.address = data.address;
-    this.ward = data.ward;
-    this.district = data.district;
-    this.province = data.province;
-    this.condition = data.status;
-    this.code = data.code;
-    this.member = data.member;
-    this.setCondition(data.condition);
-    this.combineAddress();
-    if (data.doctorAssignments) {
-      this.setAssignment(data.doctorAssignments);
+    const { info, id } = data;
+    this.id = id;
+    this.name = info.fullname;
+    this.phone = info.phone;
+    this.age = info.age;
+    this.gender = info.gender;
+    this.address = info.address;
+    this.ward = info.ward;
+    this.district = info.district;
+    this.province = info.province;
+    this.condition = info.status;
+    this.code = info.code;
+    this.member = info.member;
+    if (data.condition) {
+      this.setCondition(data.condition);
     }
+    if (data.doctor) {
+      this.setDoctor(data.doctor);
+    }
+    this.combineAddress();
   }
 
   combineAddress() {
@@ -47,16 +48,12 @@ export class UserInfo {
     ).join(', ');
   }
 
-  setAssignment([data]: any[]) {
-    this.doctor = new Doctor(data.doctor);
-    this.doctorAssignmentId = data.id;
+  setDoctor(data: any) {
+    this.doctor = new Doctor(data);
   }
 
-  setCondition(data: any) {
-    if (data) {
-      this.condition = data.conditionId;
-      this.patientConditionId = data.id;
-    }
+  setCondition({ status }: any) {
+    this.condition = status;
   }
 
   setInfo(data: UserInfo): void {

@@ -17,10 +17,9 @@ export class SupportService extends BaseService {
     super();
   }
 
-  addSupports({ id, doctorAssignmentId }: UserInfo, data: any[], emergency: boolean): Observable<any> {
+  addSupports({ id }: UserInfo, data: any[], emergency: boolean): Observable<any> {
     return this.http
       .post(`${this.api}/support/${id}/create`, {
-        daId: doctorAssignmentId,
         supports: data,
         emergency: emergency
       })
@@ -31,27 +30,20 @@ export class SupportService extends BaseService {
     return this.http.get(`${this.api}/support/${id}`).pipe(this.getResponse(), this.getError());
   }
 
-  setTransporter({ doctorAssignmentId, id }: UserInfo, psId: number, transporter: number): Observable<any> {
+  setTransporter({ id }: UserInfo, psId: number, transporter: number): Observable<any> {
     return this.http
       .put(`${this.api}/support/transporter/assign`, {
         userId: id,
-        daId: doctorAssignmentId,
         psId: psId,
         transporterId: transporter
       })
       .pipe(this.getResponse(), this.getError());
   }
 
-  updateStatus(
-    { doctorAssignmentId, id }: UserInfo,
-    psId: number,
-    status: SupportStatus,
-    reason: string
-  ): Observable<any> {
+  updateStatus({ id }: UserInfo, psId: number, status: SupportStatus, reason: string): Observable<any> {
     return this.http
       .put(`${this.api}/support/transporter/update-status`, {
         userId: id,
-        daId: doctorAssignmentId,
         psId: psId,
         status: status,
         reason

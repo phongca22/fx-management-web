@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { isEqual } from 'lodash';
 import { General } from 'src/app/core/general';
 import { Role } from 'src/app/core/role';
@@ -36,6 +36,7 @@ export const BY_EMERGENCY: General = {
   styleUrls: ['./user-filter.component.scss']
 })
 export class UserFilterComponent implements OnInit {
+  @Input() hasEmergency: boolean;
   @Output() change: EventEmitter<Function>;
   filters: General[];
 
@@ -53,7 +54,11 @@ export class UserFilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.select(this.filters[1]);
+    if (this.hasEmergency) {
+      this.select(this.filters[2]);
+    } else {
+      this.select(this.filters[1]);
+    }
   }
 
   select(data: General) {

@@ -39,7 +39,7 @@ export class MenuComponent implements OnInit {
   user: User | null;
   activePage: any;
   userListMenu = USER_LIST_MENU;
-  count: number = 1;
+  count: number = 0;
 
   constructor(
     private router: RouterService,
@@ -82,7 +82,7 @@ export class MenuComponent implements OnInit {
 
   go(page: IPage): void {
     this.activePage = page;
-    this.router.go(page);
+    this.router.go(page, { state: { count: this.count } });
     if (isEqual(page, USER_LIST)) {
       this.count = 0;
     }

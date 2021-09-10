@@ -3,9 +3,8 @@
     <div fxLayout="row" fxLayoutAlign=" center">
       <div fxFlex>
         <div class="mat-title mb-0">
-          <span *ngIf="data.member > 1" [matBadge]="data.member" matBadgeColor="primary"
-            matBadgeOverlap="false">{{data.name}}</span>
-          <ng-container *ngIf="data.member === 1">{{data.name}}</ng-container>
+          <span [matBadge]="data.member" matBadgeColor="primary" matBadgeOverlap="false"
+            [matBadgeHidden]="data.member <= 1">{{data.name}}</span>
         </div>
         <div class="mat-body">{{data.addressLabel}}</div>
       </div>

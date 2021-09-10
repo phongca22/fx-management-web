@@ -1,6 +1,7 @@
 import * as dayjs from 'dayjs';
 import { Role } from './role';
 import { User } from './user';
+import { UserInfo } from './user-info';
 import { USER_NOTE_TYPE } from './user-note-type';
 import { UserSupport } from './user-support';
 
@@ -8,7 +9,7 @@ export class UserNote {
   content: string;
   time: string;
   date: string;
-  author: User;
+  author: UserInfo;
   role: Role;
   supportDetail: UserSupport;
   type: USER_NOTE_TYPE;
@@ -18,7 +19,7 @@ export class UserNote {
     this.time = dayjs(data.createdAt).format('HH:mm');
     this.date = dayjs(data.createdAt).format('DD-MM-YYYY');
     this.role = data.author.roles[0].id;
-    this.author = new User(data.author);
+    this.author = new UserInfo(data.author);
     this.type = data.type;
     if (data.patientSupport) {
       this.patientSupport = new UserSupport(data.patientSupport);
@@ -38,7 +39,7 @@ export class UserNote {
     } else if (data.type === 'support_delivered') {
       this.content = 'supportStatus.delivered';
     } else if (data.type === 'support_failed') {
-      this.content = 'supportStatus.failed';
+      this.content = data.content;
     } else {
       this.content = data.content;
     }

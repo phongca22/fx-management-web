@@ -118,8 +118,8 @@ export class UserService extends BaseService {
   setCondition(id: number, data: UserConditionType): Observable<any> {
     return this.http
       .put(`${this.api}/user/condition`, {
-        id: id,
-        conditionId: data
+        userId: id,
+        status: data
       })
       .pipe(this.getResponse(), this.getError());
   }

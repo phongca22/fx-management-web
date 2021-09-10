@@ -1,6 +1,7 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -41,18 +42,21 @@ export class UserListComponent implements OnInit {
   isCoordinator: boolean;
   currentPage: number;
   isAdmin: boolean;
+  hasEmergency: boolean;
 
   constructor(
     private alert: AlertService,
     private readonly $destroy: DestroyService,
     private auth: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {
     this.filterEvent = new Subject();
     this.worker = new Subject();
     this.isDoctor = this.auth.hasRole(Role.Doctor);
     this.isCoordinator = this.auth.hasRole(Role.Coordinator);
     this.isAdmin = this.auth.hasRole(Role.Admin);
+    this.hasEmergency = this.router.getCurrentNavigation()?.extras?.state?.count > 0;
   }
 
   ngOnInit(): void {

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { find } from 'lodash';
+import { find, sumBy } from 'lodash';
 import { takeUntil } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { Response } from 'src/app/core/response';
@@ -20,6 +20,7 @@ export class DoctorPickerComponent implements OnInit {
   selectCtrl: FormControl;
   doctors: Doctor[];
   loading: boolean;
+  total: number;
 
   constructor(
     private dialog: MatDialogRef<DoctorPickerComponent>,
@@ -34,9 +35,10 @@ export class DoctorPickerComponent implements OnInit {
     this.service
       .getActiveDoctors()
       .pipe(takeUntil(this.$destroy))
-      .subscribe((data: Doctor[]) => {
-        this.doctors = data;
-        this.selectCtrl.setValue(find(this.doctors, { id: this.data.doctor.id }));
+      .subscribe((res: Response) => {
+        this.doctors = Doctor.parseActive(res.data);
+        this.total = sumBy(this.doctors, 'count');
+        this.selectCtrl.setValue(find(this.doctors, { info: { id: this.data.doctor.info.id } }));
       });
   }
 
@@ -47,7 +49,7 @@ export class DoctorPickerComponent implements OnInit {
   save() {
     this.loading = true;
     if (this.selectCtrl.value !== this.data) {
-      this.service.setDoctor(this.data, this.selectCtrl.value.id).subscribe((res: Response) => {
+      this.service.setDoctor(this.data, this.selectCtrl.value.info.id).subscribe((res: Response) => {
         if (res.ok) {
           this.dialog.close(this.selectCtrl.value);
         } else {

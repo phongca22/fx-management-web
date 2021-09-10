@@ -60,9 +60,8 @@ export class AddSupportComponent implements OnInit {
     this.loading = true;
     const t = this.form
       .get('list')
-      ?.value.map(({ id, value, name }: any) => ({
+      ?.value.map(({ id, value }: any) => ({
         id: id,
-        name: name,
         amount: value
       }))
       .filter(({ amount }: any) => amount > 0);

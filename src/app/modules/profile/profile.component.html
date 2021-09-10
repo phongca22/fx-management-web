@@ -1,20 +1,19 @@
 <div fxFlex fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center">
   <mat-card>
-    <mat-card-title>{{user?.name}}</mat-card-title>
+    <mat-card-title>{{user?.info?.name}}</mat-card-title>
     <mat-card-subtitle>
-      <div *ngFor="let item of user?.roles">{{item.name}}</div>
+      <div *ngFor="let item of user?.roles">{{item}}</div>
     </mat-card-subtitle>
     <mat-card-content>
-      <div fxLayout="column" fxLayoutAlign=" start" fxLayoutGap="16px" *ngIf="isAdmin">
-        <button mat-stroked-button color="primary" (click)="goUserManagement()">{{'profile.userManagement' |
+      <div fxLayout="row" fxLayoutAlign=" start" fxLayoutGap="16px" *ngIf="isAdmin">
+        <button fxFlex mat-raised-button color="primary" (click)="goUserManagement()">{{'profile.userManagement' |
           translate}}</button>
-        <button mat-stroked-button color="primary" (click)="goDoctorManagement()">{{'profile.doctorManagement' |
+        <button fxFlex mat-raised-button color="primary" (click)="goDoctorManagement()">{{'profile.doctorManagement' |
           translate}}</button>
       </div>
     </mat-card-content>
-    <mat-divider inset></mat-divider>
     <mat-card-actions align="end">
-      <button mat-button (click)="logout()">
+      <button mat-stroked-button color="primary" (click)="logout()">
         <mat-icon svgIcon="logout-variant"></mat-icon> {{'profile.logout' | translate}}
       </button>
     </mat-card-actions>

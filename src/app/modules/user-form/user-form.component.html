@@ -65,7 +65,7 @@
       <mat-select formControlName="doctor" required>
         <mat-select-trigger>{{form.get('info.doctor')?.value?.name | translate}}</mat-select-trigger>
         <mat-option *ngFor="let item of doctors" [value]="item">
-          {{item.name }} {{item.count}}/{{total}}
+          {{item.info.name }} <ng-container *ngIf="total > 0">{{item.count}}/{{total}}</ng-container>
         </mat-option>
       </mat-select>
     </mat-form-field>

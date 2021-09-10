@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { find } from 'lodash';
 import { Observable } from 'rxjs';
+import { GENDER, IGender } from 'src/app/core/gender';
 import { General } from 'src/app/core/general';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
@@ -19,6 +20,7 @@ export class UserAddComponent implements OnInit {
   form: FormGroup;
   loading: boolean;
   roles: General[];
+  genders: IGender[] = GENDER;
 
   constructor(
     private service: UserManagementService,
@@ -44,6 +46,7 @@ export class UserAddComponent implements OnInit {
       user: ['', Validators.required],
       pass: ['', Validators.required],
       name: ['', Validators.required],
+      gender: ['', Validators.required],
       role: [Role.User, Validators.required]
     });
   }
@@ -52,6 +55,7 @@ export class UserAddComponent implements OnInit {
     this.form.patchValue({
       user: this.data.account,
       name: this.data.name,
+      gender: find(this.genders, { id: this.data.gender }),
       role: find(this.roles, { id: this.data.roles[0].id })
     });
 

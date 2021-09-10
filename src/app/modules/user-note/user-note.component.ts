@@ -44,14 +44,6 @@ export class UserNoteComponent implements OnInit {
     this.isDoctor = this.auth.hasRole(Role.Doctor);
     this.isTransporter = this.auth.hasRole(Role.Volunteer);
     this.service
-      .listenNewNote()
-      .pipe(takeUntil(this.$destroy))
-      .subscribe((val: UserNote) => {
-        this.notes.unshift(val);
-        this.combineData();
-      });
-
-    this.service
       .listenRefresh()
       .pipe(takeUntil(this.$destroy))
       .subscribe(() => this.getData());

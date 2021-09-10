@@ -54,7 +54,7 @@ export class DoctorService extends BaseService {
     return this.http
       .put(`${this.api}/doctor/assign`, {
         userId: user.id,
-        daId: user.doctorAssignmentId,
+        // daId: user.doctorAssignmentId,
         doctorId: data
       })
       .pipe(this.getResponse(), this.getError());

@@ -4,7 +4,7 @@
     <button mat-icon-button (click)="showAddUser()" *ngIf="isDoctor || isCoordinator || isAdmin">
       <mat-icon svgIcon="account-plus-outline"></mat-icon>
     </button>
-    <app-user-filter (change)="selectFilter($event)"></app-user-filter>
+    <app-user-filter [hasEmergency]="hasEmergency" (change)="selectFilter($event)"></app-user-filter>
   </mat-toolbar>
   <div fxLayout="row" fxLayoutAlign=" center" class="paginator">
     <div fxFlex class="mat-caption gray-color ml-3">{{'userList.sum' | translate: {total: size || 0} }}</div>

@@ -39,7 +39,7 @@ export class UserConditionPickerComponent implements OnInit {
   save() {
     this.loading = true;
     if (this.selectCtrl.value !== this.data) {
-      this.service.setCondition(this.data.patientConditionId, this.selectCtrl.value).subscribe((res: Response) => {
+      this.service.setCondition(this.data.id, this.selectCtrl.value).subscribe((res: Response) => {
         if (res.ok) {
           this.dialog.close(this.selectCtrl.value);
         } else {

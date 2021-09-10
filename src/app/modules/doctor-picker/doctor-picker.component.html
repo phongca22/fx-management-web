@@ -2,9 +2,9 @@
   <mat-form-field appearance="outline" fxFlex>
     <mat-label>{{'doctorPicker.label' | translate}}</mat-label>
     <mat-select [formControl]="selectCtrl">
-      <mat-select-trigger>{{selectCtrl.value?.name}}</mat-select-trigger>
+      <mat-select-trigger>{{selectCtrl.value?.info.name}}</mat-select-trigger>
       <mat-option *ngFor="let item of doctors" [value]="item">
-        {{item.name}}
+        {{item.info.name }} <ng-container *ngIf="total > 0">{{item.count}}/{{total}}</ng-container>
       </mat-option>
     </mat-select>
   </mat-form-field>

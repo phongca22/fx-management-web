@@ -44,7 +44,6 @@ export class UserInfoComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: UserInfo,
     private dialogRef: MatDialogRef<UserInfoComponent>
   ) {
-    this.isDoctor = this.auth.hasRole(Role.Doctor);
     this.isCoordinator = this.auth.hasRole(Role.Coordinator);
     this.isVolunteer = this.auth.hasRole(Role.Volunteer);
     this.isAdmin = this.auth.hasRole(Role.Admin);
@@ -53,9 +52,10 @@ export class UserInfoComponent implements OnInit {
       this.service.getUserInfo(this.user.id).subscribe((res: Response) => {
         this.loading = false;
         if (res.ok) {
-          const { condition, doctorAssignments } = res.data;
-          this.user.setAssignment(doctorAssignments);
+          const { condition, doctor } = res.data;
+          this.user.setDoctor(doctor);
           this.user.setCondition(condition);
+          this.isDoctor = this.auth.hasRole(Role.Doctor) && this.user.doctor.info.id === this.auth.user?.id;
         } else {
           this.alert.error();
         }
@@ -94,7 +94,7 @@ export class UserInfoComponent implements OnInit {
         width: '80%'
       })
       .afterClosed()
-      .pipe(filter((val: UserConditionType) => isNumber(val)))
+      .pipe(filter((val: UserConditionType) => !isEmpty(val)))
       .subscribe((val: UserConditionType) => {
         this.user.condition = val;
       });

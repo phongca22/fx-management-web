@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { find, sumBy } from 'lodash';
+import { find, sumBy, filter as filterLodash } from 'lodash';
 import { takeUntil } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { GENDER, IGender } from 'src/app/core/gender';
@@ -9,6 +9,9 @@ import { UserInfo } from 'src/app/core/user-info';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { AddressService } from '../address/address.service';
+import { District } from '../address/district';
+import { Province } from '../address/province';
+import { Ward } from '../address/ward';
 import { AlertService } from '../alert/alert.service';
 
 @Component({
@@ -23,9 +26,9 @@ export class UserFormComponent implements OnInit {
   genders: IGender[] = GENDER;
   loading: boolean;
   doctors: Doctor[];
-  provinces: any[];
-  districts: any[];
-  wards: any[];
+  provinces: Province[];
+  districts: District[];
+  wards: Ward[];
   total: number;
 
   constructor(
@@ -62,9 +65,9 @@ export class UserFormComponent implements OnInit {
     this.form
       .get('info.province')
       ?.valueChanges.pipe(takeUntil(this.$destroy))
-      .subscribe((data: any) => {
+      .subscribe((data: Province) => {
         if (data) {
-          this.districts = this.address.getDistricts(data.id);
+          this.districts = data.districts;
           this.form.patchValue({
             info: {
               district: null,
@@ -77,9 +80,9 @@ export class UserFormComponent implements OnInit {
     this.form
       .get('info.district')
       ?.valueChanges.pipe(takeUntil(this.$destroy))
-      .subscribe((data: any) => {
+      .subscribe((data: District) => {
         if (data) {
-          this.wards = this.address.getWards(data.code);
+          this.wards = filterLodash(this.form.get('info.province')?.value.wards, { parent: data.id });
         } else {
           this.wards = [];
         }
@@ -123,7 +126,7 @@ export class UserFormComponent implements OnInit {
         .pipe(takeUntil(this.$destroy))
         .subscribe((res: Response) => {
           if (res.ok) {
-            this.doctors = res.data.map((val: any) => new Doctor({ count: val.count, ...val.doctor }));
+            this.doctors = Doctor.parseActive(res.data);
             this.total = sumBy(this.doctors, 'count');
           } else {
             this.alert.error();
