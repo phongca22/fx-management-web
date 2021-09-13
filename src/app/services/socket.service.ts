@@ -9,7 +9,7 @@ import { User } from '../modules/store/user/user';
 })
 export class SocketService {
   instance: Socket;
-  emergencyMessage: Subject<any>;
+  emergencyMessage: Subject<boolean>;
 
   constructor() {
     this.emergencyMessage = new Subject();
@@ -28,16 +28,14 @@ export class SocketService {
 
     this.instance.on('connect', () => {
       this.setupListener(user.rooms);
-      this.instance.on('disconnect', () => {
-        console.log(this.instance.id); // undefined
-      });
+      this.instance.on('disconnect', () => {});
     });
   }
 
   setupListener(data: string[]): void {
     if (data.includes(ROOM.EMERGENCY)) {
-      this.instance.on(ROOM.EMERGENCY, (data) => {
-        this.emergencyMessage.next(data);
+      this.instance.on(ROOM.EMERGENCY, () => {
+        this.emergencyMessage.next(true);
       });
     }
   }

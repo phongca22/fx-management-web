@@ -1,0 +1,32 @@
+<div fxLayout="column" [formGroup]="form">
+  <mat-form-field appearance="fill" color="accent">
+    <mat-label>{{'transporterPicker.startDate' | translate}}</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field appearance="outline" color="accent">
+    <mat-label>{{'transporterPicker.label' | translate}}</mat-label>
+    <mat-select formControlName="user">
+      <mat-select-trigger>{{form.get('user')?.value?.info.name}}</mat-select-trigger>
+      <mat-option *ngFor="let item of transporters" [value]="item">
+        {{item.info.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-radio-group formControlName="status" fxLayout="column" fxLayoutGap="16px" required>
+    <mat-radio-button *ngFor="let item of status" [value]="item.id">
+      {{item.name | supportStatus}}
+    </mat-radio-button>
+  </mat-radio-group>
+  <mat-form-field appearance="outline" *ngIf="form.get('status')?.value === 'failed'" class="mt-3" color="accent">
+    <mat-label>{{'transporterPicker.reason' | translate}}</mat-label>
+    <textarea rows="4" matInput formControlName="reason"></textarea>
+  </mat-form-field>
+</div>
+<mat-dialog-actions align="end" fxLayoutGap="16px">
+  <button mat-button mat-dialog-close [disabled]="loading">{{'action.back' | translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="loading || form.invalid">
+    {{'action.confirm' | translate}}
+  </button>
+</mat-dialog-actions>

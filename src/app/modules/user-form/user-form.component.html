@@ -1,18 +1,18 @@
 <div fxFlex fxLayout="column" class="wrapper" [formGroup]="form">
   <ng-container formGroupName="info">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" color="accent">
       <mat-label>{{'userForm.fullname' | translate}}</mat-label>
       <input matInput formControlName="fullname" required />
       <mat-error *ngIf="form.get('info.fullname')?.invalid">{{'userForm.fullnameRequired' | translate}}
       </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" color="accent">
       <mat-label>{{'userForm.phone' | translate}}</mat-label>
       <input matInput formControlName="phone" required />
       <mat-error *ngIf="form.get('info.phone')?.invalid">{{'userForm.phoneRequired' | translate}}
       </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" color="accent">
       <mat-label>{{'userForm.gender' | translate}}</mat-label>
       <mat-select formControlName="gender">
         <mat-select-trigger>{{form.get('info.gender')?.value?.name | translate}}</mat-select-trigger>
@@ -21,19 +21,19 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" color="accent">
       <mat-label>{{'userForm.age' | translate}}</mat-label>
       <input matInput formControlName="age" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" color="accent">
       <mat-label>{{'userForm.member' | translate}}</mat-label>
       <input matInput formControlName="member" type="number" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" color="accent">
       <mat-label>{{'userForm.address' | translate}}</mat-label>
       <input matInput formControlName="address" />
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" color="accent">
       <mat-label>{{'userForm.province' | translate}}</mat-label>
       <mat-select formControlName="province">
         <mat-select-trigger>{{form.get('info.province')?.value?.name | translate}}</mat-select-trigger>
@@ -42,7 +42,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" color="accent">
       <mat-label>{{'userForm.district' | translate}}</mat-label>
       <mat-select formControlName="district">
         <mat-select-trigger>{{form.get('info.district')?.value?.name | translate}}</mat-select-trigger>
@@ -51,7 +51,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" color="accent">
       <mat-label>{{'userForm.ward' | translate}}</mat-label>
       <mat-select formControlName="ward">
         <mat-select-trigger>{{form.get('info.ward')?.value?.name | translate}}</mat-select-trigger>
@@ -60,10 +60,10 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="outline" *ngIf="!data">
+    <mat-form-field appearance="outline" *ngIf="!data" color="accent">
       <mat-label>{{'userForm.doctor' | translate}}</mat-label>
       <mat-select formControlName="doctor" required>
-        <mat-select-trigger>{{form.get('info.doctor')?.value?.name | translate}}</mat-select-trigger>
+        <mat-select-trigger>{{form.get('info.doctor')?.value?.info.name | translate}}</mat-select-trigger>
         <mat-option *ngFor="let item of doctors" [value]="item">
           {{item.info.name }} <ng-container *ngIf="total > 0">{{item.count}}/{{total}}</ng-container>
         </mat-option>

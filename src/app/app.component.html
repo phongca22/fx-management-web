@@ -1,3 +1,8 @@
 <div class="app-wrapper">
   <router-outlet></router-outlet>
+  <div class="emergency" *ngIf="hasEmergency">
+    <button mat-fab color="warn" (click)="run()">
+      <mat-icon svgIcon="bell-alert-outline"></mat-icon>
+    </button>
+  </div>
 </div>

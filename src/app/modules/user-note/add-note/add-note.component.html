@@ -6,7 +6,7 @@
     <div class="mat-title mb-0" fxFlex>{{'addNote.title' | translate}}</div>
   </mat-toolbar>
   <div fxFlex fxLayout="column" #wrapper class="body">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" color="accent">
       <textarea rows="10" [ngStyle]="{height: height + 'px'}" matInput [formControl]="contentCtrl"
         [placeholder]="'addNote.content' | translate"></textarea>
     </mat-form-field>

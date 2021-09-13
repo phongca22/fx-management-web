@@ -1,6 +1,4 @@
 import * as dayjs from 'dayjs';
-import { Role } from './role';
-import { User } from './user';
 import { UserInfo } from './user-info';
 import { USER_NOTE_TYPE } from './user-note-type';
 import { UserSupport } from './user-support';
@@ -10,7 +8,6 @@ export class UserNote {
   time: string;
   date: string;
   author: UserInfo;
-  role: Role;
   supportDetail: UserSupport;
   type: USER_NOTE_TYPE;
   patientSupport: UserSupport;
@@ -18,7 +15,6 @@ export class UserNote {
   constructor(data: any) {
     this.time = dayjs(data.createdAt).format('HH:mm');
     this.date = dayjs(data.createdAt).format('DD-MM-YYYY');
-    this.role = data.author.roles[0].id;
     this.author = new UserInfo(data.author);
     this.type = data.type;
     if (data.patientSupport) {
@@ -43,19 +39,5 @@ export class UserNote {
     } else {
       this.content = data.content;
     }
-
-    // if (this.author.role.id === Role.Doctor) {
-    //   this.content = `<div>${data.details
-    //     .map((val: any) => {
-    //       return `<div class="mat-subheading-2 mb-0">${val.support.name} x${val.amount}</div>`;
-    //     })
-    //     .join('')}</div>`;
-    // } else if (this.author.role.id === Role.Volunteer) {
-    //   if (isEqual(this.supportDetail.status, SupportStatus.Delivering)) {
-    //     this.content = 'supportStatus.delivering';
-    //   } else if (isEqual(this.supportDetail.status, SupportStatus.Delivered)) {
-    //     this.content = 'supportStatus.delivered';
-    //   }
-    // }
   }
 }

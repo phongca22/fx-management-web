@@ -49,23 +49,25 @@ export class UserManagementService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
-  create({ user, pass, name, role }: any): Observable<any> {
+  create({ user, pass, name, role, gender }: any): Observable<any> {
     return this.http
       .post(`${this.api}/auth/admin/create`, {
         user: user,
         pass: pass,
         name: name,
-        role: role.id
+        role: role.id,
+        gender: gender.id
       })
       .pipe(this.getResponse(), this.getError());
   }
 
-  update(id: number, { name, role }: any): Observable<any> {
+  update(id: number, { name, role, gender }: any): Observable<any> {
     return this.http
       .put(`${this.api}/user/admin/update`, {
         id: id,
         name: name,
-        role: role.id
+        role: role.id,
+        gender: gender.id
       })
       .pipe(this.getResponse(), this.getError());
   }

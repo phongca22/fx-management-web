@@ -1,6 +1,6 @@
 <mat-card (click)="showInfo()">
   <div fxLayout="column" fxLayoutGap="16px">
-    <div fxLayout="row" fxLayoutAlign=" center">
+    <div fxLayout="row" fxLayoutAlign="">
       <div fxFlex>
         <div class="mat-title mb-0">
           <span [matBadge]="data.member" matBadgeColor="primary" matBadgeOverlap="false"
@@ -8,6 +8,9 @@
         </div>
         <div class="mat-body">{{data.addressLabel}}</div>
       </div>
+      <button mat-icon-button (click)="copyLink(); $event.stopPropagation()" class=" gray-icon-color copy-link-btn">
+        <mat-icon svgIcon="link"></mat-icon>
+      </button>
     </div>
     <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="space-between center">
       <div fxFlex (click)="copy(data.phone); $event.stopPropagation()">
@@ -25,11 +28,10 @@
         </div>
       </div>
     </div>
-    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="space-between center">
-      <div fxFlex (click)="copy(data.code); $event.stopPropagation()">
-        <div class="mat-caption gray-color">{{'userInfo.code' | translate}}</div>
-        <div class="mat-body">{{data.code}}</div>
-      </div>
+    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end center">
+      <mat-chip-list *ngIf="data.emergency">
+        <mat-chip color="warn" selected>{{'userNote.emergency' | translate}}</mat-chip>
+      </mat-chip-list>
     </div>
   </div>
 </mat-card>

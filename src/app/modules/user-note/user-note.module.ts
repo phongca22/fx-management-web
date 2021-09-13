@@ -7,9 +7,10 @@ import { SharedModule } from '../shared-module';
 import { TransporterPickerModule } from '../transporter-picker/transporter-picker.module';
 import { AddNoteComponent } from './add-note/add-note.component';
 import { UserNoteComponent } from './user-note.component';
+import { CreateNoteComponent } from './create-note/create-note.component';
 
 @NgModule({
-  declarations: [UserNoteComponent, AddNoteComponent],
+  declarations: [UserNoteComponent, AddNoteComponent, CreateNoteComponent],
   imports: [
     CommonModule,
     SharedModule,

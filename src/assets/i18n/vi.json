@@ -37,8 +37,8 @@
     "gender": "Giới tính",
     "age": "Tuổi",
     "address": "Địa chỉ",
-    "ward": "Phường",
-    "district": "Quận/Thành phố",
+    "ward": "Phường/Thị Trấn/Xã",
+    "district": "Quận/Huyện/Thành phố",
     "province": "Tỉnh/Thành phố",
     "fullnameRequired": "Nhập họ và tên",
     "passRequired": "Nhập mật khẩu",
@@ -73,7 +73,11 @@
   },
   "processing": "Đang xử lý...",
   "transporterPicker": {
-    "label": "Chọn người vận chuyển"
+    "label": "Người vận chuyển",
+    "district": "Quận {{name}}",
+    "startDate": "Ngày nhận",
+    "reason": "Lý do",
+    "createDate": "Ngày tạo"
   },
   "addNote": {
     "success": "Đã thêm ghi chú",
@@ -91,13 +95,16 @@
     "doctorUpdated": "Đã lưu",
     "copied": "Đã sao chép",
     "addNote": "Thêm ghi chú",
-    "addSupport": "Thêm hỗ trợ",
+    "addSupport": "Thêm y lệnh",
     "condition": "Tình trạng",
     "doctor": "Bác sĩ",
     "phone": "Số điện thoại",
     "code": "Mã bệnh nhận",
     "age": "Tuổi",
-    "gender": "Giới tính"
+    "gender": "Giới tính",
+    "editInfo": "Sửa thông tin",
+    "createSupport": "Tạo y lệnh",
+    "createNote": "Tạo ghi chú"
   },
   "paginator": {
     "page": "Trang {{page}} / {{total}}"
@@ -128,19 +135,14 @@
     "user": "Bệnh nhân"
   },
   "addSupport": {
-    "title": "Thông tin hỗ trợ",
+    "title": "Danh sách hỗ trợ",
     "emergency": "Khẩn cấp"
   },
   "userSupport": {
     "amount": "Số lượng",
     "status": "Trạng thái",
     "volunteer": "Tình nguyện viên",
-    "startDate": "Ngày nhận",
-    "completeDate": "Hoàn thành",
-    "reason": "Lý do",
-    "revokeMessage": "Bạn đã thu hồi bình Oxy của bệnh nhân này?",
-    "revokeOxyTitle": "Thu hồi bình Oxy",
-    "revoked": "Đã thu hồi bình Oxy"
+    "reason": "Lý do"
   },
   "supportStatusUpdate": {
     "title": "Trạng thái vận chuyển",
@@ -148,6 +150,7 @@
   },
   "userManagement": {
     "name": "Tên",
+    "info": "Thông tin",
     "role": "Phân quyền",
     "createOk": "Đã tạo",
     "updateOk": "Đã lưu",
@@ -174,8 +177,8 @@
   "userNote": {
     "reason": "Lý do: {{message}}",
     "selectTransporter": "Chọn người vận chuyển",
-    "update": "Cập nhật",
-    "emergency": "Khẩn cấp"
+    "emergency": "Khẩn cấp",
+    "createData": "Tạo dữ liệu"
   },
   "userFilter": {
     "all": "Tất cả",

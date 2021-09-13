@@ -1,0 +1,14 @@
+{
+  "/api": {
+    "target": "http://bacsicuaf0.tuongnguyenthientu.com:8889",
+    "secure": false
+  },
+  "/config": {
+    "target": "http://bacsicuaf0.tuongnguyenthientu.com:8889",
+    "secure": false
+  },
+  "/socket.io/*": {
+    "target": "http://bacsicuaf0.tuongnguyenthientu.com:8889",
+    "ws": true
+  }
+}

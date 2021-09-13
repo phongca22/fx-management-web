@@ -11,6 +11,7 @@ import { UserNote } from 'src/app/core/user-note';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
+import { TransporterCreateComponent } from '../transporter-picker/transporter-create/transporter-create.component';
 import { TransporterPickerComponent } from '../transporter-picker/transporter-picker.component';
 import { SupportStatusUpdateComponent } from '../user-support/support-status-update/support-status-update.component';
 import { NoteService } from './note.service';
@@ -32,6 +33,7 @@ export class UserNoteComponent implements OnInit {
   isCoordinator: boolean;
   isDoctor: boolean;
   isTransporter: boolean;
+  isImporter: boolean;
 
   constructor(
     private service: NoteService,
@@ -43,6 +45,7 @@ export class UserNoteComponent implements OnInit {
     this.isCoordinator = this.auth.hasRole(Role.Coordinator);
     this.isDoctor = this.auth.hasRole(Role.Doctor);
     this.isTransporter = this.auth.hasRole(Role.Volunteer);
+    this.isImporter = this.auth.hasRole(Role.Importer);
     this.service
       .listenRefresh()
       .pipe(takeUntil(this.$destroy))
@@ -90,6 +93,22 @@ export class UserNoteComponent implements OnInit {
   showTransporterPicker(data: UserNote): void {
     this.dialog
       .open(TransporterPickerComponent, {
+        data: {
+          info: this.user,
+          patientSupport: data.patientSupport
+        },
+        width: '100%',
+        maxWidth: '96vw',
+        autoFocus: false
+      })
+      .afterClosed()
+      .pipe(filter((val: boolean) => val))
+      .subscribe(() => this.getData());
+  }
+
+  showTransporterCreate(data: UserNote): void {
+    this.dialog
+      .open(TransporterCreateComponent, {
         data: {
           info: this.user,
           patientSupport: data.patientSupport

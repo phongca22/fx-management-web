@@ -8,6 +8,7 @@ import { SupportStatus } from 'src/app/core/support-status';
 import { UserInfo } from 'src/app/core/user-info';
 import { BaseService } from 'src/app/services/base-service';
 import { AddSupportComponent } from './add-support/add-support.component';
+import { CreateSupportComponent } from './create-support/create-support.component';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,26 @@ export class SupportService extends BaseService {
     super();
   }
 
-  addSupports({ id }: UserInfo, data: any[], emergency: boolean): Observable<any> {
+  addSupports({ id }: UserInfo, data: any[], emergency?: boolean): Observable<any> {
     return this.http
       .post(`${this.api}/support/${id}/create`, {
+        supports: data,
+        emergency: emergency
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
+  createSupportsWithDate({ id }: UserInfo, data: any[]): Observable<any> {
+    return this.http
+      .post(`${this.api}/support/${id}/create-with-date`, {
+        supports: data
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
+  createSupportsNow({ id }: UserInfo, data: any[], emergency?: boolean): Observable<any> {
+    return this.http
+      .post(`${this.api}/support/${id}/create-now`, {
         supports: data,
         emergency: emergency
       })
@@ -30,23 +48,47 @@ export class SupportService extends BaseService {
     return this.http.get(`${this.api}/support/${id}`).pipe(this.getResponse(), this.getError());
   }
 
-  setTransporter({ id }: UserInfo, psId: number, transporter: number): Observable<any> {
+  setTransporter(userId: number, transporterId: number, psId: number): Observable<any> {
     return this.http
       .put(`${this.api}/support/transporter/assign`, {
-        userId: id,
+        userId: userId,
         psId: psId,
-        transporterId: transporter
+        transporterId: transporterId
       })
       .pipe(this.getResponse(), this.getError());
   }
 
-  updateStatus({ id }: UserInfo, psId: number, status: SupportStatus, reason: string): Observable<any> {
+  createTransporterLogs(userId: number, psId: number, { transporterId, date, reason, status }: any): Observable<any> {
+    return this.http
+      .put(`${this.api}/support/transporter/create-logs`, {
+        userId: userId,
+        psId: psId,
+        transporterId: transporterId,
+        date: date,
+        reason: reason,
+        status: status
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
+  updateStatus(userId: number, psId: number, status: SupportStatus, reason: string): Observable<any> {
     return this.http
       .put(`${this.api}/support/transporter/update-status`, {
-        userId: id,
+        userId: userId,
         psId: psId,
         status: status,
-        reason
+        reason: reason
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
+  confirmStatus(userId: number, psId: number, status: SupportStatus, reason: string): Observable<any> {
+    return this.http
+      .put(`${this.api}/support/transporter/confirm-status`, {
+        userId: userId,
+        psId: psId,
+        status: status,
+        reason: reason
       })
       .pipe(this.getResponse(), this.getError());
   }
@@ -54,6 +96,26 @@ export class SupportService extends BaseService {
   showAddSupports(data: UserInfo): Observable<boolean> {
     return this.dialog
       .open(AddSupportComponent, {
+        data: data,
+        width: '100%',
+        maxWidth: '96vw',
+        autoFocus: false
+      })
+      .afterClosed()
+      .pipe(
+        map((val: any) => {
+          if (isString(val)) {
+            return false;
+          } else {
+            return val;
+          }
+        })
+      );
+  }
+
+  showCreateSupports(data: UserInfo): Observable<boolean> {
+    return this.dialog
+      .open(CreateSupportComponent, {
         data: data,
         width: '100%',
         maxWidth: '96vw',

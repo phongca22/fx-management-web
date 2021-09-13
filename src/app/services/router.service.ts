@@ -1,35 +1,26 @@
 import { Injectable } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { from, Observable, of, Subject } from 'rxjs';
+import { concatMap, tap } from 'rxjs/operators';
 import { Page, StackedPage } from '../core/page';
-import { LOGIN, USER_LIST } from '../core/page-config';
-import { AuthService } from '../modules/auth/auth.service';
+import { BLANK, LOGIN, USER_LIST } from '../core/page-config';
 import { PageState } from '../modules/store/page/page-state';
-import { User } from '../modules/store/user/user';
 import { StoreService } from './store.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RouterService {
-  landingPage: Page;
   stackedPages: StackedPage[] = [];
   stackedPages$: Subject<StackedPage[]>;
   navigationExtras: NavigationExtras | undefined;
-  isPermissionError: boolean;
-  isRefreshing: boolean;
   currentPage: PageState;
   previousPage: PageState;
-  user: User;
+  isRefreshing: boolean;
 
-  constructor(private router: Router, private store: StoreService, private auth: AuthService) {
+  constructor(private router: Router, private store: StoreService) {
     this.stackedPages$ = new Subject();
     this.store.selectPage().subscribe((page: PageState) => (this.currentPage = page));
-    this.store.selectUser().subscribe((user: User) => (this.user = user));
-  }
-
-  setLandingPage(data: Page) {
-    this.landingPage = data;
   }
 
   setStackedPage(page: StackedPage) {
@@ -43,7 +34,11 @@ export class RouterService {
 
   go(page: Page, extras?: NavigationExtras): void {
     this.navigationExtras = extras;
-    this.router.navigate([page.url], extras);
+    if (this.currentPage.page === page) {
+      this.refreshCurrentPage().subscribe(() => this.go(page, extras));
+    } else {
+      this.router.navigate([page.url], extras);
+    }
   }
 
   login(): void {
@@ -54,14 +49,11 @@ export class RouterService {
     this.go(USER_LIST);
   }
 
-  exitStackedPage() {
-    const last: StackedPage = this.stackedPages.pop() as StackedPage;
-    this.go(last.page, { state: { data: last.data } });
-    this.stackedPages$.next(this.stackedPages);
-  }
-
-  resetStackedPage() {
-    this.stackedPages = [];
-    this.stackedPages$.next([]);
+  refreshCurrentPage(): Observable<any> {
+    this.previousPage = this.currentPage;
+    return of(true).pipe(
+      tap(() => (this.isRefreshing = true)),
+      concatMap(() => from(this.router.navigate([BLANK.url], { skipLocationChange: true })))
+    );
   }
 }

@@ -7,8 +7,8 @@ import { GENDER, IGender } from 'src/app/core/gender';
 import { General } from 'src/app/core/general';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
-import { User } from 'src/app/core/user';
 import { AlertService } from '../../alert/alert.service';
+import { User } from '../user';
 import { UserManagementService } from '../user-management.service';
 
 @Component({
@@ -53,7 +53,7 @@ export class UserAddComponent implements OnInit {
 
   setData() {
     this.form.patchValue({
-      user: this.data.account,
+      user: this.data.username,
       name: this.data.name,
       gender: find(this.genders, { id: this.data.gender }),
       role: find(this.roles, { id: this.data.roles[0].id })

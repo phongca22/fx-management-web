@@ -76,6 +76,10 @@
             "development": {
               "browserTarget": "fx-management-web:build:development",
               "proxyConfig": "src/proxy.json"
+            },
+            "prod": {
+              "browserTarget": "fx-management-web:build:development",
+              "proxyConfig": "src/proxy-prod.json"
             }
           },
           "defaultConfiguration": "development"

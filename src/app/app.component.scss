@@ -5,3 +5,10 @@
   right: 0;
   bottom: 0;
 }
+
+.emergency {
+  position: absolute;
+  bottom: 5em;
+  right: 2em;
+  z-index: 1;
+}

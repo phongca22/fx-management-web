@@ -56,7 +56,7 @@ export class UserListComponent implements OnInit {
     this.isDoctor = this.auth.hasRole(Role.Doctor);
     this.isCoordinator = this.auth.hasRole(Role.Coordinator);
     this.isAdmin = this.auth.hasRole(Role.Admin);
-    this.hasEmergency = this.router.getCurrentNavigation()?.extras?.state?.count > 0;
+    this.hasEmergency = this.router.getCurrentNavigation()?.extras?.state?.emergency;
   }
 
   ngOnInit(): void {

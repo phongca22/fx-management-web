@@ -32,15 +32,6 @@ export class AuthService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
-  // register(user: string, pass: string): Observable<any> {
-  //   return this.http
-  //     .post(`${this.api}/auth/signup`, {
-  //       user: user,
-  //       pass: pass
-  //     })
-  //     .pipe(this.getResponse(), this.getError());
-  // }
-
   logoutAPI(): Observable<any> {
     return this.http.get(`${this.api}/auth/signout`).pipe(this.getResponse(), this.getError());
   }

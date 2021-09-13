@@ -8,6 +8,7 @@ import { UserInfo } from 'src/app/core/user-info';
 import { UserNote } from 'src/app/core/user-note';
 import { BaseService } from 'src/app/services/base-service';
 import { AddNoteComponent } from './add-note/add-note.component';
+import { CreateNoteComponent } from './create-note/create-note.component';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,17 @@ export class NoteService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
+  createNoteForTransporter(id: number, { content, date, transporterId }: any): Observable<any> {
+    return this.http
+      .post(`${this.api}/note/create-for-transporter`, {
+        userId: id,
+        content: content,
+        date: date,
+        transporterId: transporterId
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
   getNotes(id: number): Observable<any> {
     return this.http.get(`${this.api}/note/${id}`).pipe(this.getResponse(), this.getError());
   }
@@ -35,6 +47,20 @@ export class NoteService extends BaseService {
   showAddNote(data: UserInfo): Observable<UserNote | null> {
     return this.dialog
       .open(AddNoteComponent, {
+        data: data,
+        width: '100%',
+        height: '100%',
+        maxWidth: '100vw',
+        maxHeight: '100vh',
+        panelClass: 'mat-dialog-no-padding'
+      })
+      .afterClosed()
+      .pipe(filter((val: UserNote) => !isEmpty(val) && !isNil(val)));
+  }
+
+  showCreateNote(data: UserInfo): Observable<UserNote | null> {
+    return this.dialog
+      .open(CreateNoteComponent, {
         data: data,
         width: '100%',
         height: '100%',

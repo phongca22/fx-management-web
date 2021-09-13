@@ -12,6 +12,8 @@ import { UserInfoComponent } from '../user-info.component';
 })
 export class UserCardComponent implements OnInit {
   @Input() data: UserInfo;
+  isImporter: boolean;
+  isAdmin: boolean;
 
   constructor(private dialog: MatDialog, private clipboard: Clipboard, private alert: AlertService) {}
 
@@ -37,6 +39,11 @@ export class UserCardComponent implements OnInit {
 
   copy(data: string): void {
     this.clipboard.copy(data);
+    this.alert.info('userInfo.copied');
+  }
+
+  copyLink(): void {
+    this.clipboard.copy(window.origin + '/main/search/' + (this.data.code || this.data.legacyCode));
     this.alert.info('userInfo.copied');
   }
 }

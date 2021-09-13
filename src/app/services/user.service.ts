@@ -123,4 +123,8 @@ export class UserService extends BaseService {
       })
       .pipe(this.getResponse(), this.getError());
   }
+
+  hasEmergency(): Observable<any> {
+    return this.http.get(`${this.api}/user/has-emergency`).pipe(this.getResponse(), this.getError());
+  }
 }

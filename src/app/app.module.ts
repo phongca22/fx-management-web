@@ -12,13 +12,14 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AppConfigModule } from './modules/config/config.module';
 import { SharedModule } from './modules/shared-module';
 import { AppStoreModule } from './modules/store/store.module';
+import { EmptyComponent } from './empty/empty.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `/assets/i18n/`, `.json?version=${environment.version}`);
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, EmptyComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

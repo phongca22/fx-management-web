@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SEARCH, USER_LIST, USER_PROFILE } from 'src/app/core/page-config';
 import { Role } from 'src/app/core/role';
+import { EmptyComponent } from 'src/app/empty/empty.component';
 import { UserGuard } from '../auth/user.guard';
 import { MainComponent } from './main.component';
 
@@ -14,6 +15,10 @@ const routes: Routes = [
         path: '',
         redirectTo: 'users',
         pathMatch: 'full'
+      },
+      {
+        path: 'blank',
+        component: EmptyComponent
       },
       {
         path: 'profile',
@@ -51,7 +56,7 @@ const routes: Routes = [
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Admin]
+          role: [Role.Admin, Role.UserManagement]
         }
       },
       {
@@ -61,7 +66,7 @@ const routes: Routes = [
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Admin]
+          role: [Role.Admin, Role.UserManagement]
         }
       }
     ]

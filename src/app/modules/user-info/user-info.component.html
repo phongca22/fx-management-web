@@ -3,18 +3,35 @@
     <button mat-icon-button (click)="close()">
       <mat-icon svgIcon="keyboard-backspace"></mat-icon>
     </button>
-    <div fxFlex class="mat-title mb-0">{{user.name}}</div>
-    <div>
-      <button mat-icon-button (click)="edit()" *ngIf="isDoctor || isCoordinator || isAdmin">
-        <mat-icon svgIcon="account-edit-outline"></mat-icon>
-      </button>
-      <button mat-icon-button (click)="addNote()">
+    <div fxFlex class="mat-title mb-0 text-overflow">{{user.name}}</div>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon svgIcon="dots-horizontal"></mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="addNote()">
         <mat-icon svgIcon="comment-plus-outline"></mat-icon>
+        <span>{{'userInfo.addNote' | translate}}</span>
       </button>
-      <button mat-icon-button (click)="addSupports()" *ngIf="isDoctor">
-        <mat-icon svgIcon="briefcase-plus-outline"></mat-icon>
+      <button mat-menu-item (click)="addSupports()" *ngIf="isDoctor || isManager">
+        <mat-icon svgIcon="clipboard-edit-outline"></mat-icon>
+        <span>{{'userInfo.addSupport' | translate}}</span>
       </button>
-    </div>
+      <button mat-menu-item (click)="edit()" *ngIf="isDoctor || isCoordinator || isAdmin">
+        <mat-icon svgIcon="account-edit-outline"></mat-icon>
+        <span>{{'userInfo.editInfo' | translate}}</span>
+      </button>
+      <ng-container *ngIf="isAdmin || isImporter">
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="createNote()">
+          <mat-icon svgIcon="comment-plus-outline"></mat-icon>
+          <span>{{'userInfo.createNote' | translate}}</span>
+        </button>
+        <button mat-menu-item (click)="createSupports()">
+          <mat-icon svgIcon="clipboard-edit-outline"></mat-icon>
+          <span>{{'userInfo.createSupport' | translate}}</span>
+        </button>
+      </ng-container>
+    </mat-menu>
   </mat-toolbar>
   <div fxFlex class="wrapper">
     <app-user-note [user]="user" [(notes)]="notes"></app-user-note>

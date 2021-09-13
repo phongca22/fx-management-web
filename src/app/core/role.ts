@@ -3,5 +3,8 @@ export enum Role {
   Doctor = 2,
   Coordinator = 3,
   User = 4,
-  Volunteer = 5
+  Volunteer = 5,
+  Importer = 6,
+  UserManagement = 7,
+  Manager = 8
 }

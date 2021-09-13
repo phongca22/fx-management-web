@@ -1,12 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { Response } from 'src/app/core/response';
+import { Role } from 'src/app/core/role';
 import { Support } from 'src/app/core/support';
 import { SupportStatus } from 'src/app/core/support-status';
 import { UserInfo } from 'src/app/core/user-info';
 import { UserSupport } from 'src/app/core/user-support';
 import { AlertService } from '../../alert/alert.service';
+import { AuthService } from '../../auth/auth.service';
 import { AddSupportComponent } from '../add-support/add-support.component';
 import { SupportService } from '../support.service';
 
@@ -20,14 +23,18 @@ export class SupportStatusUpdateComponent implements OnInit {
   status: any[] = [SupportStatus.Delivered, SupportStatus.Failed].map((val: SupportStatus) => ({ id: val, name: val }));
   loading: boolean;
   supports: Support[];
+  isManager: boolean;
 
   constructor(
-    private builder: FormBuilder,
-    private dialog: MatDialogRef<AddSupportComponent>,
+    public builder: FormBuilder,
+    public dialog: MatDialogRef<AddSupportComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { info: UserInfo; patientSupport: UserSupport },
-    private alert: AlertService,
-    private service: SupportService
-  ) {}
+    public alert: AlertService,
+    public service: SupportService,
+    private auth: AuthService
+  ) {
+    this.isManager = this.auth.hasRole(Role.Manager);
+  }
 
   ngOnInit(): void {
     this.setupForm();
@@ -43,15 +50,19 @@ export class SupportStatusUpdateComponent implements OnInit {
   save() {
     this.loading = true;
     const { status, reason } = this.form.value;
-    this.service
-      .updateStatus(this.data.info, this.data.patientSupport.id, status, reason)
-      .subscribe((res: Response) => {
-        this.loading = false;
-        if (res.ok) {
-          this.dialog.close(true);
-        } else {
-          this.alert.error();
-        }
-      });
+    this.getService(status, reason).subscribe((res: Response) => {
+      this.loading = false;
+      if (res.ok) {
+        this.dialog.close(true);
+      } else {
+        this.alert.error();
+      }
+    });
+  }
+
+  getService(status: SupportStatus, reason: string): Observable<any> {
+    return this.isManager
+      ? this.service.confirmStatus(this.data.info.id, this.data.patientSupport.id, status, reason)
+      : this.service.updateStatus(this.data.info.id, this.data.patientSupport.id, status, reason);
   }
 }

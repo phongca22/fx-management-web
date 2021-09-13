@@ -1,9 +1,7 @@
-<nav mat-tab-nav-bar mat-align-tabs="center">
-  <a mat-tab-link (click)="go(userListMenu.page)" [active]="activePage === userListMenu.page" fxFlex>
-    <mat-icon [svgIcon]="userListMenu.icon" [color]="activePage === userListMenu.page ? 'primary' : ''"
-      [matBadge]="count" matBadgeColor="warn" [matBadgeHidden]="count === 0"></mat-icon>
-  </a>
-  <a mat-tab-link *ngFor="let page of pages" (click)="go(page.page)" [active]="activePage === page.page" fxFlex>
-    <mat-icon [svgIcon]="page.icon" [color]="activePage === page.page ? 'primary' : ''"></mat-icon>
-  </a>
-</nav>
+<mat-toolbar color="primary" fxLayout="row">
+  <div fxFlex *ngFor="let page of pages" fxLayout="row" fxLayoutAlign="center">
+    <button mat-icon-button (click)="go(page.page)" [color]="page.page === activePage ? 'accent' : ''">
+      <mat-icon [svgIcon]=" page.icon"></mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

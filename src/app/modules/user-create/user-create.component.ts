@@ -33,7 +33,7 @@ export class UserCreateComponent implements OnInit {
     data = {
       ...data,
       gender: data.gender?.id,
-      doctorId: data.doctor.id,
+      doctorId: data.doctor.info.id,
       province: data.province?.name,
       district: data.district?.name,
       ward: data.ward?.name

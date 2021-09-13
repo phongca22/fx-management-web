@@ -42,7 +42,7 @@ export class UserEditComponent implements OnInit {
     this.service.updateUser(data).subscribe((res: Response) => {
       this.loading = false;
       if (res.ok) {
-        this.dialog.close(new UserInfo(res.data));
+        this.dialog.close(new UserInfo({ info: res.data }));
         this.alert.success('userEdit.success');
       } else {
         this.alert.error();

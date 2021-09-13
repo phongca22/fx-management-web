@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { chain, keys } from 'lodash';
+import { chain, isNumber, keys, toNumber } from 'lodash';
 import { BINH_DUONG_WARD, HCM_WARD } from 'src/app/json/district';
 import { BINH_DUONG_DISTRICT, HCM_DISTRICT } from 'src/app/json/province';
 import { District } from './district';
@@ -32,9 +32,10 @@ export class AddressService {
       .filter((key: string) => key !== 'default')
       .map((key: string) => {
         const t = data[key];
+        const name = toNumber(t.name);
         return {
           id: t.code,
-          name: t.name_with_type,
+          name: isNaN(name) ? t.name : name.toString(),
           parent: t.parent_code
         };
       })

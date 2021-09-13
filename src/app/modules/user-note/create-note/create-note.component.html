@@ -1,0 +1,35 @@
+<div fxFill fxLayout="column" [formGroup]="form">
+  <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+    <button mat-icon-button mat-dialog-close [disabled]="loading">
+      <mat-icon svgIcon="keyboard-backspace"></mat-icon>
+    </button>
+    <div class="mat-title mb-0" fxFlex>{{'addNote.title' | translate}}</div>
+  </mat-toolbar>
+  <div fxFlex fxLayout="column" class="body">
+    <mat-form-field appearance="fill" color="accent">
+      <mat-label>{{'transporterPicker.createDate' | translate}}</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="outline" color="accent">
+      <mat-label>{{'transporterPicker.label' | translate}}</mat-label>
+      <mat-select formControlName="transporter">
+        <mat-select-trigger>{{form.get('transporter')?.value?.info.name}}</mat-select-trigger>
+        <mat-option *ngFor="let item of transporters" [value]="item">
+          {{item.info.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" color="accent">
+      <textarea rows="10" [ngStyle]="{height: height + 'px'}" matInput formControlName="content"
+        [placeholder]="'addNote.content' | translate"></textarea>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center" class="footer">
+    <button fxFlex mat-raised-button color="primary" [disabled]="form.invalid || loading" (click)="save()"
+      *ngIf="!loading">
+      {{'action.confirm' | translate}}
+    </button>
+  </div>
+</div>

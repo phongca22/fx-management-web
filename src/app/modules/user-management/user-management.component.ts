@@ -6,10 +6,10 @@ import { Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
-import { User } from 'src/app/core/user';
 import { DestroyService } from 'src/app/services/destroy.service';
-import { DoctorService } from 'src/app/services/doctor.service';
+import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
+import { User } from './user';
 import { UserAddComponent } from './user-add/user-add.component';
 import { UserManagementService } from './user-management.service';
 
@@ -20,7 +20,7 @@ import { UserManagementService } from './user-management.service';
   providers: [DestroyService]
 })
 export class UserManagementComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'role'];
+  displayedColumns: string[] = ['name', 'info'];
   dataSource: User[] = [];
   worker: Subject<number>;
   size: number;
@@ -31,7 +31,7 @@ export class UserManagementComponent implements OnInit {
     private service: UserManagementService,
     private alert: AlertService,
     private dialog: MatDialog,
-    private doctor: DoctorService
+    private user: UserService
   ) {
     this.worker = new Subject();
     this.worker
@@ -72,8 +72,8 @@ export class UserManagementComponent implements OnInit {
       .afterClosed()
       .pipe(filter((result: boolean) => result))
       .subscribe(() => {
-        this.doctor.clearCache();
         this.worker.next(this.page);
+        this.user.clearTransporters();
       });
   }
 

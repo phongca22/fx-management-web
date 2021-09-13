@@ -22,14 +22,18 @@ export class DoctorManagementComponent implements OnInit {
     this.doctor
       .getDoctors()
       .pipe(takeUntil(this.$destroy))
-      .subscribe((data: Doctor[]) => {
-        this.doctors = data;
+      .subscribe((res: Response) => {
+        if (res.ok) {
+          this.doctors = res.data.map((val: any) => new Doctor(val));
+        } else {
+          this.alert.error();
+        }
       });
   }
 
   change(event: MatSelectionListChange): void {
     const t = event.options[0];
-    this.doctor.setActive(t.value.id, t.selected).subscribe((res: Response) => {
+    this.doctor.setActive(t.value.info.id, t.selected).subscribe((res: Response) => {
       if (!res.ok) {
         this.alert.error();
       }

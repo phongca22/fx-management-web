@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { isEqual } from 'lodash';
 import { General } from 'src/app/core/general';
 import { Role } from 'src/app/core/role';
+import { DestroyService } from 'src/app/services/destroy.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from '../../auth/auth.service';
 
@@ -33,14 +35,15 @@ export const BY_EMERGENCY: General = {
 @Component({
   selector: 'app-user-filter',
   templateUrl: './user-filter.component.html',
-  styleUrls: ['./user-filter.component.scss']
+  styleUrls: ['./user-filter.component.scss'],
+  providers: [DestroyService]
 })
 export class UserFilterComponent implements OnInit {
   @Input() hasEmergency: boolean;
   @Output() change: EventEmitter<Function>;
   filters: General[];
 
-  constructor(private auth: AuthService, private user: UserService) {
+  constructor(private auth: AuthService, private user: UserService, private socket: SocketService) {
     this.change = new EventEmitter();
     if (this.auth.hasRole(Role.Doctor)) {
       this.filters = [ALL_FILTER, BY_DOCTOR_FILTER];
@@ -56,6 +59,7 @@ export class UserFilterComponent implements OnInit {
   ngOnInit(): void {
     if (this.hasEmergency) {
       this.select(this.filters[2]);
+      this.socket.emergencyMessage.next(false);
     } else {
       this.select(this.filters[1]);
     }

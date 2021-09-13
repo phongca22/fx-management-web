@@ -1,5 +1,6 @@
-import { reject } from 'lodash';
+import { reject, find, isNil } from 'lodash';
 import { Doctor } from './doctor';
+import { SupportStatus } from './support-status';
 import { UserConditionType } from './user-condition.enum';
 
 export class UserInfo {
@@ -17,9 +18,11 @@ export class UserInfo {
   code: string;
   doctor: Doctor;
   member: number;
+  emergency: boolean;
+  legacyCode: string;
 
   constructor(data: any) {
-    const { info, id } = data;
+    const { info, id, doctorAssignment } = data;
     this.id = id;
     this.name = info.fullname;
     this.phone = info.phone;
@@ -32,6 +35,8 @@ export class UserInfo {
     this.condition = info.status;
     this.code = info.code;
     this.member = info.member;
+    this.legacyCode = info.legacyCode;
+    this.emergency = !isNil(find(doctorAssignment?.supports, { emergency: true, status: SupportStatus.Pending }));
     if (data.condition) {
       this.setCondition(data.condition);
     }
@@ -43,7 +48,7 @@ export class UserInfo {
 
   combineAddress() {
     this.addressLabel = reject(
-      [this.address, this.ward ? 'P.' + this.ward : null, this.district ? 'Q.' + this.district : null, this.province],
+      [this.address, this.ward ? 'Phường ' + this.ward : null, this.district ? 'Quận ' + this.district : null, this.province],
       [null]
     ).join(', ');
   }

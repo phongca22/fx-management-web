@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { isEmpty, isNil, isNumber, isString } from 'lodash';
+import { isEmpty, isNil, isString } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { Response } from 'src/app/core/response';
@@ -33,6 +33,8 @@ export class UserInfoComponent implements OnInit {
   notes: UserNote[] = [];
   supports: UserSupport[] = [];
   isAdmin: boolean;
+  isImporter: boolean;
+  isManager: boolean;
 
   constructor(
     private service: UserService,
@@ -47,6 +49,8 @@ export class UserInfoComponent implements OnInit {
     this.isCoordinator = this.auth.hasRole(Role.Coordinator);
     this.isVolunteer = this.auth.hasRole(Role.Volunteer);
     this.isAdmin = this.auth.hasRole(Role.Admin);
+    this.isImporter = this.auth.hasRole(Role.Importer);
+    this.isManager = this.auth.hasRole(Role.Manager);
     if (this.data) {
       this.user = this.data;
       this.service.getUserInfo(this.user.id).subscribe((res: Response) => {
@@ -104,9 +108,20 @@ export class UserInfoComponent implements OnInit {
     this.note.showAddNote(this.user).subscribe();
   }
 
+  createNote(): void {
+    this.note.showCreateNote(this.user).subscribe();
+  }
+
   addSupports(): void {
     this.support
       .showAddSupports(this.user)
+      .pipe(filter((val: boolean) => val))
+      .subscribe(() => this.note.refreshEvent.next());
+  }
+
+  createSupports(): void {
+    this.support
+      .showCreateSupports(this.user)
       .pipe(filter((val: boolean) => val))
       .subscribe(() => this.note.refreshEvent.next());
   }

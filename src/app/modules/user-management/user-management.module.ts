@@ -6,9 +6,17 @@ import { UserManagementRoutingModule } from './user-management-routing.module';
 import { UserManagementComponent } from './user-management.component';
 import { UserAddComponent } from './user-add/user-add.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PipeModule } from '../pipes/pipe.module';
 
 @NgModule({
   declarations: [UserManagementComponent, UserAddComponent],
-  imports: [CommonModule, UserManagementRoutingModule, SharedModule, TranslateModule.forChild({}), ReactiveFormsModule]
+  imports: [
+    CommonModule,
+    UserManagementRoutingModule,
+    SharedModule,
+    TranslateModule.forChild({}),
+    ReactiveFormsModule,
+    PipeModule
+  ]
 })
 export class UserManagementModule {}

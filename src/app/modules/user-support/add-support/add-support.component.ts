@@ -2,12 +2,15 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { find } from 'lodash';
+import { Observable } from 'rxjs';
 import { Response } from 'src/app/core/response';
+import { Role } from 'src/app/core/role';
 import { Support } from 'src/app/core/support';
 import { UserInfo } from 'src/app/core/user-info';
 import { UserSupport } from 'src/app/core/user-support';
 import { ConfigService } from 'src/app/services/config.service';
 import { AlertService } from '../../alert/alert.service';
+import { AuthService } from '../../auth/auth.service';
 import { SupportService } from '../support.service';
 
 @Component({
@@ -19,6 +22,7 @@ export class AddSupportComponent implements OnInit {
   form: FormGroup;
   loading: boolean;
   supports: Support[];
+  isManager: boolean;
 
   constructor(
     private builder: FormBuilder,
@@ -26,9 +30,11 @@ export class AddSupportComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: UserInfo,
     private alert: AlertService,
     private service: SupportService,
-    private config: ConfigService
+    private config: ConfigService,
+    private auth: AuthService
   ) {
     this.supports = this.config.supports;
+    this.isManager = this.auth.hasRole(Role.Manager);
   }
 
   ngOnInit(): void {
@@ -41,8 +47,7 @@ export class AddSupportComponent implements OnInit {
 
   setupForm(): void {
     this.form = this.builder.group({
-      list: this.builder.array([]),
-      emergency: []
+      list: this.builder.array([])
     });
 
     this.supports.map((val: Support) => {
@@ -56,8 +61,7 @@ export class AddSupportComponent implements OnInit {
     });
   }
 
-  save() {
-    this.loading = true;
+  save(emergency?: boolean) {
     const t = this.form
       .get('list')
       ?.value.map(({ id, value }: any) => ({
@@ -65,7 +69,13 @@ export class AddSupportComponent implements OnInit {
         amount: value
       }))
       .filter(({ amount }: any) => amount > 0);
-    this.service.addSupports(this.data, t, this.form.value.emergency).subscribe((res: Response) => {
+
+    if (t.length === 0) {
+      return;
+    }
+
+    this.loading = true;
+    this.getService(t, emergency).subscribe((res: Response) => {
       this.loading = false;
       if (res.ok) {
         this.dialog.close(true);
@@ -73,6 +83,12 @@ export class AddSupportComponent implements OnInit {
         this.alert.error();
       }
     });
+  }
+
+  getService(data: any[], emerency?: boolean): Observable<any> {
+    return this.isManager
+      ? this.service.createSupportsNow(this.data, data, emerency)
+      : this.service.addSupports(this.data, data, emerency);
   }
 
   update(ctrl: AbstractControl, data: number) {
