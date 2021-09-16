@@ -1,11 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { find, sumBy, filter as filterLodash } from 'lodash';
+import { filter as filterLodash, find, sumBy } from 'lodash';
 import { takeUntil } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { GENDER, IGender } from 'src/app/core/gender';
+import { PatientCondition } from 'src/app/core/patient-condition';
 import { Response } from 'src/app/core/response';
+import { SGeneral } from 'src/app/core/sgeneral';
+import { TestCovidTypeList } from 'src/app/core/test-covid-type.enum';
 import { UserInfo } from 'src/app/core/user-info';
+import { BGeneral, YesNo } from 'src/app/core/yes-no.enum';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { AddressService } from '../address/address.service';
@@ -22,7 +26,8 @@ import { AlertService } from '../alert/alert.service';
 })
 export class UserFormComponent implements OnInit {
   @Input() form: FormGroup;
-  @Input() data: UserInfo;
+  @Input() info: UserInfo;
+  @Input() condition: PatientCondition;
   genders: IGender[] = GENDER;
   loading: boolean;
   doctors: Doctor[];
@@ -30,6 +35,8 @@ export class UserFormComponent implements OnInit {
   districts: District[];
   wards: Ward[];
   total: number;
+  testCovidTypes: SGeneral[] = TestCovidTypeList;
+  yesNo: BGeneral[] = YesNo;
 
   constructor(
     private builder: FormBuilder,
@@ -56,9 +63,26 @@ export class UserFormComponent implements OnInit {
         gender: [],
         ward: [''],
         district: [''],
-        province: [''],
-        doctor: [null, Validators.required],
-        member: [1]
+        province: ['']
+      })
+    );
+
+    this.form.addControl(
+      'condition',
+      this.builder.group({
+        background: [''],
+        symptom: [''],
+        spo2: ['', Validators.required],
+        sickDays: [1],
+        testCovid: [this.testCovidTypes[0]],
+        member: [1],
+        treated: [''],
+        having: [''],
+        zalo: [this.yesNo[0]],
+        desire: [''],
+        timer: [''],
+        note: [''],
+        doctor: [null, Validators.required]
       })
     );
 
@@ -94,28 +118,27 @@ export class UserFormComponent implements OnInit {
         });
       });
 
-    if (this.data) {
-      this.form.get('info.doctor')?.disable();
+    if (this.info) {
       this.form.patchValue({
         info: {
-          ...this.data,
-          fullname: this.data.name,
-          gender: find(this.genders, { id: this.data.gender }),
-          province: find(this.provinces, { name: this.data.province })
+          ...this.info,
+          fullname: this.info.name,
+          gender: find(this.genders, { id: this.info.gender }),
+          province: find(this.provinces, { name: this.info.province })
         }
       });
 
       setTimeout(() => {
         this.form.patchValue({
           info: {
-            district: find(this.districts, { name: this.data.district })
+            district: find(this.districts, { name: this.info.district })
           }
         });
 
         setTimeout(() => {
           this.form.patchValue({
             info: {
-              ward: find(this.wards, { name: this.data.ward })
+              ward: find(this.wards, { name: this.info.ward })
             }
           });
         });
@@ -135,6 +158,17 @@ export class UserFormComponent implements OnInit {
       this.form.patchValue({
         info: {
           province: this.provinces[0]
+        }
+      });
+    }
+
+    if (this.condition) {
+      this.form.get('condition.doctor')?.disable();
+      this.form.patchValue({
+        condition: {
+          ...this.condition,
+          testCovid: find(this.testCovidTypes, { id: this.condition.testCovid }),
+          zalo: find(this.yesNo, { id: this.condition.zalo })
         }
       });
     }

@@ -5,5 +5,20 @@
 }
 
 .doctor-wrapper {
+  padding: 8px 0px;
+  text-align: center;
+}
+
+.doctor-wrapper .mat-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.note-wrapper {
+  padding: 16px 0px;
+}
+
+.info-wrapper,
+.condition-wrapper {
   padding: 16px;
 }

@@ -1,3 +1,13 @@
-.wrapper {
-  overflow: auto;
+.body {
+  padding: 16px;
+}
+
+.doctor-wrapper {
+  position: relative;
+}
+
+.doctor-wrapper .doctor-phone {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
 }

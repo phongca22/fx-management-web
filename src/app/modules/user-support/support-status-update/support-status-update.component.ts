@@ -13,6 +13,11 @@ import { AuthService } from '../../auth/auth.service';
 import { AddSupportComponent } from '../add-support/add-support.component';
 import { SupportService } from '../support.service';
 
+interface DialogData {
+  id: number;
+  psId: number;
+}
+
 @Component({
   selector: 'app-support-status-update',
   templateUrl: './support-status-update.component.html',
@@ -28,7 +33,7 @@ export class SupportStatusUpdateComponent implements OnInit {
   constructor(
     public builder: FormBuilder,
     public dialog: MatDialogRef<AddSupportComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { info: UserInfo; patientSupport: UserSupport },
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public alert: AlertService,
     public service: SupportService,
     private auth: AuthService
@@ -62,7 +67,7 @@ export class SupportStatusUpdateComponent implements OnInit {
 
   getService(status: SupportStatus, reason: string): Observable<any> {
     return this.isManager
-      ? this.service.confirmStatus(this.data.info.id, this.data.patientSupport.id, status, reason)
-      : this.service.updateStatus(this.data.info.id, this.data.patientSupport.id, status, reason);
+      ? this.service.confirmStatus(this.data.id, this.data.psId, status, reason)
+      : this.service.updateStatus(this.data.id, this.data.psId, status, reason);
   }
 }

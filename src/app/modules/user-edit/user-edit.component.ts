@@ -2,10 +2,16 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GENDER, IGender } from 'src/app/core/gender';
+import { PatientCondition } from 'src/app/core/patient-condition';
 import { Response } from 'src/app/core/response';
 import { UserInfo } from 'src/app/core/user-info';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
+
+interface DialogData {
+  info: UserInfo;
+  condition: PatientCondition;
+}
 
 @Component({
   selector: 'app-user-edit',
@@ -20,7 +26,7 @@ export class UserEditComponent implements OnInit {
   constructor(
     private service: UserService,
     private alert: AlertService,
-    @Inject(MAT_DIALOG_DATA) public data: UserInfo,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private dialog: MatDialogRef<UserEditComponent>
   ) {}
 
@@ -30,19 +36,28 @@ export class UserEditComponent implements OnInit {
 
   save(): void {
     this.loading = true;
-    let data = { ...this.form.value.info };
-    data = {
-      ...data,
-      gender: data.gender?.id,
-      id: this.data.id,
-      province: data.province?.name,
-      district: data.district?.name,
-      ward: data.ward?.name
+    let { info, condition } = this.form.value;
+    const data = {
+      info: {
+        ...info,
+        gender: info.gender?.id,
+        province: info.province?.name,
+        district: info.district?.name,
+        ward: info.ward?.name
+      },
+      condition: {
+        ...condition,
+        testCovid: condition.testCovid.id,
+        zalo: condition.zalo.id
+      }
     };
-    this.service.updateUser(data).subscribe((res: Response) => {
+    this.service.updateUser(this.data.info.id, data).subscribe((res: Response) => {
       this.loading = false;
       if (res.ok) {
-        this.dialog.close(new UserInfo({ info: res.data }));
+        this.dialog.close({
+          info: new UserInfo({ info: res.data.info }),
+          condition: new PatientCondition(res.data.condition)
+        });
         this.alert.success('userEdit.success');
       } else {
         this.alert.error();

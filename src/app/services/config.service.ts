@@ -6,7 +6,6 @@ import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Response } from '../core/response';
 import { Support } from '../core/support';
-import { UserConditionType } from '../core/user-condition.enum';
 import { BaseService } from './base-service';
 
 @Injectable({
@@ -14,11 +13,6 @@ import { BaseService } from './base-service';
 })
 export class ConfigService extends BaseService {
   supports: Support[];
-  status: UserConditionType[] = [
-    UserConditionType.Processing,
-    UserConditionType.Recovered,
-    UserConditionType.Hospitalized
-  ];
 
   constructor(private http: HttpClient) {
     super();

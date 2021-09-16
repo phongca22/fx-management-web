@@ -7,8 +7,8 @@
       <div class="mat-title mb-0">{{'userEdit.title' | translate}}</div>
     </div>
   </mat-toolbar>
-  <div fxFlex fxLayout="column" class="body">
-    <app-user-form [form]="form" [data]="data"></app-user-form>
+  <div fxFlex fxLayout="column">
+    <app-user-form [form]="form" fxFlex [info]="data.info" [condition]="data.condition"></app-user-form>
   </div>
   <div fxLayout="row" fxLayoutAlign="center" class="footer">
     <button mat-raised-button color="primary" [disabled]="form.invalid || loading" (click)="save()" fxFlex>

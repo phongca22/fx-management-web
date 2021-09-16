@@ -22,7 +22,7 @@ export class UserCardComponent implements OnInit {
   showInfo(): void {
     this.dialog
       .open(UserInfoComponent, {
-        data: this.data,
+        data: this.data.id,
         width: '100%',
         maxWidth: '100vw',
         height: '100%',
@@ -34,6 +34,8 @@ export class UserCardComponent implements OnInit {
       .afterClosed()
       .subscribe((data: UserInfo) => {
         this.data.name = data.name;
+        this.data.doctor = data.doctor;
+        this.data.status = data.status;
       });
   }
 

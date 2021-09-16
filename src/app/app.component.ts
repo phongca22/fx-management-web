@@ -30,7 +30,6 @@ export class AppComponent {
     private readonly $destroy: DestroyService,
     private router: RouterService,
     private user: UserService,
-    private alert: AlertService,
     private coreRouter: Router,
     private route: ActivatedRoute,
     private store: StoreService,
@@ -51,7 +50,7 @@ export class AppComponent {
       .pipe(
         concatMap((val: User) => {
           this.hasEmergency = false;
-          if (isNil(val.id)) {
+          if (isNil(val.id) || !val.rooms.includes(ROOM.EMERGENCY)) {
             return of(true);
           } else {
             return this.user.hasEmergency().pipe(

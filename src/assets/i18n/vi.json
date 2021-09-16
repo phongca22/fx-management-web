@@ -44,9 +44,28 @@
     "passRequired": "Nhập mật khẩu",
     "phoneRequired": "Nhập số điện thoại",
     "doctor": "Bác sĩ",
-    "member": "Số người F0"
+    "member": "Số F0/Số thành viên",
+    "symptom": "Triệu chứng",
+    "backgroundDisease": "Bệnh nền",
+    "spo2": "SpO2",
+    "spo2Hint": "Nếu không có máy phải ghi rõ \"Chưa có\"",
+    "sickDays": "Số ngày đã bệnh",
+    "testCovid": "Test Covid",
+    "treated": "Đã điều trị như thế nào",
+    "having": "Nguồn lực đang có",
+    "note": "Ghi chú",
+    "desire": "Mong muốn FF",
+    "zalo": "Zalo video call",
+    "timer": "Hẹn bệnh nhân"
+  },
+  "testCovidType": {
+    "ward": "Y tế phường",
+    "kit": "Test nhanh/PCR",
+    "noMoney": "Không có tiền",
+    "suspect": "Nghi ngờ"
   },
   "userCreate": {
+    "title": "Tiếp nhận bệnh nhận",
     "success": "Đã tạo mới"
   },
   "gender": {
@@ -62,14 +81,16 @@
   "search": {
     "keyword": "Nhập mã hoặc số điện thoại"
   },
-  "userCondition": {
+  "patientStatus": {
+    "pending": "Đang chờ",
     "processing": "Đang điều trị",
     "recovered": "Hồi phục",
-    "hospitalized": "Chuyển viện"
+    "hospitalized": "Chuyển viện",
+    "done": "Đã xong"
   },
   "userEdit": {
     "success": "Đã lưu",
-    "title": "Thông tin bệnh nhân"
+    "title": "Cập nhật thông tin bệnh nhân"
   },
   "processing": "Đang xử lý...",
   "transporterPicker": {
@@ -82,11 +103,11 @@
   "addNote": {
     "success": "Đã thêm ghi chú",
     "content": "Nhập nội dung...",
-    "title": "Ghi chú"
+    "title": "Thêm ghi chú"
   },
   "empty": "Chưa có dữ liệu",
   "userStatusPicker": {
-    "status": "Tình trạng"
+    "status": "Trạng thái"
   },
   "userInfo": {
     "statusUpdated": "Đã lưu",
@@ -104,7 +125,8 @@
     "gender": "Giới tính",
     "editInfo": "Sửa thông tin",
     "createSupport": "Tạo y lệnh",
-    "createNote": "Tạo ghi chú"
+    "createNote": "Tạo ghi chú",
+    "status": "Trạng thái"
   },
   "paginator": {
     "page": "Trang {{page}} / {{total}}"
@@ -182,9 +204,17 @@
   },
   "userFilter": {
     "all": "Tất cả",
-    "byDoctor": "Theo bác sĩ",
-    "byTransporter": "Theo tình nguyện viên",
-    "byPending": "Chưa có người vận chuyển",
-    "byEmergency": "Khẩn cấp"
+    "doctor": "Theo bác sĩ",
+    "transporter": "Theo tình nguyện viên",
+    "pending": "Chưa có người vận chuyển",
+    "emergency": "Khẩn cấp",
+    "today": "Hôm nay"
+  },
+  "yes": "Có",
+  "no": "Không",
+  "noteTitle": {
+    "supportPending": "{{time}} - Bs.{{name}} tạo y lệnh",
+    "supportDelivering": "{{time}} - {{name}} đang vận chuyển",
+    "supportDelivered": "{{time}} - {{name}} đã giao"
   }
 }

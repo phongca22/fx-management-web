@@ -4,7 +4,7 @@ import { isNil } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Response } from '../core/response';
-import { UserConditionType } from '../core/user-condition.enum';
+import { PatientStatusType } from '../core/user-condition.enum';
 import { Transporter } from '../core/volunteer';
 import { BaseService } from './base-service';
 
@@ -32,8 +32,8 @@ export class UserService extends BaseService {
     return this.http.put(`${this.api}/user/find`, { key: data }).pipe(this.getResponse(), this.getError());
   }
 
-  updateUser(data: any): Observable<any> {
-    return this.http.put(`${this.api}/user/update`, data).pipe(this.getResponse(), this.getError());
+  updateUser(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.api}/user/${id}/update`, data).pipe(this.getResponse(), this.getError());
   }
 
   getAllUsers(page: number): Observable<any> {
@@ -89,6 +89,17 @@ export class UserService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
+  getByToday(page: number): Observable<any> {
+    page = isNil(page) ? 0 : page;
+    return this.http
+      .get(`${this.api}/user/by/today`, {
+        params: {
+          page: page.toString()
+        }
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
   getTransporters(): Observable<Transporter[]> {
     if (this.transporterLoaded) {
       return of(this.transporters);
@@ -112,12 +123,12 @@ export class UserService extends BaseService {
   }
 
   getUserInfo(id: number): Observable<any> {
-    return this.http.get(`${this.api}/user/info/${id}`).pipe(this.getResponse(), this.getError());
+    return this.http.get(`${this.api}/user/${id}/info`).pipe(this.getResponse(), this.getError());
   }
 
-  setCondition(id: number, data: UserConditionType): Observable<any> {
+  changePatientStatus(id: number, data: PatientStatusType): Observable<any> {
     return this.http
-      .put(`${this.api}/user/condition`, {
+      .put(`${this.api}/user/patient-status`, {
         userId: id,
         status: data
       })

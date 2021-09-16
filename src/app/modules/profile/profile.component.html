@@ -6,14 +6,14 @@
     </mat-card-subtitle>
     <mat-card-content>
       <div fxLayout="row" fxLayoutAlign=" start" fxLayoutGap="16px" *ngIf="isAdmin || isUserManagement">
-        <button fxFlex mat-raised-button color="accent" (click)="goUserManagement()">{{'profile.userManagement' |
+        <button fxFlex mat-raised-button color="primary" (click)="goUserManagement()">{{'profile.userManagement' |
           translate}}</button>
-        <button fxFlex mat-raised-button color="accent" (click)="goDoctorManagement()">{{'profile.doctorManagement' |
+        <button fxFlex mat-raised-button color="primary" (click)="goDoctorManagement()">{{'profile.doctorManagement' |
           translate}}</button>
       </div>
     </mat-card-content>
     <mat-card-actions align="end">
-      <button mat-raised-button color="accent" (click)="logout()">
+      <button mat-button color="primary" (click)="logout()">
         <mat-icon svgIcon="logout-variant"></mat-icon> {{'profile.logout' | translate}}
       </button>
     </mat-card-actions>

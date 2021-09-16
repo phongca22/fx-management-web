@@ -1,11 +1,12 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { isEmpty, isNil, isString } from 'lodash';
+import { isEmpty, isNil, isObject, isString } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
-import { UserConditionType } from 'src/app/core/user-condition.enum';
+import { PatientCondition } from 'src/app/core/patient-condition';
+import { PatientStatusType } from 'src/app/core/user-condition.enum';
 import { UserInfo } from 'src/app/core/user-info';
 import { UserNote } from 'src/app/core/user-note';
 import { UserSupport } from 'src/app/core/user-support';
@@ -13,7 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
 import { DoctorPickerComponent } from '../doctor-picker/doctor-picker.component';
-import { UserConditionPickerComponent } from '../user-condition-picker/user-condition-picker.component';
+import { PatientStatusPickerComponent } from '../patient-status-picker/patient-status-picker.component';
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { NoteService } from '../user-note/note.service';
 import { SupportService } from '../user-support/support.service';
@@ -24,7 +25,8 @@ import { SupportService } from '../user-support/support.service';
   styleUrls: ['./user-info.component.scss']
 })
 export class UserInfoComponent implements OnInit {
-  @Input() user: UserInfo;
+  userInfo: UserInfo;
+  patientCondition: PatientCondition;
   doctor: Doctor;
   isDoctor: boolean;
   loading: boolean = true;
@@ -43,7 +45,7 @@ export class UserInfoComponent implements OnInit {
     private auth: AuthService,
     private note: NoteService,
     private support: SupportService,
-    @Inject(MAT_DIALOG_DATA) public data: UserInfo,
+    @Inject(MAT_DIALOG_DATA) public data: number,
     private dialogRef: MatDialogRef<UserInfoComponent>
   ) {
     this.isCoordinator = this.auth.hasRole(Role.Coordinator);
@@ -51,15 +53,17 @@ export class UserInfoComponent implements OnInit {
     this.isAdmin = this.auth.hasRole(Role.Admin);
     this.isImporter = this.auth.hasRole(Role.Importer);
     this.isManager = this.auth.hasRole(Role.Manager);
+  }
+
+  ngOnInit(): void {
     if (this.data) {
-      this.user = this.data;
-      this.service.getUserInfo(this.user.id).subscribe((res: Response) => {
+      this.service.getUserInfo(this.data).subscribe((res: Response) => {
         this.loading = false;
         if (res.ok) {
-          const { condition, doctor } = res.data;
-          this.user.setDoctor(doctor);
-          this.user.setCondition(condition);
-          this.isDoctor = this.auth.hasRole(Role.Doctor) && this.user.doctor.info.id === this.auth.user?.id;
+          const { patientCondition } = res.data;
+          this.patientCondition = new PatientCondition(patientCondition);
+          this.userInfo = new UserInfo(res.data);
+          this.isDoctor = this.auth.hasRole(Role.Doctor) && this.userInfo.doctor.info.id === this.auth.user?.id;
         } else {
           this.alert.error();
         }
@@ -67,12 +71,13 @@ export class UserInfoComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
-
   edit(): void {
     this.dialog
       .open(UserEditComponent, {
-        data: this.user,
+        data: {
+          info: this.userInfo,
+          condition: this.patientCondition
+        },
         width: '100%',
         height: '100%',
         maxWidth: '100vw',
@@ -81,47 +86,48 @@ export class UserInfoComponent implements OnInit {
         panelClass: 'mat-dialog-no-padding'
       })
       .afterClosed()
-      .pipe(filter((val: UserInfo) => !isNil(val) && !isEmpty(val)))
-      .subscribe((val: UserInfo) => {
-        this.user.setInfo(val);
+      .pipe(filter((val: any) => !isNil(val) && !isEmpty(val)))
+      .subscribe((val: any) => {
+        this.userInfo.setInfo(val.info);
+        this.patientCondition = val.condition;
       });
   }
 
-  editCondition(): void {
+  editStatus(): void {
     if (!this.isDoctor) {
       return;
     }
 
     this.dialog
-      .open(UserConditionPickerComponent, {
-        data: this.user,
+      .open(PatientStatusPickerComponent, {
+        data: this.userInfo,
         width: '80%'
       })
       .afterClosed()
-      .pipe(filter((val: UserConditionType) => !isEmpty(val)))
-      .subscribe((val: UserConditionType) => {
-        this.user.condition = val;
+      .pipe(filter((val: PatientStatusType) => !isEmpty(val)))
+      .subscribe((val: PatientStatusType) => {
+        this.userInfo.status = val;
       });
   }
 
   addNote(): void {
-    this.note.showAddNote(this.user).subscribe();
+    this.note.showAddNote(this.userInfo).subscribe();
   }
 
   createNote(): void {
-    this.note.showCreateNote(this.user).subscribe();
+    this.note.showCreateNote(this.userInfo).subscribe();
   }
 
   addSupports(): void {
     this.support
-      .showAddSupports(this.user)
+      .showAddSupports(this.userInfo)
       .pipe(filter((val: boolean) => val))
       .subscribe(() => this.note.refreshEvent.next());
   }
 
   createSupports(): void {
     this.support
-      .showCreateSupports(this.user)
+      .showCreateSupports(this.userInfo)
       .pipe(filter((val: boolean) => val))
       .subscribe(() => this.note.refreshEvent.next());
   }
@@ -133,17 +139,17 @@ export class UserInfoComponent implements OnInit {
 
     this.dialog
       .open(DoctorPickerComponent, {
-        data: this.user,
+        data: this.userInfo,
         width: '80%'
       })
       .afterClosed()
       .pipe(filter((val: Doctor) => !isNil(val) && !isString(val)))
       .subscribe((res: Doctor) => {
-        this.user.doctor = res;
+        this.userInfo.doctor = res;
       });
   }
 
   close() {
-    this.dialogRef.close(this.user);
+    this.dialogRef.close(this.userInfo);
   }
 }

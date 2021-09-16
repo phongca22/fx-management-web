@@ -1,24 +1,24 @@
 <h2 mat-dialog-title>{{'userManagement.accountInfo' | translate}}</h2>
 <div [formGroup]="form" fxLayout="column">
-  <mat-form-field appearance="outline" color="accent">
+  <mat-form-field appearance="outline">
     <mat-label>{{'userManagement.user' | translate}}</mat-label>
     <input matInput formControlName="user" required autocomplete="off" name="off" />
     <mat-error *ngIf=" form.get('user')?.hasError('required')">{{'userManagement.userRequired' | translate}}
     </mat-error>
   </mat-form-field>
-  <mat-form-field appearance="outline" *ngIf="!data" color="accent">
+  <mat-form-field appearance="outline" *ngIf="!data">
     <mat-label>{{'userManagement.pass' | translate}}</mat-label>
     <input matInput formControlName="pass" required type="password" name="new-password" />
     <mat-error *ngIf="form.get('pass')?.hasError('required')">{{'userManagement.passRequired' | translate}}
     </mat-error>
   </mat-form-field>
-  <mat-form-field appearance="outline" color="accent">
+  <mat-form-field appearance="outline">
     <mat-label>{{'userManagement.fullname' | translate}}</mat-label>
     <input matInput formControlName="name" required />
     <mat-error *ngIf="form.get('name')?.hasError('required')">{{'userManagement.fullnameRequired' | translate}}
     </mat-error>
   </mat-form-field>
-  <mat-form-field appearance="outline" color="accent">
+  <mat-form-field appearance="outline">
     <mat-label>{{'userForm.gender' | translate}}</mat-label>
     <mat-select formControlName="gender">
       <mat-select-trigger>{{form.get('gender')?.value?.name | translate}}</mat-select-trigger>
@@ -27,7 +27,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field appearance="outline" fxFlex color="accent">
+  <mat-form-field appearance="outline" fxFlex>
     <mat-label>{{'userManagement.role' | translate}}</mat-label>
     <mat-select formControlName="role" required>
       <mat-select-trigger>{{form.get('role')?.value?.name}}</mat-select-trigger>

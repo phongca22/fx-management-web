@@ -31,6 +31,7 @@ export class BaseService {
         new Response({
           ok: false,
           code: res.status,
+          data: res.data,
           message: res.message
         })
       );

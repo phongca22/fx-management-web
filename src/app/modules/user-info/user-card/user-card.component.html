@@ -1,37 +1,31 @@
-<mat-card (click)="showInfo()">
-  <div fxLayout="column" fxLayoutGap="16px">
-    <div fxLayout="row" fxLayoutAlign="">
-      <div fxFlex>
-        <div class="mat-title mb-0">
-          <span [matBadge]="data.member" matBadgeColor="primary" matBadgeOverlap="false"
-            [matBadgeHidden]="data.member <= 1">{{data.name}}</span>
-        </div>
-        <div class="mat-body">{{data.addressLabel}}</div>
-      </div>
-      <button mat-icon-button (click)="copyLink(); $event.stopPropagation()" class=" gray-icon-color copy-link-btn">
-        <mat-icon svgIcon="link"></mat-icon>
-      </button>
+<mat-card fxLayout="column" fxLayoutGap="16px">
+  <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign=" center">
+    <mat-icon svgIcon="account" class="icon gray-icon-color"></mat-icon>
+    <div fxFlex>
+      <div class="mat-title mb-0">{{data.name}}</div>
+      <div class="mat-body gray-color">{{data.status | patientStatus}}</div>
     </div>
-    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="space-between center">
-      <div fxFlex (click)="copy(data.phone); $event.stopPropagation()">
-        <div class="mat-caption gray-color">{{'userInfo.phone' | translate}}</div>
-        <div class="mat-body">{{data.phone}}</div>
-      </div>
-      <div fxFlex fxLayout="row">
-        <div fxFlex>
-          <div class="mat-caption gray-color">{{'userInfo.gender' | translate}}</div>
-          <div class="mat-body">{{data.gender | gender}}</div>
-        </div>
-        <div fxFlex>
-          <div class="mat-caption gray-color">{{'userInfo.age' | translate}}</div>
-          <div class="mat-body">{{data.age}}</div>
-        </div>
-      </div>
+  </div>
+  <mat-divider [inset]="true"></mat-divider>
+  <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="8px" fxFlex>
+      <div class="mat-body gray-color">Bs.{{data.doctor.info.name}}</div>
     </div>
-    <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end center">
-      <mat-chip-list *ngIf="data.emergency">
-        <mat-chip color="warn" selected>{{'userNote.emergency' | translate}}</mat-chip>
-      </mat-chip-list>
+    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="8px">
+      <mat-icon svgIcon="calendar-month" class="gray-icon-color"></mat-icon>
+      <div class="mat-body gray-color">{{data.createdDate | date: 'dd-MM-YYYY'}}</div>
     </div>
+    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="8px">
+      <mat-icon svgIcon="clock-outline" class="gray-icon-color"></mat-icon>
+      <div class="mat-body gray-color">{{data.createdDate | date: 'hh:mm'}}</div>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="end">
+    <button mat-stroked-button color="primary" (click)="copyLink()">
+      Link
+    </button>
+    <button mat-stroked-button color="primary" (click)="showInfo()" class="view-btn">
+      Chi tiết
+    </button>
   </div>
 </mat-card>

@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { chain, flatten, keys } from 'lodash';
-import { UserInfo } from 'src/app/core/user-info';
+import { chain, keys } from 'lodash';
 import { UserSupport } from 'src/app/core/user-support';
 import { Transporter } from 'src/app/core/volunteer';
 import { UserService } from 'src/app/services/user.service';
@@ -10,6 +9,10 @@ import { AlertService } from '../alert/alert.service';
 import { NoteService } from '../user-note/note.service';
 import { SupportService } from '../user-support/support.service';
 
+interface DialogData {
+  id: number;
+  psId: number;
+}
 @Component({
   selector: 'app-transporter-picker',
   templateUrl: './transporter-picker.component.html',
@@ -22,7 +25,7 @@ export class TransporterPickerComponent implements OnInit {
 
   constructor(
     private dialog: MatDialogRef<TransporterPickerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { info: UserInfo; patientSupport: UserSupport },
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private service: SupportService,
     private user: UserService,
     private alert: AlertService,
@@ -61,7 +64,7 @@ export class TransporterPickerComponent implements OnInit {
     this.loading = true;
     if (this.selectCtrl.value !== this.data) {
       this.service
-        .setTransporter(this.data.info.id, this.selectCtrl.value.info.id, this.data.patientSupport.id)
+        .setTransporter(this.data.id, this.selectCtrl.value.info.id, this.data.psId)
         .subscribe((res: Response) => {
           if (res.ok) {
             this.note.refreshEvent.next();

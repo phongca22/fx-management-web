@@ -29,16 +29,23 @@ export class UserCreateComponent implements OnInit {
 
   save(): void {
     this.loading = true;
-    let data = { ...this.form.value.info };
-    data = {
-      ...data,
-      gender: data.gender?.id,
-      doctorId: data.doctor.info.id,
-      province: data.province?.name,
-      district: data.district?.name,
-      ward: data.ward?.name
+    let { info, condition } = this.form.value;
+    const data = {
+      info: {
+        ...info,
+        gender: info.gender?.id,
+        province: info.province?.name,
+        district: info.district?.name,
+        ward: info.ward?.name
+      },
+      condition: {
+        ...condition,
+        doctorId: condition.doctor.info.id,
+        testCovid: condition.testCovid.id,
+        zalo: condition.zalo.id
+      }
     };
-    delete data.doctor;
+    delete data.condition.doctor;
     this.service.createUser(data).subscribe((res: Response) => {
       this.loading = false;
       if (res.ok) {
@@ -46,7 +53,13 @@ export class UserCreateComponent implements OnInit {
         this.alert.success('userCreate.success');
         this.dialog.close(true);
       } else {
-        this.alert.error();
+        if (res.data === 1) {
+          this.alert.error('Số điện thoại đã tồn tại');
+        } else if (res.data === 2) {
+          this.alert.error('Địa chỉ đã tồn tại');
+        } else {
+          this.alert.error();
+        }
       }
     });
   }

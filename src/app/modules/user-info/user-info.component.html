@@ -3,25 +3,26 @@
     <button mat-icon-button (click)="close()">
       <mat-icon svgIcon="keyboard-backspace"></mat-icon>
     </button>
-    <div fxFlex class="mat-title mb-0 text-overflow">{{user.name}}</div>
+    <div fxFlex class="mat-title mb-0 text-overflow">{{userInfo?.name}}</div>
     <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon svgIcon="dots-horizontal"></mat-icon>
+      <mat-icon svgIcon="dots-vertical"></mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="addNote()">
-        <mat-icon svgIcon="comment-plus-outline"></mat-icon>
-        <span>{{'userInfo.addNote' | translate}}</span>
-      </button>
-      <button mat-menu-item (click)="addSupports()" *ngIf="isDoctor || isManager">
-        <mat-icon svgIcon="clipboard-edit-outline"></mat-icon>
-        <span>{{'userInfo.addSupport' | translate}}</span>
-      </button>
-      <button mat-menu-item (click)="edit()" *ngIf="isDoctor || isCoordinator || isAdmin">
-        <mat-icon svgIcon="account-edit-outline"></mat-icon>
-        <span>{{'userInfo.editInfo' | translate}}</span>
-      </button>
-      <ng-container *ngIf="isAdmin || isImporter">
-        <mat-divider></mat-divider>
+      <ng-container *ngIf="userInfo?.code">
+        <button mat-menu-item (click)="addNote()">
+          <mat-icon svgIcon="comment-plus-outline"></mat-icon>
+          <span>{{'userInfo.addNote' | translate}}</span>
+        </button>
+        <button mat-menu-item (click)="addSupports()" *ngIf="isDoctor || isManager">
+          <mat-icon svgIcon="clipboard-edit-outline"></mat-icon>
+          <span>{{'userInfo.addSupport' | translate}}</span>
+        </button>
+        <button mat-menu-item (click)="edit()" *ngIf="isDoctor || isCoordinator || isAdmin">
+          <mat-icon svgIcon="account-edit-outline"></mat-icon>
+          <span>{{'userInfo.editInfo' | translate}}</span>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!userInfo?.code && (isAdmin || isImporter)">
         <button mat-menu-item (click)="createNote()">
           <mat-icon svgIcon="comment-plus-outline"></mat-icon>
           <span>{{'userInfo.createNote' | translate}}</span>
@@ -33,18 +34,142 @@
       </ng-container>
     </mat-menu>
   </mat-toolbar>
-  <div fxFlex class="wrapper">
-    <app-user-note [user]="user" [(notes)]="notes"></app-user-note>
+  <div fxFlex class="wrapper mat-tab-wrapper">
+    <mat-tab-group fxFlex>
+      <mat-tab label="Ghi chú">
+        <div class="note-wrapper">
+          <app-user-note [data]="data" [code]="userInfo?.code" [(notes)]="notes"></app-user-note>
+        </div>
+      </mat-tab>
+      <mat-tab label="Tình trạng">
+        <div class="condition-wrapper">
+          <mat-card fxLayout="column" fxLayoutGap="16px">
+            <div fxLayout="row" fxLayoutGap="16px">
+              <mat-icon svgIcon="account-details" class="gray-icon-color"></mat-icon>
+              <div fxLayout="column" fxFlex>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.backgroundDisease' | translate}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.background}}</div>
+                </div>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.symptom' | translate}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.symptom}}</div>
+                </div>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.spo2' | translate}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.spo2}}</div>
+                </div>
+                <div fxLayout="row">
+                  <div fxFlex fxLayout="column">
+                    <div class="mat-caption gray-color">{{'userForm.sickDays' | translate}}</div>
+                    <div class="mat-subheading-2 mb-0">{{patientCondition?.sickDays}}</div>
+                  </div>
+                  <div fxFlex fxLayout="column">
+                    <div class="mat-caption gray-color">{{'userForm.member' | translate}}</div>
+                    <div class="mat-subheading-2 mb-0">{{patientCondition?.member}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <mat-divider [inset]="true"></mat-divider>
+            <div fxLayout="row" fxLayoutGap="16px">
+              <mat-icon svgIcon="test-tube" class="gray-icon-color"></mat-icon>
+              <div fxLayout="column" fxFlex>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.testCovid' | translate}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.testCovid | testCovid}}</div>
+                </div>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.treated' | translate}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.treated}}</div>
+                </div>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.having' | translate}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.having}}</div>
+                </div>
+              </div>
+            </div>
+            <mat-divider [inset]="true"></mat-divider>
+            <div fxLayout="row" fxLayoutGap="16px">
+              <mat-icon svgIcon="clock" class="gray-icon-color"></mat-icon>
+              <div fxLayout="column" fxFlex>
+                <div fxLayout="row">
+                  <div fxFlex fxLayout="column">
+                    <div class="mat-caption gray-color">{{'userForm.desire' | translate}}</div>
+                    <div class="mat-subheading-2">{{patientCondition?.desire}}</div>
+                  </div>
+                  <div fxFlex fxLayout="column">
+                    <div class="mat-caption gray-color">{{'userForm.zalo' | translate}}</div>
+                    <div class="mat-subheading-2">{{patientCondition?.zalo | yesNo}}</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.timer' | translate}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.timer}}</div>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </mat-tab>
+      <mat-tab label="Thông tin">
+        <div class="info-wrapper">
+          <mat-card fxLayout="column" fxLayoutGap="16px">
+            <div fxLayout="row" fxLayoutGap="16px">
+              <mat-icon svgIcon="account" class="gray-icon-color"></mat-icon>
+              <div fxLayout="column" fxFlex>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.fullname' | translate}}</div>
+                  <div class="mat-subheading-2">{{userInfo?.name}}</div>
+                </div>
+                <div fxLayout="row">
+                  <div fxFlex fxLayout="column">
+                    <div class="mat-caption gray-color">{{'userForm.gender' | translate}}</div>
+                    <div class="mat-subheading-2 mb-0">{{userInfo?.gender | gender}}</div>
+                  </div>
+                  <div fxFlex fxLayout="column">
+                    <div class="mat-caption gray-color">{{'userForm.age' | translate}}</div>
+                    <div class="mat-subheading-2 mb-0">{{userInfo?.age}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <mat-divider [inset]="true"></mat-divider>
+            <div fxLayout="row" fxLayoutGap="16px">
+              <mat-icon svgIcon="map-marker" class="gray-icon-color"></mat-icon>
+              <div fxLayout="column" fxFlex>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.address' | translate}}</div>
+                  <div class="mat-subheading-2">{{userInfo?.addressLabel}}</div>
+                </div>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.phone' | translate}}</div>
+                  <div class="mat-subheading-2">{{userInfo?.phone}}</div>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
   <mat-divider></mat-divider>
-  <div fxLayout="row" fxLayoutAlign=" center" class="doctor-wrapper">
-    <div (click)="editDoctor()" fxFlex>
-      <div class="mat-caption gray-color">{{'userInfo.doctor' | translate}}</div>
-      <div class="mat-subheading-2 mb-0">{{user.doctor?.info?.name}}</div>
+  <div fxLayout="row" class="doctor-wrapper" fxLayoutGap="16px">
+    <div (click)="editDoctor()" fxFlex fxLayout="row" fxLayoutAlign="center center">
+      <div fxLayout="column" fxLayoutAlign=" center">
+        <div class="mat-title mb-0 gray-color">Bs.{{userInfo?.doctor?.info?.name}}</div>
+      </div>
     </div>
-    <div (click)="editCondition()" fxFlex>
-      <div class="mat-caption gray-color">{{'userInfo.condition' | translate}}</div>
-      <div class="mat-subheading-2 mb-0">{{user.condition | userCondition}}</div>
+    <mat-divider [vertical]="true"></mat-divider>
+    <div (click)="editStatus()" fxFlex fxLayout="row" fxLayoutAlign="center center">
+      <div fxLayout="column" fxLayoutAlign=" center">
+        <mat-icon svgIcon="account-clock" *ngIf="userInfo?.status === 'pending'" class="gray-icon-color"></mat-icon>
+        <mat-icon svgIcon="progress-clock" *ngIf="userInfo?.status === 'processing'" class="gray-icon-color"></mat-icon>
+        <mat-icon svgIcon="account-heart" *ngIf="userInfo?.status === 'recovered'" class="gray-icon-color"></mat-icon>
+        <mat-icon svgIcon="hospital-box" *ngIf="userInfo?.status === 'hospitalized'" class="gray-icon-color"></mat-icon>
+        <mat-icon svgIcon="account-check" *ngIf="userInfo?.status === 'done'" class="gray-icon-color"></mat-icon>
+        <div class="mat-title mb-0 gray-color">{{userInfo?.status | patientStatus}}</div>
+      </div>
     </div>
   </div>
 </div>

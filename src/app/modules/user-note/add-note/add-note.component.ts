@@ -3,7 +3,6 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Response } from 'src/app/core/response';
 import { UserInfo } from 'src/app/core/user-info';
-import { UserNote } from 'src/app/core/user-note';
 import { AlertService } from '../../alert/alert.service';
 import { NoteService } from '../note.service';
 
@@ -16,6 +15,7 @@ export class AddNoteComponent implements OnInit, AfterViewInit {
   loading: boolean;
   contentCtrl: FormControl;
   @ViewChild('wrapper') wrapper: ElementRef;
+  @ViewChild('input') input: ElementRef;
   height: number;
 
   constructor(
@@ -29,6 +29,7 @@ export class AddNoteComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     const t = this.wrapper.nativeElement.getBoundingClientRect().height;
     this.height = t - 100;
+    // this.input.nativeElement.focus();
     this.cdr.detectChanges();
   }
 
@@ -38,10 +39,7 @@ export class AddNoteComponent implements OnInit, AfterViewInit {
 
   save(): void {
     this.loading = true;
-    const format = this.contentCtrl.value
-      .split(/\n/g)
-      .map((line: string) => `<span>${line}</span>`)
-      .join('<br/>');
+    const format = this.contentCtrl.value;
     this.service.addNote(this.data.id, format).subscribe((res: Response) => {
       if (res.ok) {
         this.service.refreshEvent.next();

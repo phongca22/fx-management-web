@@ -6,7 +6,6 @@ import { chain, groupBy, isEmpty, keys } from 'lodash';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
-import { UserInfo } from 'src/app/core/user-info';
 import { UserNote } from 'src/app/core/user-note';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { AlertService } from '../alert/alert.service';
@@ -25,7 +24,8 @@ dayjs.extend(customParseFormat);
   providers: [DestroyService]
 })
 export class UserNoteComponent implements OnInit {
-  @Input() user: UserInfo;
+  @Input() data: number;
+  @Input() code: string | undefined;
   @Input() notes: UserNote[];
   @Output() notesChange = new EventEmitter<UserNote[]>();
   loaded: boolean;
@@ -58,7 +58,7 @@ export class UserNoteComponent implements OnInit {
 
   getData() {
     this.service
-      .getNotes(this.user.id)
+      .getNotes(this.data)
       .pipe(takeUntil(this.$destroy))
       .subscribe((res: Response) => {
         this.loaded = true;
@@ -94,8 +94,8 @@ export class UserNoteComponent implements OnInit {
     this.dialog
       .open(TransporterPickerComponent, {
         data: {
-          info: this.user,
-          patientSupport: data.patientSupport
+          id: this.data,
+          psId: data.patientSupport.id
         },
         width: '100%',
         maxWidth: '96vw',
@@ -110,7 +110,7 @@ export class UserNoteComponent implements OnInit {
     this.dialog
       .open(TransporterCreateComponent, {
         data: {
-          info: this.user,
+          id: this.data,
           patientSupport: data.patientSupport
         },
         width: '100%',
@@ -126,8 +126,8 @@ export class UserNoteComponent implements OnInit {
     this.dialog
       .open(SupportStatusUpdateComponent, {
         data: {
-          info: this.user,
-          patientSupport: data.patientSupport
+          id: this.data,
+          psId: data.patientSupport.id
         },
         width: '100%',
         maxWidth: '96vw',

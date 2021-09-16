@@ -1,7 +1,8 @@
-<mat-toolbar color="primary" fxLayout="row">
+<mat-toolbar fxLayout="row" color="primary">
   <div fxFlex *ngFor="let page of pages" fxLayout="row" fxLayoutAlign="center">
-    <button mat-icon-button (click)="go(page.page)" [color]="page.page === activePage ? 'accent' : ''">
-      <mat-icon [svgIcon]=" page.icon"></mat-icon>
+    <button mat-icon-button (click)="go(page.page)" [color]="page.page === activePage ? 'primary' : ''"
+      [class.gray-icon-color]="page.page !== activePage">
+      <mat-icon [svgIcon]="page.page === activePage ? page.activeIcon : page.icon"></mat-icon>
     </button>
   </div>
 </mat-toolbar>

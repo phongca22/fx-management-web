@@ -10,19 +10,22 @@ import { User } from '../store/user/user';
 const SEARCH_PAGE_MENU = {
   name: 'menu.user.search',
   page: SEARCH,
-  icon: 'account-search-outline'
+  icon: 'account-search-outline',
+  activeIcon: 'account-search'
 };
 
 const USER_LIST_MENU = {
   name: 'menu.user.list',
   page: USER_LIST,
-  icon: 'account-multiple-outline'
+  icon: 'account-multiple-outline',
+  activeIcon: 'account-multiple'
 };
 
 const USER_PROFILE_MENU = {
   name: 'menu.user.profile',
   page: USER_PROFILE,
-  icon: 'account-outline'
+  icon: 'account-outline',
+  activeIcon: 'account'
 };
 
 @Component({
