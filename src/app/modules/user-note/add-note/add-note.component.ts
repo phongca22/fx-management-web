@@ -42,7 +42,7 @@ export class AddNoteComponent implements OnInit, AfterViewInit {
     const format = this.contentCtrl.value;
     this.service.addNote(this.data.id, format).subscribe((res: Response) => {
       if (res.ok) {
-        this.service.refreshEvent.next();
+        this.service.refresh();
         this.dialog.close();
         this.alert.success('addNote.success');
       } else {

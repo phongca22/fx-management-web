@@ -15,3 +15,10 @@
 .paginator {
   background: #fff;
 }
+
+.container.empty {
+  background-image: url('/assets/svg/illustrations/undraw_No_data_re_kwbl.svg');
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+}

@@ -34,7 +34,7 @@ export class AddSupportComponent implements OnInit {
     private auth: AuthService
   ) {
     this.supports = this.config.supports;
-    this.isManager = this.auth.hasRole(Role.Manager);
+    this.isManager = this.auth.hasRole(Role.Coordinator);
   }
 
   ngOnInit(): void {

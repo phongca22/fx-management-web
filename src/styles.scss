@@ -102,3 +102,21 @@ body {
 .mat-tab-wrapper .mat-tab-group {
   overflow: hidden;
 }
+
+.doctor-level-3,
+.mat-chip.mat-standard-chip.doctor-level-3 {
+  background: #ff5722;
+  color: #fff;
+}
+
+.doctor-level-2,
+.mat-chip.mat-standard-chip.doctor-level-2 {
+  background: #009688;
+  color: #fff;
+}
+
+.doctor-level-4,
+.mat-chip.mat-standard-chip.doctor-level-4 {
+  background: #9c27b0;
+  color: #fff;
+}

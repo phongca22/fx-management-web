@@ -4,7 +4,7 @@ import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { delay, filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
 import { UserInfo } from 'src/app/core/user-info';
@@ -38,11 +38,11 @@ export class UserListComponent implements OnInit {
   size: number;
   worker: Subject<number>;
   filterEvent: Subject<Function>;
-  isDoctor: boolean;
-  isCoordinator: boolean;
+  isAgent: boolean;
   currentPage: number;
   isAdmin: boolean;
   hasEmergency: boolean;
+  loading: boolean = true;
 
   constructor(
     private alert: AlertService,
@@ -53,8 +53,7 @@ export class UserListComponent implements OnInit {
   ) {
     this.filterEvent = new Subject();
     this.worker = new Subject();
-    this.isDoctor = this.auth.hasRole(Role.Doctor);
-    this.isCoordinator = this.auth.hasRole(Role.Coordinator);
+    this.isAgent = this.auth.hasRole(Role.Agent);
     this.isAdmin = this.auth.hasRole(Role.Admin);
     this.hasEmergency = this.router.getCurrentNavigation()?.extras?.state?.emergency;
   }
@@ -67,6 +66,9 @@ export class UserListComponent implements OnInit {
           this.currentPage = page;
         }),
         switchMap(([page, fn]) => this.getData(page, fn)),
+        tap(() => {
+          this.loading = false;
+        }),
         takeUntil(this.$destroy)
       )
       .subscribe((res: Response) => {
@@ -101,7 +103,6 @@ export class UserListComponent implements OnInit {
         maxWidth: '100vw',
         height: '100%',
         maxHeight: '100vh',
-        autoFocus: false,
         panelClass: 'mat-dialog-no-padding'
       })
       .afterClosed()

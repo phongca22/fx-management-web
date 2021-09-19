@@ -33,7 +33,7 @@
   },
   "userForm": {
     "fullname": "Họ và tên",
-    "phone": "Điện thoại",
+    "phone": "Số điện thoại",
     "gender": "Giới tính",
     "age": "Tuổi",
     "address": "Địa chỉ",
@@ -44,7 +44,7 @@
     "passRequired": "Nhập mật khẩu",
     "phoneRequired": "Nhập số điện thoại",
     "doctor": "Bác sĩ",
-    "member": "Số F0/Số thành viên",
+    "member": "Số F0",
     "symptom": "Triệu chứng",
     "backgroundDisease": "Bệnh nền",
     "spo2": "SpO2",
@@ -66,7 +66,10 @@
   },
   "userCreate": {
     "title": "Tiếp nhận bệnh nhận",
-    "success": "Đã tạo mới"
+    "success": "Đã tạo mới",
+    "view": "Xem bệnh nhân",
+    "phoneExistedMessage": "Đã có bệnh nhân sử dụng số điện thoại này",
+    "addressExistedMessage": "Đã có bệnh nhân sử dụng địa chỉ này"
   },
   "gender": {
     "male": "Nam",
@@ -79,7 +82,7 @@
     "search": "Không tìm thấy"
   },
   "search": {
-    "keyword": "Nhập mã hoặc số điện thoại"
+    "keyword": "Nhập mã bệnh nhân hoặc số điện thoại"
   },
   "patientStatus": {
     "pending": "Đang chờ",
@@ -152,7 +155,7 @@
   "role": {
     "admin": "Admin",
     "doctor": "Bác sĩ",
-    "coodirnator": "Điều phối",
+    "agent": "Tư vấn",
     "volunteer": "Tình nguyện viên",
     "user": "Bệnh nhân"
   },
@@ -186,15 +189,24 @@
     "roleRequired": "Chọn phần quyền",
     "accountInfo": "Thông tin tài khoản",
     "title": "Danh sách thành viên",
-    "sum": "Có {{total}} thành viên"
+    "sum": "Có {{total}} thành viên",
+    "phone": "Số điện thoại"
   },
   "profile": {
     "logout": "Đăng xuất",
     "userManagement": "Quản lý tài khoản",
-    "doctorManagement": "Quản lý bác sỹ"
+    "doctorManagement": "Quản lý bác sĩ"
   },
   "doctorManagement": {
-    "title": "Danh sách bác sĩ"
+    "title": "Danh sách bác sĩ",
+    "name": "Họ và tên",
+    "today": "Trực hôm nay",
+    "off": "Nghỉ",
+    "fullname": "Họ và tên",
+    "fullnameRequired": "Nhập họ và tên",
+    "phone": "Số điện thoại",
+    "phoneRequired": "Nhập số điện thoại",
+    "level": "Cấp độ"
   },
   "userNote": {
     "reason": "Lý do: {{message}}",
@@ -204,8 +216,7 @@
   },
   "userFilter": {
     "all": "Tất cả",
-    "doctor": "Theo bác sĩ",
-    "transporter": "Theo tình nguyện viên",
+    "mine": "Của tôi",
     "pending": "Chưa có người vận chuyển",
     "emergency": "Khẩn cấp",
     "today": "Hôm nay"
@@ -213,8 +224,22 @@
   "yes": "Có",
   "no": "Không",
   "noteTitle": {
-    "supportPending": "{{time}} - Bs.{{name}} tạo y lệnh",
+    "supportPending": "{{time}} - Bs.{{name}} đã tạo y lệnh",
     "supportDelivering": "{{time}} - {{name}} đang vận chuyển",
-    "supportDelivered": "{{time}} - {{name}} đã giao"
+    "supportDelivered": "{{time}} - {{name}} đã giao",
+    "supportFailed": "{{time}} - {{name}} đã hủy",
+    "patientStatusChange": "{{time}} - Bs.{{name}} đã thay đổi trạng thái",
+    "doctorChange": "{{time}} - {{name}} đã thay đổi bác sĩ"
+  },
+  "doctorLevel": {
+    "level1": "Mức độ 1",
+    "level2": "Mức độ 2",
+    "level3": "Mức độ 3",
+    "level4": "Mức độ 4"
+  },
+  "userCard": {
+    "date": "Ngày giờ",
+    "linkCopied": "Đã sao chép liên kết",
+    "codeCopied": "Đã sao chép mã bệnh nhân"
   }
 }

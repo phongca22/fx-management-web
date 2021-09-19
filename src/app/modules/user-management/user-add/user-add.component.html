@@ -2,7 +2,7 @@
 <div [formGroup]="form" fxLayout="column">
   <mat-form-field appearance="outline">
     <mat-label>{{'userManagement.user' | translate}}</mat-label>
-    <input matInput formControlName="user" required autocomplete="off" name="off" />
+    <input matInput formControlName="user" required name="username" />
     <mat-error *ngIf=" form.get('user')?.hasError('required')">{{'userManagement.userRequired' | translate}}
     </mat-error>
   </mat-form-field>
@@ -17,6 +17,10 @@
     <input matInput formControlName="name" required />
     <mat-error *ngIf="form.get('name')?.hasError('required')">{{'userManagement.fullnameRequired' | translate}}
     </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>{{'userManagement.phone' | translate}}</mat-label>
+    <input matInput formControlName="phone" />
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>{{'userForm.gender' | translate}}</mat-label>

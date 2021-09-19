@@ -31,10 +31,13 @@ export class DoctorService extends BaseService {
 
   setActive(id: number, active: boolean): Observable<any> {
     return this.http
-      .post(`${this.api}/doctor/active`, {
-        id: id,
+      .post(`${this.api}/doctor/${id}/active`, {
         active: active
       })
       .pipe(this.getResponse(), this.getError());
+  }
+
+  edit(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.api}/doctor/${id}/edit`, data).pipe(this.getResponse(), this.getError());
   }
 }

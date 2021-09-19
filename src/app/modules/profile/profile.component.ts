@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { DOCTOR_MANAGEMENT, USER_MANAGEMENT } from 'src/app/core/page-config';
+import { MatDialog } from '@angular/material/dialog';
+import { USER_MANAGEMENT } from 'src/app/core/page-config';
 import { Role } from 'src/app/core/role';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { RouterService } from 'src/app/services/router.service';
 import { AuthService } from '../auth/auth.service';
+import { DoctorManagementComponent } from '../doctor-management/doctor-management.component';
 import { ProfileService } from './profile.service';
 import { UserProfile } from './user-profile';
 
@@ -18,7 +20,12 @@ export class ProfileComponent implements OnInit {
   isAdmin: boolean;
   isUserManagement: boolean;
 
-  constructor(private service: ProfileService, private router: RouterService, private auth: AuthService) {
+  constructor(
+    private service: ProfileService,
+    private router: RouterService,
+    private auth: AuthService,
+    private dialog: MatDialog
+  ) {
     this.isAdmin = this.auth.hasRole(Role.Admin);
     this.isUserManagement = this.auth.hasRole(Role.UserManagement);
   }
@@ -36,6 +43,13 @@ export class ProfileComponent implements OnInit {
   }
 
   goDoctorManagement(): void {
-    this.router.go(DOCTOR_MANAGEMENT);
+    this.dialog.open(DoctorManagementComponent, {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      autoFocus: false,
+      panelClass: 'mat-dialog-no-padding'
+    });
   }
 }

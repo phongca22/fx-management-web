@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   host: '',
-  version: '1.8.1'
+  version: '2.0.3'
 };

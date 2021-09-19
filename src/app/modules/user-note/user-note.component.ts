@@ -2,8 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as dayjs from 'dayjs';
 import * as customParseFormat from 'dayjs/plugin/customParseFormat';
-import { chain, groupBy, isEmpty, keys } from 'lodash';
+import { chain, find as findLodash, groupBy, isEmpty, keys } from 'lodash';
 import { filter, takeUntil } from 'rxjs/operators';
+import { Doctor } from 'src/app/core/doctor';
+import { PATIENT_NOTE_TYPE } from 'src/app/core/patient-note-type';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
 import { UserNote } from 'src/app/core/user-note';
@@ -30,10 +32,11 @@ export class UserNoteComponent implements OnInit {
   @Output() notesChange = new EventEmitter<UserNote[]>();
   loaded: boolean;
   groups: { id: number; name: string; notes: UserNote[] }[];
-  isCoordinator: boolean;
+  isAgent: boolean;
   isDoctor: boolean;
   isTransporter: boolean;
-  isImporter: boolean;
+  isCoordinator: boolean;
+  doctors: Doctor[];
 
   constructor(
     private service: NoteService,
@@ -42,10 +45,10 @@ export class UserNoteComponent implements OnInit {
     public auth: AuthService,
     private dialog: MatDialog
   ) {
-    this.isCoordinator = this.auth.hasRole(Role.Coordinator);
+    this.isAgent = this.auth.hasRole(Role.Agent);
     this.isDoctor = this.auth.hasRole(Role.Doctor);
     this.isTransporter = this.auth.hasRole(Role.Volunteer);
-    this.isImporter = this.auth.hasRole(Role.Importer);
+    this.isCoordinator = this.auth.hasRole(Role.Coordinator);
     this.service
       .listenRefresh()
       .pipe(takeUntil(this.$destroy))
@@ -63,7 +66,19 @@ export class UserNoteComponent implements OnInit {
       .subscribe((res: Response) => {
         this.loaded = true;
         if (res.ok) {
-          this.notes = res.data.map((val: any) => new UserNote(val));
+          this.doctors = res.data.doctors.map((val: any) => new Doctor(val));
+          this.notes = res.data.result
+            .map((val: any) => new UserNote(val))
+            .map((val: UserNote) => {
+              if (val.type === PATIENT_NOTE_TYPE.DOCTOR_CHANGE) {
+                val.contents = val.contents.map(
+                  (doctorId: string) =>
+                    (findLodash(this.doctors, { info: { id: parseInt(doctorId) } }) as Doctor)?.info.name
+                );
+              }
+              return val;
+            });
+
           this.combineData();
         } else {
           this.alert.error();

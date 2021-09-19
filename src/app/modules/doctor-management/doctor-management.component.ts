@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSelectionListChange } from '@angular/material/list';
-import { takeUntil } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { isNil, isString } from 'lodash';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { Response } from 'src/app/core/response';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { AlertService } from '../alert/alert.service';
+import { DoctorEditComponent } from './doctor-edit/doctor-edit.component';
 
 @Component({
   selector: 'app-doctor-management',
@@ -16,7 +19,12 @@ import { AlertService } from '../alert/alert.service';
 export class DoctorManagementComponent implements OnInit {
   doctors: Doctor[];
 
-  constructor(private doctor: DoctorService, private alert: AlertService, private readonly $destroy: DestroyService) {}
+  constructor(
+    private doctor: DoctorService,
+    private alert: AlertService,
+    private readonly $destroy: DestroyService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.doctor
@@ -31,12 +39,30 @@ export class DoctorManagementComponent implements OnInit {
       });
   }
 
-  change(event: MatSelectionListChange): void {
-    const t = event.options[0];
-    this.doctor.setActive(t.value.info.id, t.selected).subscribe((res: Response) => {
+  change(event: MatSlideToggleChange, data: Doctor) {
+    data.active = event.checked;
+    this.doctor.setActive(data.info.id, event.checked).subscribe((res: Response) => {
       if (!res.ok) {
         this.alert.error();
+        data.active = !data.active;
       }
     });
+  }
+
+  edit(data: Doctor): void {
+    this.dialog
+      .open(DoctorEditComponent, {
+        data: data,
+        width: '100%',
+        maxWidth: '96vw',
+        autoFocus: false
+      })
+      .afterClosed()
+      .pipe(filter((result: any) => !isNil(result) && !isString(result)))
+      .subscribe((result: any) => {
+        data.info.name = result.name;
+        data.info.phone = result.phone;
+        data.level = result.level;
+      });
   }
 }

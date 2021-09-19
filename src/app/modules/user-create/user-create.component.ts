@@ -1,8 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { of } from 'rxjs';
+import { concatMap, tap } from 'rxjs/operators';
 import { GENDER, IGender } from 'src/app/core/gender';
 import { Response } from 'src/app/core/response';
+import { RouterService } from 'src/app/services/router.service';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
 
@@ -20,7 +24,10 @@ export class UserCreateComponent implements OnInit {
   constructor(
     private service: UserService,
     private alert: AlertService,
-    private dialog: MatDialogRef<UserCreateComponent>
+    private dialog: MatDialogRef<UserCreateComponent>,
+    private translate: TranslateService,
+    private router: RouterService,
+    private dialogSvc: MatDialog
   ) {
     this.form = new FormGroup({});
   }
@@ -28,7 +35,6 @@ export class UserCreateComponent implements OnInit {
   ngOnInit(): void {}
 
   save(): void {
-    this.loading = true;
     let { info, condition } = this.form.value;
     const data = {
       info: {
@@ -46,21 +52,56 @@ export class UserCreateComponent implements OnInit {
       }
     };
     delete data.condition.doctor;
-    this.service.createUser(data).subscribe((res: Response) => {
-      this.loading = false;
-      if (res.ok) {
-        this.form.reset();
-        this.alert.success('userCreate.success');
-        this.dialog.close(true);
-      } else {
-        if (res.data === 1) {
-          this.alert.error('Số điện thoại đã tồn tại');
-        } else if (res.data === 2) {
-          this.alert.error('Địa chỉ đã tồn tại');
-        } else {
-          this.alert.error();
+    this.service
+      .createUser(data)
+      .pipe(
+        tap(() => (this.loading = true)),
+        concatMap((res: Response) => {
+          if (res.ok) {
+            this.form.reset();
+            this.alert.success('userCreate.success');
+            return of(true);
+          } else {
+            this.loading = false;
+            if (res.data.code === 1) {
+              return this.alert
+                .confirm({
+                  title: this.translate.instant('userCreate.phoneExistedMessage'),
+                  ok: 'userCreate.view'
+                })
+                .pipe(
+                  tap((result: boolean) => {
+                    if (result) {
+                      this.dialogSvc.closeAll();
+                      this.router.goSearch(res.data.data);
+                    }
+                  })
+                );
+            } else if (res.data.code === 2) {
+              return this.alert
+                .confirm({
+                  title: this.translate.instant('userCreate.addressExistedMessage'),
+                  ok: 'userCreate.view'
+                })
+                .pipe(
+                  tap((result: boolean) => {
+                    if (result) {
+                      this.dialogSvc.closeAll();
+                      this.router.goSearch(res.data.data);
+                    }
+                  })
+                );
+            } else {
+              this.alert.error();
+              return of(false);
+            }
+          }
+        })
+      )
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.dialog.close(true);
         }
-      }
-    });
+      });
   }
 }

@@ -1,10 +1,10 @@
 <div fxFlex fxLayout="column">
-  <div fxLayout="row" class="header">
+  <mat-toolbar color="primary" fxLayout="row">
     <div class="mat-title title" fxFlex>{{'userManagement.title' | translate}}</div>
-    <button mat-icon-button class="gray-icon-color" (click)="add()">
+    <button mat-icon-button (click)="add()">
       <mat-icon svgIcon="account-plus-outline"></mat-icon>
     </button>
-  </div>
+  </mat-toolbar>
   <div fxLayout="row" fxLayoutAlign=" center" class="paginator">
     <div fxFlex class="mat-caption gray-color ml-3">{{'userManagement.sum' | translate: {total: size || 0} }}</div>
     <mat-paginator [length]="size" [pageSize]="10" [hidePageSize]="true" (page)="changePage($event)">
@@ -23,7 +23,6 @@
             <div *ngFor="let item of element.roles">
               {{item.name}}
             </div>
-            <div>{{element.gender | gender}}</div>
           </div>
         </td>
       </ng-container>

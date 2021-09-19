@@ -14,7 +14,8 @@ import { CreateNoteComponent } from './create-note/create-note.component';
   providedIn: 'root'
 })
 export class NoteService extends BaseService {
-  refreshEvent: Subject<void>;
+  private refreshEvent: Subject<void>;
+
   constructor(private http: HttpClient, private dialog: MatDialog) {
     super();
     this.refreshEvent = new Subject();
@@ -74,5 +75,9 @@ export class NoteService extends BaseService {
 
   listenRefresh() {
     return this.refreshEvent;
+  }
+
+  refresh(): void {
+    this.refreshEvent.next();
   }
 }

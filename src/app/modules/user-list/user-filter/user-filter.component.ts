@@ -17,14 +17,9 @@ export const BY_PENDING_FILTER: General = {
   name: 'userFilter.pending'
 };
 
-export const BY_DOCTOR_FILTER: General = {
+export const BY_MINE_FILTER: General = {
   id: 3,
-  name: 'userFilter.doctor'
-};
-
-export const BY_TRANSPORTER_FILTER: General = {
-  id: 4,
-  name: 'userFilter.transporter'
+  name: 'userFilter.mine'
 };
 
 export const BY_EMERGENCY: General = {
@@ -48,20 +43,20 @@ export class UserFilterComponent implements OnInit {
   @Output() change: EventEmitter<Function>;
   filters: General[];
   isDoctor: boolean;
-  isCoordinator: boolean;
+  isAgent: boolean;
   isTransporter: boolean;
 
   constructor(private auth: AuthService, private user: UserService, private socket: SocketService) {
     this.change = new EventEmitter();
     this.isDoctor = this.auth.hasRole(Role.Doctor);
-    this.isCoordinator = this.auth.hasRole(Role.Coordinator);
+    this.isAgent = this.auth.hasRole(Role.Agent);
     this.isTransporter = this.auth.hasRole(Role.Volunteer);
     if (this.isDoctor) {
-      this.filters = [ALL_FILTER, TODAY_FILTER, BY_DOCTOR_FILTER];
-    } else if (this.isCoordinator) {
-      this.filters = [ALL_FILTER, TODAY_FILTER, BY_PENDING_FILTER, BY_EMERGENCY];
+      this.filters = [ALL_FILTER, TODAY_FILTER, BY_MINE_FILTER];
+    } else if (this.isAgent) {
+      this.filters = [ALL_FILTER, TODAY_FILTER, BY_MINE_FILTER, BY_PENDING_FILTER, BY_EMERGENCY];
     } else if (this.isTransporter) {
-      this.filters = [ALL_FILTER, TODAY_FILTER, BY_TRANSPORTER_FILTER];
+      this.filters = [ALL_FILTER, TODAY_FILTER, BY_MINE_FILTER];
     } else {
       this.filters = [ALL_FILTER, TODAY_FILTER];
     }
@@ -75,17 +70,24 @@ export class UserFilterComponent implements OnInit {
       }
       this.socket.emergencyMessage.next(false);
     } else {
-      this.select(this.filters[1]);
+      const t = find(this.filters, BY_MINE_FILTER);
+      if (t) {
+        this.select(t);
+      }
     }
   }
 
   select(data: General) {
     if (isEqual(data, BY_PENDING_FILTER)) {
       this.change.next((page: number) => this.user.getByPendingSupport(page));
-    } else if (isEqual(data, BY_DOCTOR_FILTER)) {
-      this.change.next((page: number) => this.user.getByDoctor(page));
-    } else if (isEqual(data, BY_TRANSPORTER_FILTER)) {
-      this.change.next((page: number) => this.user.getByTransporter(page));
+    } else if (isEqual(data, BY_MINE_FILTER)) {
+      if (this.isDoctor) {
+        this.change.next((page: number) => this.user.getByDoctor(page));
+      } else if (this.isAgent) {
+        this.change.next((page: number) => this.user.getByAgent(page));
+      } else if (this.isTransporter) {
+        this.change.next((page: number) => this.user.getByTransporter(page));
+      }
     } else if (isEqual(data, BY_EMERGENCY)) {
       this.change.next((page: number) => this.user.getByEmergency(page));
     } else if (isEqual(data, TODAY_FILTER)) {

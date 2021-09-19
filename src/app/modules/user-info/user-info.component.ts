@@ -18,6 +18,7 @@ import { PatientStatusPickerComponent } from '../patient-status-picker/patient-s
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { NoteService } from '../user-note/note.service';
 import { SupportService } from '../user-support/support.service';
+import { User } from '../store/user/user';
 
 @Component({
   selector: 'app-user-info',
@@ -31,12 +32,13 @@ export class UserInfoComponent implements OnInit {
   isDoctor: boolean;
   loading: boolean = true;
   isVolunteer: boolean;
-  isCoordinator: boolean;
+  isAgent: boolean;
   notes: UserNote[] = [];
   supports: UserSupport[] = [];
   isAdmin: boolean;
   isImporter: boolean;
-  isManager: boolean;
+  isCoordinator: boolean;
+  user: User | null;
 
   constructor(
     private service: UserService,
@@ -48,11 +50,12 @@ export class UserInfoComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: number,
     private dialogRef: MatDialogRef<UserInfoComponent>
   ) {
-    this.isCoordinator = this.auth.hasRole(Role.Coordinator);
+    this.isAgent = this.auth.hasRole(Role.Agent);
     this.isVolunteer = this.auth.hasRole(Role.Volunteer);
     this.isAdmin = this.auth.hasRole(Role.Admin);
     this.isImporter = this.auth.hasRole(Role.Importer);
-    this.isManager = this.auth.hasRole(Role.Manager);
+    this.isCoordinator = this.auth.hasRole(Role.Coordinator);
+    this.user = this.auth.user;
   }
 
   ngOnInit(): void {
@@ -94,7 +97,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   editStatus(): void {
-    if (!this.isDoctor) {
+    if (!this.isDoctor && !this.isCoordinator) {
       return;
     }
 
@@ -107,6 +110,7 @@ export class UserInfoComponent implements OnInit {
       .pipe(filter((val: PatientStatusType) => !isEmpty(val)))
       .subscribe((val: PatientStatusType) => {
         this.userInfo.status = val;
+        this.note.refresh();
       });
   }
 
@@ -122,18 +126,18 @@ export class UserInfoComponent implements OnInit {
     this.support
       .showAddSupports(this.userInfo)
       .pipe(filter((val: boolean) => val))
-      .subscribe(() => this.note.refreshEvent.next());
+      .subscribe(() => this.note.refresh());
   }
 
   createSupports(): void {
     this.support
       .showCreateSupports(this.userInfo)
       .pipe(filter((val: boolean) => val))
-      .subscribe(() => this.note.refreshEvent.next());
+      .subscribe(() => this.note.refresh());
   }
 
   editDoctor(): void {
-    if (!this.isCoordinator) {
+    if (!this.isAgent) {
       return;
     }
 
@@ -146,6 +150,7 @@ export class UserInfoComponent implements OnInit {
       .pipe(filter((val: Doctor) => !isNil(val) && !isString(val)))
       .subscribe((res: Doctor) => {
         this.userInfo.doctor = res;
+        this.note.refresh();
       });
   }
 

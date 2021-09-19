@@ -5,7 +5,7 @@ import { chain, keys } from 'lodash';
 import { SupportStatus } from 'src/app/core/support-status';
 import { UserInfo } from 'src/app/core/user-info';
 import { UserSupport } from 'src/app/core/user-support';
-import { Transporter } from 'src/app/core/volunteer';
+import { Transporter } from 'src/app/core/transporter';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../../alert/alert.service';
 import { NoteService } from '../../user-note/note.service';
@@ -59,7 +59,7 @@ export class TransporterCreateComponent implements OnInit {
       })
       .subscribe((res: Response) => {
         if (res.ok) {
-          this.note.refreshEvent.next();
+          this.note.refresh();
           this.dialog.close();
         } else {
           this.loading = false;

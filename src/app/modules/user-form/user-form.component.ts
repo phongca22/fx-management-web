@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { filter as filterLodash, find, sumBy } from 'lodash';
+import { filter as filterLodash, find, sortBy, sumBy } from 'lodash';
 import { takeUntil } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { GENDER, IGender } from 'src/app/core/gender';
@@ -72,7 +72,7 @@ export class UserFormComponent implements OnInit {
       this.builder.group({
         background: [''],
         symptom: [''],
-        spo2: ['', Validators.required],
+        spo2: [''],
         sickDays: [1],
         testCovid: [this.testCovidTypes[0]],
         member: [1],
@@ -81,8 +81,8 @@ export class UserFormComponent implements OnInit {
         zalo: [this.yesNo[0]],
         desire: [''],
         timer: [''],
-        note: [''],
-        doctor: [null, Validators.required]
+        doctor: [null, Validators.required],
+        note: ['']
       })
     );
 
@@ -149,7 +149,7 @@ export class UserFormComponent implements OnInit {
         .pipe(takeUntil(this.$destroy))
         .subscribe((res: Response) => {
           if (res.ok) {
-            this.doctors = Doctor.parseActive(res.data);
+            this.doctors = sortBy(Doctor.parseActive(res.data), ['level']);
             this.total = sumBy(this.doctors, 'count');
           } else {
             this.alert.error();

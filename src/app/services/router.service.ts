@@ -3,7 +3,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { from, Observable, of, Subject } from 'rxjs';
 import { concatMap, tap } from 'rxjs/operators';
 import { Page, StackedPage } from '../core/page';
-import { BLANK, LOGIN, USER_LIST } from '../core/page-config';
+import { BLANK, LOGIN, SEARCH, USER_LIST } from '../core/page-config';
 import { PageState } from '../modules/store/page/page-state';
 import { StoreService } from './store.service';
 
@@ -39,6 +39,10 @@ export class RouterService {
     } else {
       this.router.navigate([page.url], extras);
     }
+  }
+
+  goSearch(data: string): void {
+    this.router.navigate([SEARCH.url, data]);
   }
 
   login(): void {

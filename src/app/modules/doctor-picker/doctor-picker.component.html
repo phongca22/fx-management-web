@@ -1,13 +1,18 @@
-<div fxLayout="row">
-  <mat-form-field appearance="outline" fxFlex>
+<div fxLayout="column">
+  <mat-form-field appearance="outline">
     <mat-label>{{'doctorPicker.label' | translate}}</mat-label>
     <mat-select [formControl]="selectCtrl">
       <mat-select-trigger>{{selectCtrl.value?.info.name}}</mat-select-trigger>
-      <mat-option *ngFor="let item of doctors" [value]="item">
+      <mat-option *ngFor="let item of doctors" [value]="item" [class.doctor-level-2]="item.level === 'level_2'"
+        [class.doctor-level-3]="item.level === 'level_3'" [class.doctor-level-4]="item.level === 'level_4'">
         {{item.info.name }} <ng-container *ngIf="total > 0">{{item.count}}/{{total}}</ng-container>
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <div>
+    <div class="mat-caption gray-color">{{'userForm.phone' | translate}}</div>
+    <div class="mat-title">{{selectCtrl.value?.info.phone}}</div>
+  </div>
 </div>
 <mat-dialog-actions align="end" fxLayoutGap="16px">
   <button mat-button mat-dialog-close [disabled]="loading">{{'action.back' | translate}}</button>

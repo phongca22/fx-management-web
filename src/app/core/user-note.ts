@@ -1,7 +1,8 @@
 import * as dayjs from 'dayjs';
 import { UserInfo } from './user-info';
-import { USER_NOTE_TYPE } from './user-note-type';
+import { PATIENT_NOTE_TYPE } from './patient-note-type';
 import { UserSupport } from './user-support';
+import { isEqual } from 'lodash';
 
 export class UserNote {
   contents: string[];
@@ -10,7 +11,7 @@ export class UserNote {
   date: string;
   author: UserInfo;
   supportDetail: UserSupport;
-  type: USER_NOTE_TYPE;
+  type: PATIENT_NOTE_TYPE;
   patientSupport: UserSupport;
 
   constructor(data: any) {
@@ -25,14 +26,18 @@ export class UserNote {
   }
 
   getContent(data: any): void {
-    if (data.type === 'support_pending') {
+    if (isEqual(data.type, PATIENT_NOTE_TYPE.SUPPORT_PENDING)) {
       this.contents = data.supportDetail;
-    } else if (data.type === 'support_delivering') {
+    } else if (isEqual(data.type, PATIENT_NOTE_TYPE.SUPPORT_DELIVERING)) {
       this.content = 'supportStatus.delivering';
-    } else if (data.type === 'support_delivered') {
+    } else if (isEqual(data.type, PATIENT_NOTE_TYPE.SUPPORT_DELIVERED)) {
       this.content = 'supportStatus.delivered';
-    } else if (data.type === 'support_failed') {
+    } else if (isEqual(data.type, PATIENT_NOTE_TYPE.SUPPORT_FAILED)) {
       this.contents = this.buildContent(data.content);
+    } else if (isEqual(data.type, PATIENT_NOTE_TYPE.PATIENT_STATUS_CHANGE)) {
+      this.contents = data.content.split(',');
+    } else if (isEqual(data.type, PATIENT_NOTE_TYPE.DOCTOR_CHANGE)) {
+      this.contents = data.content.split(',');
     } else {
       this.contents = this.buildContent(data.content);
     }

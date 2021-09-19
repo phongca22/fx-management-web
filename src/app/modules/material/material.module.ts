@@ -80,9 +80,5 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class MaterialModule {
   constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     this.matIconRegistry.addSvgIconSet(this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/svg/mdi.svg'));
-    this.matIconRegistry.addSvgIcon(
-      'timer-settings',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/svg/timer-settings.svg')
-    );
   }
 }

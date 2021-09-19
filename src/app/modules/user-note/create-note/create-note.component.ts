@@ -2,7 +2,7 @@ import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserInfo } from 'src/app/core/user-info';
-import { Transporter } from 'src/app/core/volunteer';
+import { Transporter } from 'src/app/core/transporter';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../../alert/alert.service';
 import { AddNoteComponent } from '../add-note/add-note.component';
@@ -58,7 +58,7 @@ export class CreateNoteComponent implements OnInit {
       })
       .subscribe((res: Response) => {
         if (res.ok) {
-          this.service.refreshEvent.next();
+          this.service.refresh();
           this.dialog.close();
           this.alert.success('addNote.success');
         } else {

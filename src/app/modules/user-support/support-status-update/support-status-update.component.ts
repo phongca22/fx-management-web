@@ -28,7 +28,7 @@ export class SupportStatusUpdateComponent implements OnInit {
   status: any[] = [SupportStatus.Delivered, SupportStatus.Failed].map((val: SupportStatus) => ({ id: val, name: val }));
   loading: boolean;
   supports: Support[];
-  isManager: boolean;
+  isCoordinator: boolean;
 
   constructor(
     public builder: FormBuilder,
@@ -38,7 +38,7 @@ export class SupportStatusUpdateComponent implements OnInit {
     public service: SupportService,
     private auth: AuthService
   ) {
-    this.isManager = this.auth.hasRole(Role.Manager);
+    this.isCoordinator = this.auth.hasRole(Role.Coordinator);
   }
 
   ngOnInit(): void {
@@ -66,7 +66,7 @@ export class SupportStatusUpdateComponent implements OnInit {
   }
 
   getService(status: SupportStatus, reason: string): Observable<any> {
-    return this.isManager
+    return this.isCoordinator
       ? this.service.confirmStatus(this.data.id, this.data.psId, status, reason)
       : this.service.updateStatus(this.data.id, this.data.psId, status, reason);
   }

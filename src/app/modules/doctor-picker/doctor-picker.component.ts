@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { find, sumBy } from 'lodash';
+import { find, sortBy, sumBy } from 'lodash';
 import { takeUntil } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { Response } from 'src/app/core/response';
@@ -36,7 +36,7 @@ export class DoctorPickerComponent implements OnInit {
       .getActiveDoctors()
       .pipe(takeUntil(this.$destroy))
       .subscribe((res: Response) => {
-        this.doctors = Doctor.parseActive(res.data);
+        this.doctors = sortBy(Doctor.parseActive(res.data), ['level']);
         this.total = sumBy(this.doctors, 'count');
         this.selectCtrl.setValue(find(this.doctors, { info: { id: this.data.doctor.info.id } }));
       });

@@ -1,12 +1,33 @@
 <div fxFlex fxLayout="column">
-  <mat-toolbar color="primary">
-    <div class="mat-title title" fxFlex>{{'doctorManagement.title' | translate}}</div>
+  <mat-toolbar color="primary" fxLayout="row" fxLayoutGap="16px">
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon svgIcon="keyboard-backspace"></mat-icon>
+    </button>
+    <div class="mat-title title">{{'doctorManagement.title' | translate}}</div>
   </mat-toolbar>
-  <div fxFlex class="wrapper">
-    <mat-selection-list fxFlex (selectionChange)="change($event)">
-      <mat-list-option *ngFor="let item of doctors" [value]="item" [selected]="item.active">
-        {{item.info.name}}
-      </mat-list-option>
-    </mat-selection-list>
+  <div fxFlex class="wrapper" fxLayout="column" fxLayoutGap="16px">
+    <mat-card *ngFor="let item of doctors" fxLayout="column" fxLayoutGap="16px">
+      <div fxLayout="row">
+        <div fxFlex fxLayout="column">
+          <div class="mat-title mb-0">{{item.info.name}}</div>
+          <div class="mat-subheading-2 mb-0">{{item.info.phone}}</div>
+        </div>
+        <button mat-icon-button (click)="edit(item)" color="primary">
+          <mat-icon svgIcon="pencil-outline"></mat-icon>
+        </button>
+      </div>
+      <mat-divider [inset]="true"></mat-divider>
+      <div fxLayout="row" fxLayoutGap="16px">
+        <mat-chip-list fxFlex>
+          <mat-chip [class.doctor-level-2]="item.level === 'level_2'" [class.doctor-level-3]="item.level === 'level_3'"
+            [class.doctor-level-4]="item.level === 'level_4'">
+            {{item.level | doctorLevel}}
+          </mat-chip>
+        </mat-chip-list>
+        <mat-slide-toggle [checked]="item.active" color="primary" (change)="change($event, item)">
+          {{(item.active ? 'doctorManagement.today' : 'doctorManagement.off') | translate}}
+        </mat-slide-toggle>
+      </div>
+    </mat-card>
   </div>
 </div>

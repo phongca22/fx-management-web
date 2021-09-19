@@ -39,13 +39,20 @@ export class UserCardComponent implements OnInit {
       });
   }
 
-  copy(data: string): void {
-    this.clipboard.copy(data);
-    this.alert.info('userInfo.copied');
+  copyLink(): void {
+    this.clipboard.copy(
+      `${window.origin}/main/search/${this.data.code || this.data.legacyCode}/${this.normalize(
+        this.data.name
+      )}/${this.normalize(this.data.creator.info.name)}`
+    );
+    this.alert.info('userCard.linkCopied');
   }
 
-  copyLink(): void {
-    this.clipboard.copy(window.origin + '/main/search/' + (this.data.code || this.data.legacyCode));
-    this.alert.info('userInfo.copied');
+  normalize(data: string): string {
+    return data
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .split(/\s+/)
+      .join('_');
   }
 }

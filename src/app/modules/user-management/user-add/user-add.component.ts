@@ -47,6 +47,7 @@ export class UserAddComponent implements OnInit {
       pass: ['', Validators.required],
       name: ['', Validators.required],
       gender: ['', Validators.required],
+      phone: [],
       role: [Role.User, Validators.required]
     });
   }
@@ -56,7 +57,8 @@ export class UserAddComponent implements OnInit {
       user: this.data.username,
       name: this.data.name,
       gender: find(this.genders, { id: this.data.gender }),
-      role: find(this.roles, { id: this.data.roles[0].id })
+      role: find(this.roles, { id: this.data.roles[0].id }),
+      phone: this.data.phone
     });
 
     this.form.get('pass')?.disable();

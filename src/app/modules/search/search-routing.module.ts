@@ -4,6 +4,7 @@ import { SearchComponent } from './search.component';
 
 const routes: Routes = [
   { path: '', component: SearchComponent },
+  { path: ':key/:patientName/:creatorName', component: SearchComponent },
   { path: ':key', component: SearchComponent }
 ];
 

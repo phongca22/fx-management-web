@@ -1,3 +1,10 @@
 :host > div {
   background-color: #f5f5f5;
 }
+
+.wrapper {
+  background-image: url('/assets/svg/illustrations/undraw_air_support_wy1q.svg');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: top;
+}

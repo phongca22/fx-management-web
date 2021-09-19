@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Response } from '../core/response';
 import { PatientStatusType } from '../core/user-condition.enum';
-import { Transporter } from '../core/volunteer';
+import { Transporter } from '../core/transporter';
 import { BaseService } from './base-service';
 
 @Injectable({
@@ -60,6 +60,17 @@ export class UserService extends BaseService {
     page = isNil(page) ? 0 : page;
     return this.http
       .get(`${this.api}/user/by/doctor`, {
+        params: {
+          page: page.toString()
+        }
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
+  getByAgent(page: number): Observable<any> {
+    page = isNil(page) ? 0 : page;
+    return this.http
+      .get(`${this.api}/user/by/agent`, {
         params: {
           page: page.toString()
         }
@@ -124,6 +135,15 @@ export class UserService extends BaseService {
 
   getUserInfo(id: number): Observable<any> {
     return this.http.get(`${this.api}/user/${id}/info`).pipe(this.getResponse(), this.getError());
+  }
+
+  setPatientStatus(id: number, data: PatientStatusType): Observable<any> {
+    return this.http
+      .put(`${this.api}/user/patient-status/set`, {
+        userId: id,
+        status: data
+      })
+      .pipe(this.getResponse(), this.getError());
   }
 
   changePatientStatus(id: number, data: PatientStatusType): Observable<any> {

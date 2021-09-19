@@ -1,18 +1,18 @@
-<div fxFill fxLayout="row" [formGroup]="form" fxLayoutAlign="center center">
+<div fxFill fxLayout="row" [formGroup]="form" fxLayoutAlign="center center" class="wrapper">
   <mat-card class="form-wrapper mat-elevation-z4" fxFlex="90">
     <div fxLayout="column" fxLayoutGap="32px">
       <div fxLayout="row" fxLayoutAlign="center">
         <img src="/assets/png/logo.png" width="50%" />
       </div>
       <div fxLayout="column" fxLayoutGap="16px">
-        <mat-form-field appearance="outline"u>
+        <mat-form-field appearance="outline" u>
           <mat-label>{{'login.user' | translate}}</mat-label>
           <mat-icon matPrefix svgIcon="account"></mat-icon>
           <input matInput formControlName="user" #userInput required (keyup.enter)="login()" autocomplete="username"
             name="username" />
           <mat-error *ngIf="form.get('user')?.hasError('required')">{{'login.userRequired' | translate}}</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline"u>
+        <mat-form-field appearance="outline" u>
           <mat-label>{{'login.pass' | translate}}</mat-label>
           <mat-icon matPrefix svgIcon="lock"></mat-icon>
           <input matInput formControlName="pass" type="password" required (keyup.enter)="login()"

@@ -4,14 +4,14 @@
       <div fxLayout="column" class="body" formGroupName="info">
         <mat-form-field appearance="outline">
           <mat-label>{{'userForm.fullname' | translate}}</mat-label>
-          <input matInput formControlName="fullname" required />
+          <input matInput formControlName="fullname" cdkFocusInitial/>
           <mat-error *ngIf="form.get('info.fullname')?.invalid">{{'userForm.fullnameRequired' | translate}}
           </mat-error>
         </mat-form-field>
         <div fxLayout="row" fxLayoutGap="16px">
           <mat-form-field appearance="outline" fxFlex>
             <mat-label>{{'userForm.phone' | translate}}</mat-label>
-            <input matInput formControlName="phone" required />
+            <input matInput formControlName="phone" />
             <mat-error *ngIf="form.get('info.phone')?.invalid">{{'userForm.phoneRequired' | translate}}
             </mat-error>
           </mat-form-field>
@@ -76,7 +76,7 @@
         </mat-form-field>
         <mat-form-field appearance="outline" floatLabel="always">
           <mat-label>{{'userForm.spo2' | translate}}</mat-label>
-          <input matInput formControlName="spo2" [placeholder]="'userForm.spo2Hint' | translate" required />
+          <input matInput formControlName="spo2" [placeholder]="'userForm.spo2Hint' | translate" />
         </mat-form-field>
         <div fxLayout="row" fxLayoutGap="16px">
           <mat-form-field appearance="outline" fxFlex>
@@ -85,12 +85,12 @@
           </mat-form-field>
           <mat-form-field appearance="outline" style="width: 140px;">
             <mat-label>{{'userForm.sickDays' | translate}}</mat-label>
-            <input matInput formControlName="sickDays" [placeholder]="'userForm.sickDays' | translate" required />
+            <input matInput formControlName="sickDays" [placeholder]="'userForm.sickDays' | translate" />
           </mat-form-field>
         </div>
         <mat-form-field appearance="outline">
           <mat-label>{{'userForm.testCovid' | translate}}</mat-label>
-          <mat-select formControlName="testCovid" required>
+          <mat-select formControlName="testCovid">
             <mat-select-trigger>{{form.get('condition.testCovid')?.value?.name | translate}}</mat-select-trigger>
             <mat-option *ngFor="let item of testCovidTypes" [value]="item">
               {{item.name | translate }}
@@ -120,17 +120,25 @@
         </mat-form-field>
         <mat-form-field appearance="outline" *ngIf="!info" fxFlex>
           <mat-label>{{'userForm.doctor' | translate}}</mat-label>
-          <mat-select formControlName="doctor" required>
-            <mat-select-trigger>{{form.get('condition.doctor')?.value?.info.name}} -
-              {{form.get('condition.doctor')?.value?.info.phone}}</mat-select-trigger>
-            <mat-option *ngFor="let item of doctors" [value]="item">
+          <mat-select formControlName="doctor">
+            <mat-select-trigger>{{form.get('condition.doctor')?.value?.info.name}}</mat-select-trigger>
+            <mat-option *ngFor="let item of doctors" [value]="item" [class.doctor-level-2]="item.level === 'level_2'"
+              [class.doctor-level-3]="item.level === 'level_3'" [class.doctor-level-4]="item.level === 'level_4'">
               {{item.info.name }} <ng-container *ngIf="total > 0">{{item.count}}/{{total}}</ng-container>
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <div>
+          <div class="mat-caption gray-color">{{'userForm.phone' | translate}}</div>
+          <div class="mat-title">{{form.get('condition.doctor')?.value?.info.phone}}</div>
+        </div>
         <mat-form-field appearance="outline">
           <mat-label>{{'userForm.timer' | translate}}</mat-label>
           <input matInput formControlName="timer" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{'userForm.note' | translate}}</mat-label>
+          <input matInput formControlName="note" />
         </mat-form-field>
       </div>
     </mat-tab>

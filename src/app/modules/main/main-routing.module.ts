@@ -35,7 +35,7 @@ const routes: Routes = [
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Admin, Role.Coordinator, Role.Doctor, Role.Volunteer],
+          role: [Role.Admin, Role.Agent, Role.Doctor, Role.Volunteer],
           page: USER_LIST
         }
       },
@@ -45,18 +45,8 @@ const routes: Routes = [
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Admin, Role.Coordinator, Role.Doctor, Role.Volunteer],
+          role: [Role.Admin, Role.Agent, Role.Doctor, Role.Volunteer],
           page: SEARCH
-        }
-      },
-      {
-        path: 'doctor-management',
-        loadChildren: () =>
-          import('../../modules/doctor-management/doctor-management.module').then((m) => m.DoctorManagementModule),
-        canLoad: [UserGuard],
-        canActivate: [UserGuard],
-        data: {
-          role: [Role.Admin, Role.UserManagement]
         }
       },
       {

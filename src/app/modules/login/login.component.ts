@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Response } from 'src/app/core/response';
 import { AlertService } from 'src/app/modules/alert/alert.service';
 import { RouterService } from 'src/app/services/router.service';
-import { SocketService } from 'src/app/services/socket.service';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -21,8 +20,7 @@ export class LoginComponent implements OnInit {
     public alert: AlertService,
     public auth: AuthService,
     public router: RouterService,
-    private cdr: ChangeDetectorRef,
-    private socket: SocketService
+    private cdr: ChangeDetectorRef
   ) {
     this.setupForm();
   }
@@ -51,7 +49,6 @@ export class LoginComponent implements OnInit {
       if (res.ok) {
         this.auth.setToken(res.data.accessToken);
         this.auth.setUser(res.data.accessToken);
-        this.socket.init(res.data.accessToken, this.auth.user);
         this.router.goHome();
       } else {
         this.loading = false;

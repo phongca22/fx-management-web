@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { chain, keys } from 'lodash';
 import { UserSupport } from 'src/app/core/user-support';
-import { Transporter } from 'src/app/core/volunteer';
+import { Transporter } from 'src/app/core/transporter';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
 import { NoteService } from '../user-note/note.service';
@@ -67,7 +67,7 @@ export class TransporterPickerComponent implements OnInit {
         .setTransporter(this.data.id, this.selectCtrl.value.info.id, this.data.psId)
         .subscribe((res: Response) => {
           if (res.ok) {
-            this.note.refreshEvent.next();
+            this.note.refresh();
             this.dialog.close();
           } else {
             this.loading = false;

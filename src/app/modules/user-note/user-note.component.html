@@ -14,6 +14,10 @@
           </mat-icon>
           <mat-icon svgIcon="alert-circle-outline" *ngIf="item.type === 'support_failed'" color="warn">
           </mat-icon>
+          <mat-icon svgIcon="update" *ngIf="item.type === 'patient_status_change'" class="gray-color">
+          </mat-icon>
+          <mat-icon svgIcon="update" *ngIf="item.type === 'doctor_change'" class="gray-color">
+          </mat-icon>
           <mat-divider fxFlex [vertical]="true"></mat-divider>
         </div>
         <div fxFlex class="line-content">
@@ -21,45 +25,6 @@
             <ng-container *ngTemplateOutlet="title; context: {data: item}"></ng-container>
           </div>
           <ng-container *ngTemplateOutlet="content; context: {data: item}"></ng-container>
-          <!-- <mat-card *ngIf="!item.type || (item.type !== 'support_delivering' && item.type !== 'support_pending')">
-            <div *ngIf="item.type === 'support_failed'">
-              <div>{{'supportStatus.failed' | translate}}</div>
-              <div>{{'userNote.reason' | translate}}</div>
-              <ng-container *ngTemplateOutlet="message; context: {data: item.contents}"></ng-container>
-            </div>
-            <div *ngIf="item.type !== 'support_failed'">
-              <div *ngIf="item.type === 'support_delivering'" fxLayout="row">
-                <div [innerHTML]="item.content | translate" fxFlex></div>
-                <ng-container *ngTemplateOutlet="pending; context: {data: item.contents}"></ng-container>
-                <mat-chip-list *ngIf="item.patientSupport.emergency">
-                  <mat-chip color="warn" selected>{{'userNote.emergency' | translate}}</mat-chip>
-                </mat-chip-list>
-              </div>
-              <ng-container *ngIf="item.type !== 'support_pending'">
-                <div *ngIf="item.type">{{item.content | translate}}</div>
-                <ng-container *ngIf="!item.type">
-                  <ng-container *ngTemplateOutlet="message; context: {data: item.contents}"></ng-container>
-                </ng-container>
-              </ng-container>
-            </div>
-            <div *ngIf="isCoordinator && item.type === 'support_pending' && item.patientSupport.status === 'pending'"
-              class="mt-3" fxLayout="column" fxLayoutGap="16px">
-              <button mat-stroked-button [color]="item.patientSupport.emergency ? 'warn' : 'primary'"
-                (click)="showTransporterPicker(item)" *ngIf="code">
-                <mat-icon svgIcon="truck-outline"></mat-icon> {{'userNote.selectTransporter' | translate}}
-              </button>
-              <button mat-raised-button (click)="showTransporterCreate(item)" *ngIf="isImporter && !code">
-                <mat-icon svgIcon="truck-check-outline"></mat-icon> {{'userNote.createData' | translate}}
-              </button>
-            </div>
-            <div
-              *ngIf="( isImporter || (isTransporter && auth.user?.id === item.author.id)) && item.type === 'support_delivering' && item.patientSupport.status === 'delivering'"
-              class="mt-3">
-              <button mat-raised-button (click)="updateStatus(item)">
-                <mat-icon svgIcon="list-status"></mat-icon> {{'action.confirm' | translate}}
-              </button>
-            </div>
-          </mat-card> -->
         </div>
       </div>
     </div>
@@ -83,6 +48,15 @@
   <ng-container *ngIf="data.type === 'support_delivered'">
     {{'noteTitle.supportDelivered' | translate: {name: data.author.name, time: data.time} }}
   </ng-container>
+  <ng-container *ngIf="data.type === 'support_failed'">
+    {{'noteTitle.supportFailed' | translate: {name: data.author.name, time: data.time} }}
+  </ng-container>
+  <ng-container *ngIf="data.type === 'patient_status_change'">
+    {{'noteTitle.patientStatusChange' | translate: {name: data.author.name, time: data.time} }}
+  </ng-container>
+  <ng-container *ngIf="data.type === 'doctor_change'">
+    {{'noteTitle.doctorChange' | translate: {name: data.author.name, time: data.time} }}
+  </ng-container>
   <ng-container *ngIf="!data.type">
     {{data.time}} - {{data.author.name}}
   </ng-container>
@@ -94,12 +68,54 @@
     </mat-card>
   </ng-container>
   <ng-container *ngIf="data.type ==='support_pending'">
-    <ng-container *ngTemplateOutlet="supportPending; context: {data: data.contents}"></ng-container>
+    <div fxLayout="column" fxLayoutGap="16px">
+      <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="8px" *ngIf="data.patientSupport.emergency">
+        <mat-icon svgIcon="car-emergency" color="warn">
+        </mat-icon>
+        <div class="error-color mat-title mb-0">{{'userNote.emergency' | translate}}</div>
+      </div>
+      <ng-container *ngTemplateOutlet="supportPending; context: {data: data.contents}"></ng-container>
+      <div *ngIf="isAgent && data.type === 'support_pending' && data.patientSupport.status === 'pending'">
+        <button mat-raised-button [color]="data.patientSupport.emergency ? 'warn' : 'accent'"
+          (click)="showTransporterPicker(data)" *ngIf="code">
+          <mat-icon svgIcon="truck-outline"></mat-icon> {{'userNote.selectTransporter' | translate}}
+        </button>
+        <!-- <button mat-raised-button (click)="showTransporterCreate(data)" *ngIf="isCoordinator && !code">
+          <mat-icon svgIcon="truck-check-outline"></mat-icon> {{'userNote.createData' | translate}}
+        </button> -->
+      </div>
+    </div>
   </ng-container>
-
+  <ng-container *ngIf="data.type ==='patient_status_change'">
+    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="8px">
+      <mat-chip-list>
+        <mat-chip disabled>{{data.contents[0] | patientStatus}}</mat-chip>
+      </mat-chip-list>
+      <mat-icon svgIcon="arrow-right-bold" class="gray-icon-color"></mat-icon>
+      <mat-chip-list>
+        <mat-chip>{{data.contents[1] | patientStatus}}</mat-chip>
+      </mat-chip-list>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="data.type ==='doctor_change'">
+    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="8px">
+      <mat-chip-list>
+        <mat-chip disabled>{{data.contents[0]}}</mat-chip>
+      </mat-chip-list>
+      <mat-icon svgIcon="arrow-right-bold" class="gray-icon-color"></mat-icon>
+      <mat-chip-list>
+        <mat-chip>{{data.contents[1]}}</mat-chip>
+      </mat-chip-list>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="data.type ==='support_failed'">
+    <mat-card *ngIf="data.contents">
+      <ng-container *ngTemplateOutlet="message; context: {data: data.contents}"></ng-container>
+    </mat-card>
+  </ng-container>
   <div
-    *ngIf="( isImporter || (isTransporter && auth.user?.id === data.author.id)) && data.type === 'support_delivering' && data.patientSupport.status === 'delivering'">
-    <button mat-raised-button color="primary" (click)="updateStatus(data)">
+    *ngIf="( isCoordinator || (isTransporter && auth.user?.id === data.author.id)) && data.type === 'support_delivering' && data.patientSupport.status === 'delivering'">
+    <button mat-raised-button color="accent" (click)="updateStatus(data)">
       <mat-icon svgIcon="list-status"></mat-icon> {{'action.confirm' | translate}}
     </button>
   </div>
