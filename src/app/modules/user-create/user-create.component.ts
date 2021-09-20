@@ -48,7 +48,8 @@ export class UserCreateComponent implements OnInit {
         ...condition,
         doctorId: condition.doctor.info.id,
         testCovid: condition.testCovid.id,
-        zalo: condition.zalo.id
+        zalo: condition.zalo.id,
+        healthDeclaration: condition.healthDeclaration.id
       }
     };
     delete data.condition.doctor;

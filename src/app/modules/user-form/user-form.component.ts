@@ -82,7 +82,8 @@ export class UserFormComponent implements OnInit {
         desire: [''],
         timer: [''],
         doctor: [null, Validators.required],
-        note: ['']
+        note: [''],
+        healthDeclaration: [this.yesNo[0]]
       })
     );
 

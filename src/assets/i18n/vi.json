@@ -56,7 +56,8 @@
     "note": "Ghi chú",
     "desire": "Mong muốn FF",
     "zalo": "Zalo video call",
-    "timer": "Hẹn bệnh nhân"
+    "timer": "Hẹn bệnh nhân",
+    "healthDeclaration": "Khai báo y tế"
   },
   "testCovidType": {
     "ward": "Y tế phường",

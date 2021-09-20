@@ -48,7 +48,8 @@ export class UserEditComponent implements OnInit {
       condition: {
         ...condition,
         testCovid: condition.testCovid.id,
-        zalo: condition.zalo.id
+        zalo: condition.zalo.id,
+        healthDeclaration: condition.healthDeclaration.id
       }
     };
     this.service.updateUser(this.data.info.id, data).subscribe((res: Response) => {

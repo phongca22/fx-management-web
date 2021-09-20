@@ -13,6 +13,7 @@ export class PatientCondition {
   desire: string;
   timer: string;
   note: string;
+  healthDeclaration: boolean;
 
   constructor(data: any) {
     this.background = data.background;
@@ -27,5 +28,6 @@ export class PatientCondition {
     this.timer = data.timer;
     this.note = data.note;
     this.treated = data.treated;
+    this.healthDeclaration = data.healthDeclaration;
   }
 }

@@ -4,7 +4,7 @@
       <div fxLayout="column" class="body" formGroupName="info">
         <mat-form-field appearance="outline">
           <mat-label>{{'userForm.fullname' | translate}}</mat-label>
-          <input matInput formControlName="fullname" cdkFocusInitial/>
+          <input matInput formControlName="fullname" cdkFocusInitial />
           <mat-error *ngIf="form.get('info.fullname')?.invalid">{{'userForm.fullnameRequired' | translate}}
           </mat-error>
         </mat-form-field>
@@ -88,6 +88,16 @@
             <input matInput formControlName="sickDays" [placeholder]="'userForm.sickDays' | translate" />
           </mat-form-field>
         </div>
+        <mat-form-field appearance="outline">
+          <mat-label>{{'userForm.healthDeclaration' | translate}}</mat-label>
+          <mat-select formControlName="healthDeclaration">
+            <mat-select-trigger>{{form.get('condition.healthDeclaration')?.value?.name | translate}}
+            </mat-select-trigger>
+            <mat-option *ngFor="let item of yesNo" [value]="item">
+              {{item.name | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>{{'userForm.testCovid' | translate}}</mat-label>
           <mat-select formControlName="testCovid">

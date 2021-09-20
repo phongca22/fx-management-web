@@ -77,6 +77,10 @@
               <mat-icon svgIcon="test-tube" class="gray-icon-color"></mat-icon>
               <div fxLayout="column" fxFlex>
                 <div>
+                  <div class="mat-caption gray-color">{{'userForm.healthDeclaration' | translate}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.healthDeclaration | yesNo}}</div>
+                </div>
+                <div>
                   <div class="mat-caption gray-color">{{'userForm.testCovid' | translate}}</div>
                   <div class="mat-subheading-2">{{patientCondition?.testCovid | testCovid}}</div>
                 </div>
