@@ -4,7 +4,7 @@
       <mat-icon svgIcon="keyboard-backspace"></mat-icon>
     </button>
     <div fxFlex class="mat-title mb-0 text-overflow">{{userInfo?.name}}</div>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
+    <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="userInfo?.code">
       <mat-icon svgIcon="dots-vertical"></mat-icon>
     </button>
     <mat-menu #menu="matMenu">
@@ -14,16 +14,16 @@
           <span>{{'userInfo.addNote' | translate}}</span>
         </button>
         <button mat-menu-item (click)="addSupports()"
-          *ngIf="(isDoctor || isCoordinator) && userInfo.doctor.info.id === user?.id">
+          *ngIf="(isDoctor && userInfo.doctor.info.id === user?.id) || isCoordinator">
           <mat-icon svgIcon="clipboard-edit-outline"></mat-icon>
           <span>{{'userInfo.addSupport' | translate}}</span>
         </button>
-        <button mat-menu-item (click)="edit()" *ngIf="isDoctor || isAgent || isAdmin">
+        <button mat-menu-item (click)="edit()" *ngIf="isDoctor || isAgent">
           <mat-icon svgIcon="account-edit-outline"></mat-icon>
           <span>{{'userInfo.editInfo' | translate}}</span>
         </button>
       </ng-container>
-      <ng-container *ngIf="!userInfo?.code && (isAdmin || isImporter)">
+      <ng-container *ngIf="userInfo?.legacyCode && isImporter">
         <button mat-menu-item (click)="createNote()">
           <mat-icon svgIcon="comment-plus-outline"></mat-icon>
           <span>{{'userInfo.createNote' | translate}}</span>
@@ -42,7 +42,7 @@
           <app-user-note [data]="data" [code]="userInfo?.code" [(notes)]="notes"></app-user-note>
         </div>
       </mat-tab>
-      <mat-tab label="Tình trạng">
+      <mat-tab label="Tình trạng" *ngIf="patientCondition">
         <div class="condition-wrapper">
           <mat-card fxLayout="column" fxLayoutGap="16px">
             <div fxLayout="row" fxLayoutGap="16px">
@@ -50,15 +50,15 @@
               <div fxLayout="column" fxFlex>
                 <div>
                   <div class="mat-caption gray-color">{{'userForm.backgroundDisease' | translate}}</div>
-                  <div class="mat-subheading-2">{{patientCondition?.background}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.background || '&nbsp;'}}</div>
                 </div>
                 <div>
                   <div class="mat-caption gray-color">{{'userForm.symptom' | translate}}</div>
-                  <div class="mat-subheading-2">{{patientCondition?.symptom}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.symptom || '&nbsp;'}}</div>
                 </div>
                 <div>
                   <div class="mat-caption gray-color">{{'userForm.spo2' | translate}}</div>
-                  <div class="mat-subheading-2">{{patientCondition?.spo2}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.spo2 || '&nbsp;'}}</div>
                 </div>
                 <div fxLayout="row">
                   <div fxFlex fxLayout="column">
@@ -86,11 +86,11 @@
                 </div>
                 <div>
                   <div class="mat-caption gray-color">{{'userForm.treated' | translate}}</div>
-                  <div class="mat-subheading-2">{{patientCondition?.treated}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.treated || '&nbsp;'}}</div>
                 </div>
                 <div>
                   <div class="mat-caption gray-color">{{'userForm.having' | translate}}</div>
-                  <div class="mat-subheading-2">{{patientCondition?.having}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.having || '&nbsp;'}}</div>
                 </div>
               </div>
             </div>
@@ -98,23 +98,21 @@
             <div fxLayout="row" fxLayoutGap="16px">
               <mat-icon svgIcon="clock-outline" class="gray-icon-color"></mat-icon>
               <div fxLayout="column" fxFlex>
-                <div fxLayout="row">
-                  <div fxFlex fxLayout="column">
-                    <div class="mat-caption gray-color">{{'userForm.desire' | translate}}</div>
-                    <div class="mat-subheading-2">{{patientCondition?.desire}}</div>
-                  </div>
-                  <div fxFlex fxLayout="column">
-                    <div class="mat-caption gray-color">{{'userForm.zalo' | translate}}</div>
-                    <div class="mat-subheading-2">{{patientCondition?.zalo | yesNo}}</div>
-                  </div>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.desire' | translate}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.desire || '&nbsp;'}}</div>
+                </div>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.zalo' | translate}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.zalo | yesNo}}</div>
                 </div>
                 <div>
                   <div class="mat-caption gray-color">{{'userForm.timer' | translate}}</div>
-                  <div class="mat-subheading-2">{{patientCondition?.timer}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.timer || '&nbsp;'}}</div>
                 </div>
                 <div>
                   <div class="mat-caption gray-color">{{'userForm.note' | translate}}</div>
-                  <div class="mat-subheading-2">{{patientCondition?.note}}</div>
+                  <div class="mat-subheading-2">{{patientCondition?.note || '&nbsp;'}}</div>
                 </div>
               </div>
             </div>

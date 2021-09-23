@@ -41,7 +41,7 @@ export class PatientStatusPickerComponent implements OnInit {
 
   save() {
     this.loading = true;
-    if (this.selectCtrl.value !== this.data) {
+    if (this.selectCtrl.value !== this.data.status) {
       this.getService().subscribe((res: Response) => {
         if (res.ok) {
           this.dialog.close(this.selectCtrl.value);
@@ -58,6 +58,6 @@ export class PatientStatusPickerComponent implements OnInit {
   getService(): Observable<any> {
     return this.isCoordinator
       ? this.service.setPatientStatus(this.data.id, this.selectCtrl.value)
-      : this.service.setPatientStatus(this.data.id, this.selectCtrl.value);
+      : this.service.changePatientStatus(this.data.id, this.selectCtrl.value);
   }
 }

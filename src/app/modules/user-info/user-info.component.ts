@@ -1,11 +1,11 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { isEmpty, isNil, isObject, isString } from 'lodash';
+import { isEmpty, isNil, isString } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
+import { PatientCondition } from 'src/app/core/patient-condition';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
-import { PatientCondition } from 'src/app/core/patient-condition';
 import { PatientStatusType } from 'src/app/core/user-condition.enum';
 import { UserInfo } from 'src/app/core/user-info';
 import { UserNote } from 'src/app/core/user-note';
@@ -15,10 +15,10 @@ import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
 import { DoctorPickerComponent } from '../doctor-picker/doctor-picker.component';
 import { PatientStatusPickerComponent } from '../patient-status-picker/patient-status-picker.component';
+import { User } from '../store/user/user';
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { NoteService } from '../user-note/note.service';
 import { SupportService } from '../user-support/support.service';
-import { User } from '../store/user/user';
 
 @Component({
   selector: 'app-user-info',
@@ -64,7 +64,9 @@ export class UserInfoComponent implements OnInit {
         this.loading = false;
         if (res.ok) {
           const { patientCondition } = res.data;
-          this.patientCondition = new PatientCondition(patientCondition);
+          if (patientCondition) {
+            this.patientCondition = new PatientCondition(patientCondition);
+          }
           this.userInfo = new UserInfo(res.data);
           this.isDoctor = this.auth.hasRole(Role.Doctor) && this.userInfo.doctor.info.id === this.auth.user?.id;
         } else {
@@ -97,7 +99,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   editStatus(): void {
-    if (!this.isDoctor && !this.isCoordinator) {
+    if ((!this.isCoordinator && !this.isDoctor) || (this.isDoctor && this.userInfo.doctor.info.id !== this.user?.id)) {
       return;
     }
 
