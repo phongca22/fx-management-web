@@ -99,7 +99,11 @@ export class UserInfoComponent implements OnInit {
   }
 
   editStatus(): void {
-    if ((!this.isCoordinator && !this.isDoctor) || (this.isDoctor && this.userInfo.doctor.info.id !== this.user?.id)) {
+    if (
+      this.userInfo.legacyCode ||
+      (!this.isCoordinator && !this.isDoctor) ||
+      (this.isDoctor && this.userInfo.doctor.info.id !== this.user?.id)
+    ) {
       return;
     }
 
@@ -139,7 +143,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   editDoctor(): void {
-    if (!this.isAgent) {
+    if (!this.isAgent || this.userInfo.legacyCode) {
       return;
     }
 

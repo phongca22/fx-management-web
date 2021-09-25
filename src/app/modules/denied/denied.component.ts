@@ -12,6 +12,6 @@ export class DeniedComponent implements OnInit {
   ngOnInit(): void {}
 
   back() {
-    this.router.goHome();
+    this.router.login();
   }
 }

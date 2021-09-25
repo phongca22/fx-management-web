@@ -78,9 +78,8 @@
   },
   "error": {
     "general": "Có lỗi xảy ra",
-    "register": { "100": "Tên tài khoản đã tồn tại" },
-    "login": { "101": "Tài khoản hoặc mật khẩu không đúng" },
-    "search": "Không tìm thấy"
+    "search": "Không tìm thấy",
+    "accessDenied": "Bạn không có quyền truy cập"
   },
   "search": {
     "keyword": "Nhập mã bệnh nhân hoặc số điện thoại"

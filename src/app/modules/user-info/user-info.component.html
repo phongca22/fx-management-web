@@ -4,26 +4,24 @@
       <mat-icon svgIcon="keyboard-backspace"></mat-icon>
     </button>
     <div fxFlex class="mat-title mb-0 text-overflow">{{userInfo?.name}}</div>
-    <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="userInfo?.code">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon svgIcon="dots-vertical"></mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <ng-container *ngIf="userInfo?.code">
-        <button mat-menu-item (click)="addNote()">
-          <mat-icon svgIcon="comment-plus-outline"></mat-icon>
-          <span>{{'userInfo.addNote' | translate}}</span>
-        </button>
-        <button mat-menu-item (click)="addSupports()"
-          *ngIf="(isDoctor && userInfo.doctor.info.id === user?.id) || isCoordinator">
-          <mat-icon svgIcon="clipboard-edit-outline"></mat-icon>
-          <span>{{'userInfo.addSupport' | translate}}</span>
-        </button>
-        <button mat-menu-item (click)="edit()" *ngIf="isDoctor || isAgent">
-          <mat-icon svgIcon="account-edit-outline"></mat-icon>
-          <span>{{'userInfo.editInfo' | translate}}</span>
-        </button>
-      </ng-container>
-      <ng-container *ngIf="userInfo?.legacyCode && isImporter">
+      <button mat-menu-item (click)="addNote()" *ngIf="userInfo?.code">
+        <mat-icon svgIcon="comment-plus-outline"></mat-icon>
+        <span>{{'userInfo.addNote' | translate}}</span>
+      </button>
+      <button mat-menu-item (click)="addSupports()"
+        *ngIf="userInfo?.code && ((isDoctor && userInfo.doctor.info.id === user?.id) || isCoordinator)">
+        <mat-icon svgIcon="clipboard-edit-outline"></mat-icon>
+        <span>{{'userInfo.addSupport' | translate}}</span>
+      </button>
+      <button mat-menu-item (click)="edit()" *ngIf="isDoctor || isAgent">
+        <mat-icon svgIcon="account-edit-outline"></mat-icon>
+        <span>{{'userInfo.editInfo' | translate}}</span>
+      </button>
+      <!-- <ng-container *ngIf="userInfo?.legacyCode && isImporter">
         <button mat-menu-item (click)="createNote()">
           <mat-icon svgIcon="comment-plus-outline"></mat-icon>
           <span>{{'userInfo.createNote' | translate}}</span>
@@ -32,7 +30,7 @@
           <mat-icon svgIcon="clipboard-edit-outline"></mat-icon>
           <span>{{'userInfo.createSupport' | translate}}</span>
         </button>
-      </ng-container>
+      </ng-container> -->
     </mat-menu>
   </mat-toolbar>
   <div fxFlex class="wrapper mat-tab-wrapper">

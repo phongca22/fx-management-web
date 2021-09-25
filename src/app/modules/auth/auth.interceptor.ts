@@ -43,7 +43,7 @@ export class AuthInterceptor implements HttpInterceptor {
           this.auth.removeUser();
           this.router.login();
         } else if (res.status === 403) {
-          this.alert.error(this.translate.instant('error.token.'));
+          this.alert.error(this.translate.instant('error.accessDenied'));
         }
 
         return throwError(res);
