@@ -1,10 +1,10 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { delay, filter, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Response } from 'src/app/core/response';
 import { Role } from 'src/app/core/role';
 import { UserInfo } from 'src/app/core/user-info';
@@ -34,13 +34,13 @@ export class MatPaginatorIntlCro extends MatPaginatorIntl {
   providers: [DestroyService, { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCro }]
 })
 export class UserListComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   data: UserInfo[] = [];
   size: number;
   worker: Subject<number>;
   filterEvent: Subject<Function>;
   isAgent: boolean;
   currentPage: number;
-  isAdmin: boolean;
   hasEmergency: boolean;
   loading: boolean = true;
 
@@ -54,18 +54,23 @@ export class UserListComponent implements OnInit {
     this.filterEvent = new Subject();
     this.worker = new Subject();
     this.isAgent = this.auth.hasRole(Role.Agent);
-    this.isAdmin = this.auth.hasRole(Role.Admin);
     this.hasEmergency = this.router.getCurrentNavigation()?.extras?.state?.emergency;
   }
 
   ngOnInit(): void {
     combineLatest([this.worker, this.filterEvent])
       .pipe(
-        tap(([page]) => {
+        map(([page, fn]) => {
           this.data = [];
+          if (page === this.currentPage) {
+            page = 0;
+            this.paginator.pageIndex = 0;
+          }
+
           this.currentPage = page;
+          return { page, fn };
         }),
-        switchMap(([page, fn]) => this.getData(page, fn)),
+        switchMap(({ page, fn }) => this.getData(page, fn)),
         tap(() => {
           this.loading = false;
         }),

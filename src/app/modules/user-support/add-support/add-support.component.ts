@@ -80,7 +80,11 @@ export class AddSupportComponent implements OnInit {
       if (res.ok) {
         this.dialog.close(true);
       } else {
-        this.alert.error();
+        if (res.data.code === 1) {
+          this.alert.error('addSupport.pendingError')
+        } else {
+          this.alert.error();
+        }
       }
     });
   }

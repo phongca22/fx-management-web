@@ -8,7 +8,6 @@ import { SupportStatus } from 'src/app/core/support-status';
 import { UserInfo } from 'src/app/core/user-info';
 import { BaseService } from 'src/app/services/base-service';
 import { AddSupportComponent } from './add-support/add-support.component';
-import { CreateSupportComponent } from './create-support/create-support.component';
 
 @Injectable({
   providedIn: 'root'
@@ -96,26 +95,6 @@ export class SupportService extends BaseService {
   showAddSupports(data: UserInfo): Observable<boolean> {
     return this.dialog
       .open(AddSupportComponent, {
-        data: data,
-        width: '100%',
-        maxWidth: '96vw',
-        autoFocus: false
-      })
-      .afterClosed()
-      .pipe(
-        map((val: any) => {
-          if (isString(val)) {
-            return false;
-          } else {
-            return val;
-          }
-        })
-      );
-  }
-
-  showCreateSupports(data: UserInfo): Observable<boolean> {
-    return this.dialog
-      .open(CreateSupportComponent, {
         data: data,
         width: '100%',
         maxWidth: '96vw',

@@ -3,12 +3,11 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { isEmpty, isNil } from 'lodash';
 import { Observable, Subject } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { UserInfo } from 'src/app/core/user-info';
 import { UserNote } from 'src/app/core/user-note';
 import { BaseService } from 'src/app/services/base-service';
 import { AddNoteComponent } from './add-note/add-note.component';
-import { CreateNoteComponent } from './create-note/create-note.component';
 
 @Injectable({
   providedIn: 'root'
@@ -48,20 +47,6 @@ export class NoteService extends BaseService {
   showAddNote(data: UserInfo): Observable<UserNote | null> {
     return this.dialog
       .open(AddNoteComponent, {
-        data: data,
-        width: '100%',
-        height: '100%',
-        maxWidth: '100vw',
-        maxHeight: '100vh',
-        panelClass: 'mat-dialog-no-padding'
-      })
-      .afterClosed()
-      .pipe(filter((val: UserNote) => !isEmpty(val) && !isNil(val)));
-  }
-
-  showCreateNote(data: UserInfo): Observable<UserNote | null> {
-    return this.dialog
-      .open(CreateNoteComponent, {
         data: data,
         width: '100%',
         height: '100%',

@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
-import { find } from 'lodash';
 import { Observable, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { Response } from 'src/app/core/response';
-import { Role } from 'src/app/core/role';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from '../alert/alert.service';
@@ -78,10 +76,6 @@ export class UserManagementComponent implements OnInit {
   }
 
   select(data: User) {
-    if (find(data.roles, { id: Role.Admin })) {
-      return;
-    }
-
     this.dialog
       .open(UserAddComponent, {
         data: data,

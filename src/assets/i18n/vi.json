@@ -153,15 +153,16 @@
   },
   "unknown": "Không xác định",
   "role": {
-    "admin": "Admin",
     "doctor": "Bác sĩ",
     "agent": "Tư vấn",
     "volunteer": "Tình nguyện viên",
-    "user": "Bệnh nhân"
+    "user": "Bệnh nhân",
+    "coordinator": "Điều phối"
   },
   "addSupport": {
     "title": "Danh sách hỗ trợ",
-    "emergency": "Khẩn cấp"
+    "emergency": "Khẩn cấp",
+    "pendingError": "Vui lòng chuyển trạng thái của bệnh nhân thành \"Đang điều trị\""
   },
   "userSupport": {
     "amount": "Số lượng",
@@ -224,12 +225,15 @@
   "yes": "Có",
   "no": "Không",
   "noteTitle": {
-    "supportPending": "{{time}} - Bs.{{name}} đã tạo y lệnh",
+    "supportPending": "{{time}} - Bs. {{name}} đã tạo y lệnh",
     "supportDelivering": "{{time}} - {{name}} đang vận chuyển",
     "supportDelivered": "{{time}} - {{name}} đã giao",
     "supportFailed": "{{time}} - {{name}} đã hủy",
-    "patientStatusChange": "{{time}} - Bs.{{name}} đã thay đổi trạng thái",
-    "doctorChange": "{{time}} - {{name}} đã thay đổi bác sĩ"
+    "patientStatusChange": "{{time}} - Bs. {{name}} đã thay đổi trạng thái",
+    "doctorChange": "{{time}} - {{name}} đã thay đổi bác sĩ",
+    "doctorComment": "{{time}} - Bs. {{name}}",
+    "agentComment": "{{time}} - Tv. {{name}}",
+    "transporterComment": "{{time}} - Tnv. {{name}}"
   },
   "doctorLevel": {
     "level1": "Mức độ 1",

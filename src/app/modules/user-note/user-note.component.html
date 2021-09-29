@@ -58,7 +58,15 @@
     {{'noteTitle.doctorChange' | translate: {name: data.author.name, time: data.time} }}
   </ng-container>
   <ng-container *ngIf="!data.type">
-    {{data.time}} - {{data.author.name}}
+    <ng-container *ngIf="data.author.isDoctor">
+      {{'noteTitle.doctorComment' | translate: {name: data.author.name, time: data.time} }}
+    </ng-container>
+    <ng-container *ngIf="data.author.isAgent">
+      {{'noteTitle.agentComment' | translate: {name: data.author.name, time: data.time} }}
+    </ng-container>
+    <ng-container *ngIf="data.author.isTransporter">
+      {{'noteTitle.transporterComment' | translate: {name: data.author.name, time: data.time} }}
+    </ng-container>
   </ng-container>
 </ng-template>
 <ng-template #content let-data="data">

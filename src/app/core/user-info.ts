@@ -1,6 +1,7 @@
 import { reject, find, isNil } from 'lodash';
 import { Agent } from './agent';
 import { Doctor } from './doctor';
+import { Role } from './role';
 import { SupportStatus } from './support-status';
 import { PatientStatusType } from './user-condition.enum';
 
@@ -22,6 +23,9 @@ export class UserInfo {
   legacyCode: string;
   createdDate: Date;
   creator: Agent;
+  isDoctor: boolean;
+  isAgent: boolean;
+  isTransporter: boolean;
 
   constructor(data: any) {
     const { info, id, doctorAssignment, creator } = data;
@@ -46,6 +50,12 @@ export class UserInfo {
       this.creator = new Agent(creator);
     }
 
+    if (data.roles) {
+      this.isDoctor = !isNil(find(data.roles, { id: Role.Doctor }));
+      this.isAgent = !isNil(find(data.roles, { id: Role.Agent }));
+      this.isTransporter = !isNil(find(data.roles, { id: Role.Volunteer }));
+    }
+
     this.combineAddress();
   }
 
@@ -65,7 +75,7 @@ export class UserInfo {
     if (data.doctor) {
       this.doctor = new Doctor(data.doctor);
     }
-    
+
     this.status = data.status;
   }
 

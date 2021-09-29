@@ -25,7 +25,7 @@
           </mat-chip>
         </mat-chip-list>
         <mat-slide-toggle [checked]="item.active" color="primary" (change)="change($event, item)">
-          {{(item.active ? 'doctorManagement.today' : 'doctorManagement.off') | translate}}
+          {{'doctorManagement.today' | translate}}
         </mat-slide-toggle>
       </div>
     </mat-card>

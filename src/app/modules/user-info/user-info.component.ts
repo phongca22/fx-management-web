@@ -36,7 +36,6 @@ export class UserInfoComponent implements OnInit {
   notes: UserNote[] = [];
   supports: UserSupport[] = [];
   isAdmin: boolean;
-  isImporter: boolean;
   isCoordinator: boolean;
   user: User | null;
 
@@ -52,8 +51,6 @@ export class UserInfoComponent implements OnInit {
   ) {
     this.isAgent = this.auth.hasRole(Role.Agent);
     this.isVolunteer = this.auth.hasRole(Role.Volunteer);
-    this.isAdmin = this.auth.hasRole(Role.Admin);
-    this.isImporter = this.auth.hasRole(Role.Importer);
     this.isCoordinator = this.auth.hasRole(Role.Coordinator);
     this.user = this.auth.user;
   }
@@ -99,11 +96,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   editStatus(): void {
-    if (
-      this.userInfo.legacyCode ||
-      (!this.isCoordinator && !this.isDoctor) ||
-      (this.isDoctor && this.userInfo.doctor.info.id !== this.user?.id)
-    ) {
+    if ((!this.isCoordinator && !this.isDoctor) || (this.isDoctor && this.userInfo.doctor.info.id !== this.user?.id)) {
       return;
     }
 
@@ -124,10 +117,6 @@ export class UserInfoComponent implements OnInit {
     this.note.showAddNote(this.userInfo).subscribe();
   }
 
-  createNote(): void {
-    this.note.showCreateNote(this.userInfo).subscribe();
-  }
-
   addSupports(): void {
     this.support
       .showAddSupports(this.userInfo)
@@ -135,15 +124,8 @@ export class UserInfoComponent implements OnInit {
       .subscribe(() => this.note.refresh());
   }
 
-  createSupports(): void {
-    this.support
-      .showCreateSupports(this.userInfo)
-      .pipe(filter((val: boolean) => val))
-      .subscribe(() => this.note.refresh());
-  }
-
   editDoctor(): void {
-    if (!this.isAgent || this.userInfo.legacyCode) {
+    if (!this.isAgent) {
       return;
     }
 

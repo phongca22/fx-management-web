@@ -35,7 +35,7 @@ const routes: Routes = [
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Admin, Role.Agent, Role.Doctor, Role.Volunteer],
+          role: [Role.Agent, Role.Doctor, Role.Volunteer],
           page: USER_LIST
         }
       },
@@ -45,7 +45,7 @@ const routes: Routes = [
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Admin, Role.Agent, Role.Doctor, Role.Volunteer],
+          role: [Role.Agent, Role.Doctor, Role.Volunteer],
           page: SEARCH
         }
       },
@@ -56,7 +56,7 @@ const routes: Routes = [
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.Admin, Role.UserManagement]
+          role: [Role.UserManagement]
         }
       }
     ]

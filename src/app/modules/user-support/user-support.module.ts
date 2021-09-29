@@ -6,11 +6,10 @@ import { PipeModule } from '../pipes/pipe.module';
 import { SharedModule } from '../shared-module';
 import { TransporterPickerModule } from '../transporter-picker/transporter-picker.module';
 import { AddSupportComponent } from './add-support/add-support.component';
-import { CreateSupportComponent } from './create-support/create-support.component';
 import { SupportStatusUpdateComponent } from './support-status-update/support-status-update.component';
 
 @NgModule({
-  declarations: [AddSupportComponent, SupportStatusUpdateComponent, CreateSupportComponent],
+  declarations: [AddSupportComponent, SupportStatusUpdateComponent],
   imports: [
     CommonModule,
     SharedModule,

@@ -7,9 +7,7 @@ import { Role } from 'src/app/core/role';
 })
 export class RolePipe implements PipeTransform {
   transform(value: Role | undefined, ...args: unknown[]): string {
-    if (isEqual(Role.Admin, value)) {
-      return 'role.admin';
-    } else if (isEqual(Role.Doctor, value)) {
+    if (isEqual(Role.Doctor, value)) {
       return 'role.doctor';
     } else if (isEqual(Role.Agent, value)) {
       return 'role.agent';

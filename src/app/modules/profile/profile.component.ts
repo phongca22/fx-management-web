@@ -17,7 +17,6 @@ import { UserProfile } from './user-profile';
 })
 export class ProfileComponent implements OnInit {
   user: UserProfile | null;
-  isAdmin: boolean;
   isUserManagement: boolean;
 
   constructor(
@@ -26,7 +25,6 @@ export class ProfileComponent implements OnInit {
     private auth: AuthService,
     private dialog: MatDialog
   ) {
-    this.isAdmin = this.auth.hasRole(Role.Admin);
     this.isUserManagement = this.auth.hasRole(Role.UserManagement);
   }
 

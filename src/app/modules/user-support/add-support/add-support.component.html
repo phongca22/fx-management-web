@@ -19,11 +19,12 @@
     </ng-container>
   </div>
 </div>
-<mat-dialog-actions align="end" fxLayoutGap="16px">
-  <button mat-button mat-dialog-close>{{'action.back' | translate}}</button>
+<mat-dialog-actions align="end" fxLayoutGap="16px" fxLayout="row">
   <button mat-raised-button color="warn" (click)="save(true)" [disabled]="loading">
     {{'addSupport.emergency' | translate}}
   </button>
+  <div fxFlex></div>
+  <button mat-button mat-dialog-close>{{'action.back' | translate}}</button>
   <button mat-raised-button color="primary" (click)="save()" [disabled]="loading">
     {{'action.confirm' | translate}}
   </button>
