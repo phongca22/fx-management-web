@@ -5,8 +5,12 @@
       <div *ngFor="let item of user?.roles">{{item}}</div>
     </mat-card-subtitle>
     <mat-card-content>
-      <div fxLayout="row" fxLayoutAlign=" start" fxLayoutGap="16px" *ngIf="isUserManagement">
+      <div fxLayout="column" fxLayoutAlign=" start" fxLayoutGap="16px" *ngIf="isUserManagement">
         <button mat-stroked-button color="primary" (click)="goDoctorManagement()">{{'profile.doctorManagement' |
+          translate}}</button>
+        <button mat-stroked-button color="primary" (click)="goAgentManagement()">{{'profile.agentManagement' |
+          translate}}</button>
+        <button mat-stroked-button color="primary" (click)="goAgentManagement()">{{'profile.transporterManagement' |
           translate}}</button>
       </div>
     </mat-card-content>

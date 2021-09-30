@@ -3,30 +3,48 @@
     <button mat-icon-button mat-dialog-close>
       <mat-icon svgIcon="keyboard-backspace"></mat-icon>
     </button>
-    <div class="mat-title title">{{'doctorManagement.title' | translate}}</div>
+    <div class="mat-title title" fxFlex>{{'doctorManagement.title' | translate}}</div>
+    <button mat-icon-button (click)="add()">
+      <mat-icon svgIcon="account-plus-outline"></mat-icon>
+    </button>
   </mat-toolbar>
   <div fxFlex class="wrapper" fxLayout="column" fxLayoutGap="16px">
     <mat-card *ngFor="let item of doctors" fxLayout="column" fxLayoutGap="16px">
-      <div fxLayout="row">
-        <div fxFlex fxLayout="column">
-          <div class="mat-title mb-0">{{item.info.name}}</div>
-          <div class="mat-subheading-2 mb-0">{{item.info.phone}}</div>
+      <div fxLayout="column" (click)="edit(item)" fxLayoutGap="16px">
+        <div fxLayout="row" fxLayoutGap="16px">
+          <mat-icon svgIcon="card-account-details-outline" class="gray-icon-color"></mat-icon>
+          <div fxLayout="column" fxLayoutGap="16px" fxFlex>
+            <div>
+              <div class="mat-caption gray-color">{{'userForm.fullname' | translate}}</div>
+              <div class="mat-subheading-2 mb-0">{{item.info.name}}</div>
+            </div>
+            <div>
+              <div class="mat-caption gray-color">{{'userForm.phone' | translate}}</div>
+              <div class="mat-subheading-2 mb-0">{{item.info.phone}}</div>
+            </div>
+          </div>
+          <div fxLayout="column" fxLayoutGap="16px">
+            <div fxLayout="row" fxLayoutAlign="end">
+              <mat-chip-list>
+                <mat-chip [class.doctor-level-2]="item.level === 'level_2'"
+                  [class.doctor-level-3]="item.level === 'level_3'" [class.doctor-level-4]="item.level === 'level_4'">
+                  {{item.level | doctorLevel}}
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+            <div>
+              <mat-slide-toggle [checked]="item.active" color="primary" (change)="setActive($event, item)"
+                [disabled]="!item.enable" fxFlex>
+                {{'doctorManagement.today' | translate}}
+              </mat-slide-toggle>
+            </div>
+            <div>
+              <mat-slide-toggle [checked]="item.enable" color="primary" (change)="setEnable($event, item)" fxFlex>
+                {{'doctorManagement.enable' | translate}}
+              </mat-slide-toggle>
+            </div>
+          </div>
         </div>
-        <button mat-icon-button (click)="edit(item)" color="primary">
-          <mat-icon svgIcon="pencil"></mat-icon>
-        </button>
-      </div>
-      <mat-divider [inset]="true"></mat-divider>
-      <div fxLayout="row" fxLayoutGap="16px">
-        <mat-chip-list fxFlex>
-          <mat-chip [class.doctor-level-2]="item.level === 'level_2'" [class.doctor-level-3]="item.level === 'level_3'"
-            [class.doctor-level-4]="item.level === 'level_4'">
-            {{item.level | doctorLevel}}
-          </mat-chip>
-        </mat-chip-list>
-        <mat-slide-toggle [checked]="item.active" color="primary" (change)="change($event, item)">
-          {{'doctorManagement.today' | translate}}
-        </mat-slide-toggle>
       </div>
     </mat-card>
   </div>

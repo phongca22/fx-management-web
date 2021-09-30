@@ -28,29 +28,49 @@ export class DoctorEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form.patchValue({
-      name: this.data.info.name,
-      phone: this.data.info.phone,
-      level: this.data.level
-    });
+    if (this.data) {
+      this.form.patchValue({
+        name: this.data.info.name,
+        phone: this.data.info.phone,
+        level: this.data.level,
+        account: this.data.account
+      });
+
+      this.form.get('account')?.disable();
+      this.form.get('pass')?.disable();
+    }
   }
 
   setupForm(): void {
     this.form = this.builder.group({
       name: ['', Validators.required],
       phone: ['', Validators.required],
-      level: [null, Validators.required]
+      level: [DoctorLevelType.Level_1, Validators.required],
+      account: ['', Validators.required],
+      pass: ['', Validators.required]
     });
   }
 
   save(): void {
     this.loading = true;
-    this.service.edit(this.data.info.id, this.form.value).subscribe((res: Response) => {
-      if (res.ok) {
-        this.dialog.close(this.form.value);
-      } else {
-        this.alert.error();
-      }
-    });
+    if (this.data) {
+      this.service.edit(this.data.info.id, this.form.value).subscribe((res: Response) => {
+        if (res.ok) {
+          this.dialog.close(this.form.value);
+        } else {
+          this.loading = false;
+          this.alert.error();
+        }
+      });
+    } else {
+      this.service.create(this.form.value).subscribe((res: Response) => {
+        if (res.ok) {
+          this.dialog.close(true);
+        } else {
+          this.loading = false;
+          this.alert.error();
+        }
+      });
+    }
   }
 }

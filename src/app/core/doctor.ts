@@ -7,12 +7,16 @@ export class Doctor {
   active: boolean;
   count: number;
   level: DoctorLevelType;
+  enable: boolean;
+  account: string;
 
   constructor(data: any) {
     this.info = new UserInfo(data);
     this.count = parseInt(data.count);
     this.active = !isNil(data.activeDoctor);
     this.level = data.doctorInfo?.level;
+    this.enable = data.active;
+    this.account = data.username;
   }
 
   public static parseActive({ summary, data }: any): Doctor[] {

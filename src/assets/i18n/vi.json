@@ -196,18 +196,20 @@
   "profile": {
     "logout": "Đăng xuất",
     "userManagement": "Quản lý tài khoản",
-    "doctorManagement": "Quản lý bác sĩ"
+    "doctorManagement": "Quản lý bác sĩ",
+    "agentManagement": "Quản lý tư vấn",
+    "transporterManagement": "Quản lý vận chuyển"
   },
   "doctorManagement": {
     "title": "Danh sách bác sĩ",
     "name": "Họ và tên",
     "today": "Trực hôm nay",
-    "off": "Nghỉ",
     "fullname": "Họ và tên",
     "fullnameRequired": "Nhập họ và tên",
     "phone": "Số điện thoại",
     "phoneRequired": "Nhập số điện thoại",
-    "level": "Cấp độ"
+    "level": "Cấp độ",
+    "enable": "Hoạt động"
   },
   "userNote": {
     "reason": "Lý do: {{message}}",
@@ -245,5 +247,8 @@
     "date": "Ngày giờ",
     "linkCopied": "Đã sao chép liên kết",
     "codeCopied": "Đã sao chép mã bệnh nhân"
+  },
+  "feature": {
+    "developing": "Đang phát triển..."
   }
 }

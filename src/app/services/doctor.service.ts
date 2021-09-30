@@ -37,7 +37,19 @@ export class DoctorService extends BaseService {
       .pipe(this.getResponse(), this.getError());
   }
 
+  setEnable(id: number, enable: boolean): Observable<any> {
+    return this.http
+      .put(`${this.api}/doctor/${id}/enable`, {
+        enable: enable
+      })
+      .pipe(this.getResponse(), this.getError());
+  }
+
   edit(id: number, data: any): Observable<any> {
     return this.http.put(`${this.api}/doctor/${id}/edit`, data).pipe(this.getResponse(), this.getError());
+  }
+
+  create(data: any): Observable<any> {
+    return this.http.post(`${this.api}/auth/create-doctor`, data).pipe(this.getResponse(), this.getError());
   }
 }

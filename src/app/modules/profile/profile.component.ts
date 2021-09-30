@@ -4,6 +4,7 @@ import { USER_MANAGEMENT } from 'src/app/core/page-config';
 import { Role } from 'src/app/core/role';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { RouterService } from 'src/app/services/router.service';
+import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
 import { DoctorManagementComponent } from '../doctor-management/doctor-management.component';
 import { ProfileService } from './profile.service';
@@ -23,7 +24,8 @@ export class ProfileComponent implements OnInit {
     private service: ProfileService,
     private router: RouterService,
     private auth: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private alert: AlertService
   ) {
     this.isUserManagement = this.auth.hasRole(Role.UserManagement);
   }
@@ -49,5 +51,9 @@ export class ProfileComponent implements OnInit {
       autoFocus: false,
       panelClass: 'mat-dialog-no-padding'
     });
+  }
+
+  goAgentManagement(): void {
+    this.alert.info('feature.developing');
   }
 }

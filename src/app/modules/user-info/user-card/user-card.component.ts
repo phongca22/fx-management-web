@@ -1,4 +1,5 @@
 import { Clipboard } from '@angular/cdk/clipboard';
+import { HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserInfo } from 'src/app/core/user-info';
@@ -40,19 +41,24 @@ export class UserCardComponent implements OnInit {
   }
 
   copyLink(): void {
-    this.clipboard.copy(
-      `${window.origin}/main/search/${this.data.code || this.data.legacyCode}/${this.normalize(
-        this.data.name
-      )}/${this.normalize(this.data.creator.info.name)}`
-    );
+    const params = new HttpParams({
+      fromObject: {
+        'benh-nhan': this.normalize(this.data.name),
+        'tu-van': this.normalize(this.data.creator.info.name)
+      }
+    }).toString();
+    this.clipboard.copy(`${window.origin}/main/search/${this.data.code || this.data.legacyCode}?${params.toString()}`);
     this.alert.info('userCard.linkCopied');
   }
 
   normalize(data: string): string {
-    return data
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .split(/\s+/)
-      .join('_');
+    return encodeURIComponent(
+      data
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/Đ/, 'D')
+        .split(/\s+/)
+        .join('_')
+    );
   }
 }

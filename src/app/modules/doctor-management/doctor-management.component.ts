@@ -27,6 +27,10 @@ export class DoctorManagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getData();
+  }
+
+  getData(): void {
     this.doctor
       .getDoctors()
       .pipe(takeUntil(this.$destroy))
@@ -39,12 +43,26 @@ export class DoctorManagementComponent implements OnInit {
       });
   }
 
-  change(event: MatSlideToggleChange, data: Doctor) {
+  setActive(event: MatSlideToggleChange, data: Doctor) {
     data.active = event.checked;
     this.doctor.setActive(data.info.id, event.checked).subscribe((res: Response) => {
       if (!res.ok) {
         this.alert.error();
         data.active = !data.active;
+      }
+    });
+  }
+
+  setEnable(event: MatSlideToggleChange, data: Doctor) {
+    data.enable = event.checked;
+    this.doctor.setEnable(data.info.id, event.checked).subscribe((res: Response) => {
+      if (res.ok) {
+        if (!data.enable) {
+          data.active = false;
+        }
+      } else {
+        this.alert.error();
+        data.enable = !data.enable;
       }
     });
   }
@@ -64,5 +82,17 @@ export class DoctorManagementComponent implements OnInit {
         data.info.phone = result.phone;
         data.level = result.level;
       });
+  }
+
+  add(): void {
+    this.dialog
+      .open(DoctorEditComponent, {
+        width: '100%',
+        maxWidth: '96vw',
+        autoFocus: false
+      })
+      .afterClosed()
+      .pipe(filter((result: boolean) => result))
+      .subscribe(() => this.getData());
   }
 }
