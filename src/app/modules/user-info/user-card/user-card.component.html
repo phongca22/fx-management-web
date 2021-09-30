@@ -23,29 +23,27 @@
   <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign=" start">
     <div fxFlex fxLayout="column" fxLayoutGap="16px">
       <div fxLayout="row">
-        <div fxFlex>
-          <div class="mat-caption gray-color">{{'role.agent' | translate}}</div>
+        <div fxFlex fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+          <mat-icon svgIcon="face-agent" class="gray-icon-color"></mat-icon>
           <div class="mat-body">{{data.creator.info.name}}</div>
         </div>
-        <div fxFlex>
-          <div class="mat-caption gray-color">{{'role.doctor' | translate}}</div>
-          <div class="mat-body">{{data.doctor.info.name}}</div>
+        <div fxFlex fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+          <mat-icon svgIcon="calendar-clock" class="gray-icon-color"></mat-icon>
+          <div class="mat-body">{{data.createdDate | date: 'dd-MM-YYYY HH:mm'}}</div>
         </div>
       </div>
       <div fxLayout="row">
-        <div fxFlex>
-          <div class="mat-caption gray-color">{{'userCard.date' | translate}}</div>
-          <div class="mat-body">{{data.createdDate | date: 'dd-MM-YYYY HH:mm'}}</div>
+        <div fxFlex fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+          <mat-icon svgIcon="card-account-details-outline" class="gray-icon-color"></mat-icon>
+          <div class="mat-body">Bs. {{data.doctor.info.name}}</div>
         </div>
-        <div fxFlex>
-          <mat-chip-list>
-            <mat-chip [class.doctor-level-2]="data.doctor.level === 'level_2'"
-              [class.doctor-level-3]="data.doctor.level === 'level_3'"
-              [class.doctor-level-4]="data.doctor.level === 'level_4'">
-              {{data.doctor.level | doctorLevel}}
-            </mat-chip>
-          </mat-chip-list>
-        </div>
+        <mat-chip-list fxFlex>
+          <mat-chip [class.doctor-level-2]="data.doctor.level === 'level_2'"
+            [class.doctor-level-3]="data.doctor.level === 'level_3'"
+            [class.doctor-level-4]="data.doctor.level === 'level_4'">
+            {{data.doctor.level | doctorLevel}}
+          </mat-chip>
+        </mat-chip-list>
       </div>
     </div>
   </div>
