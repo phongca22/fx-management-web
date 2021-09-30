@@ -13,12 +13,17 @@ import { UserInfoComponent } from '../user-info.component';
 })
 export class UserCardComponent implements OnInit {
   @Input() data: UserInfo;
+  @Input() show: boolean;
   isImporter: boolean;
   isAdmin: boolean;
 
   constructor(private dialog: MatDialog, private clipboard: Clipboard, private alert: AlertService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.show) {
+      this.showInfo();
+    }
+  }
 
   showInfo(): void {
     this.dialog

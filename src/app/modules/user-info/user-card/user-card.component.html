@@ -1,10 +1,11 @@
 <mat-card fxLayout="column" fxLayoutGap="16px" (click)="showInfo()">
   <div fxLayout="row" fxLayoutGap="16px" class="header">
-    <mat-icon svgIcon="account-circle" class="avatar-icon" *ngIf="data.gender !== 0 && data.gender !== 1"
-      class="gray-icon-color">
+    <mat-icon svgIcon="account-circle" class="avatar-icon gray-icon-color"
+      *ngIf="data.gender !== 0 && data.gender !== 1">
     </mat-icon>
-    <img src="/assets/svg/illustrations/undraw_male_avatar_323b.svg" *ngIf="data.gender === 1" width="50" />
-    <img src="/assets/svg/illustrations/undraw_female_avatar_w3jk.svg" *ngIf="data.gender === 0" width="50" />
+    <img src="/assets/svg/illustrations/undraw_male_avatar_323b.svg" *ngIf="data.gender === 1" width="50" height="50" />
+    <img src="/assets/svg/illustrations/undraw_female_avatar_w3jk.svg" *ngIf="data.gender === 0" width="50"
+      height="50" />
     <div fxFlex>
       <div class="mat-title mb-0">{{data.name}}</div>
       <div class="mat-subheading-2 mb-0 gray-color">{{data.status | patientStatus}}</div>

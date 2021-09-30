@@ -6,11 +6,11 @@
         <div fxLayout="column" fxLayoutAlign=" center" class="icon-wrapper">
           <mat-icon svgIcon="comment-text-outline" class="gray-icon-color" *ngIf="!item.type" class="gray-icon-color">
           </mat-icon>
-          <mat-icon svgIcon="clipboard-plus-outline" *ngIf="item.type === 'support_pending'" class="gray-icon-color">
+          <mat-icon svgIcon="pill" *ngIf="item.type === 'support_pending'" color="primary">
           </mat-icon>
-          <mat-icon svgIcon="truck-delivery-outline" *ngIf="item.type === 'support_delivering'"
-            class="delivering-color"></mat-icon>
-          <mat-icon svgIcon="truck-check-outline" *ngIf="item.type === 'support_delivered'" class="delivered-color">
+          <mat-icon svgIcon="truck-fast-outline" *ngIf="item.type === 'support_delivering'" class="delivering-color">
+          </mat-icon>
+          <mat-icon svgIcon="marker-check" *ngIf="item.type === 'support_delivered'" class="delivered-color">
           </mat-icon>
           <mat-icon svgIcon="alert-circle-outline" *ngIf="item.type === 'support_failed'" color="warn">
           </mat-icon>
@@ -86,11 +86,8 @@
       <div *ngIf="isAgent && data.type === 'support_pending' && data.patientSupport.status === 'pending'">
         <button mat-raised-button [color]="data.patientSupport.emergency ? 'warn' : 'accent'"
           (click)="showTransporterPicker(data)" *ngIf="code">
-          <mat-icon svgIcon="truck-outline"></mat-icon> {{'userNote.selectTransporter' | translate}}
+          <mat-icon svgIcon="truck-fast-outline"></mat-icon> {{'userNote.selectTransporter' | translate}}
         </button>
-        <!-- <button mat-raised-button (click)="showTransporterCreate(data)" *ngIf="isCoordinator && !code">
-          <mat-icon svgIcon="truck-check-outline"></mat-icon> {{'userNote.createData' | translate}}
-        </button> -->
       </div>
     </div>
   </ng-container>
@@ -99,7 +96,7 @@
       <mat-chip-list>
         <mat-chip disabled>{{data.contents[0] | patientStatus}}</mat-chip>
       </mat-chip-list>
-      <mat-icon svgIcon="arrow-right-bold" class="gray-icon-color"></mat-icon>
+      <mat-icon svgIcon="arrow-right-thick" class="gray-icon-color"></mat-icon>
       <mat-chip-list>
         <mat-chip>{{data.contents[1] | patientStatus}}</mat-chip>
       </mat-chip-list>
@@ -110,7 +107,7 @@
       <mat-chip-list>
         <mat-chip disabled>{{data.contents[0]}}</mat-chip>
       </mat-chip-list>
-      <mat-icon svgIcon="arrow-right-bold" class="gray-icon-color"></mat-icon>
+      <mat-icon svgIcon="arrow-right-thick" class="gray-icon-color"></mat-icon>
       <mat-chip-list>
         <mat-chip>{{data.contents[1]}}</mat-chip>
       </mat-chip-list>

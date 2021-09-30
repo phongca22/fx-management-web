@@ -48,17 +48,13 @@ export class DoctorPickerComponent implements OnInit {
 
   save() {
     this.loading = true;
-    if (this.selectCtrl.value !== this.data) {
-      this.service.setDoctor(this.data, this.selectCtrl.value.info.id).subscribe((res: Response) => {
-        if (res.ok) {
-          this.dialog.close(this.selectCtrl.value);
-        } else {
-          this.loading = false;
-          this.alert.error();
-        }
-      });
-    } else {
-      this.dialog.close();
-    }
+    this.service.setDoctor(this.data, this.selectCtrl.value.info.id).subscribe((res: Response) => {
+      if (res.ok) {
+        this.dialog.close(this.selectCtrl.value);
+      } else {
+        this.loading = false;
+        this.alert.error();
+      }
+    });
   }
 }
