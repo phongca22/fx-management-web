@@ -1,15 +1,22 @@
-<div fxLayout="row">
+<div fxLayout="column">
   <mat-form-field appearance="outline" fxFlex>
     <mat-label>{{'transporterPicker.label' | translate}}</mat-label>
     <mat-select [formControl]="selectCtrl">
-      <mat-select-trigger>{{selectCtrl.value?.info.name}}</mat-select-trigger>
-      <mat-optgroup *ngFor="let item of groups" [label]="'transporterPicker.district' | translate: {name: item.name}">
-        <mat-option *ngFor="let t of item.list" [value]="t">
+      <mat-select-trigger>{{selectCtrl.value?.user.info.name}}</mat-select-trigger>
+      <mat-optgroup *ngFor="let item of groups"
+        [label]="(item.name ? 'transporterPicker.district' : 'transporterPicker.all') | translate: {name: item.name}">
+        <mat-option *ngFor="let t of item.list" [value]="{group: item, user: t}">
           {{t.info.name}}
         </mat-option>
       </mat-optgroup>
     </mat-select>
   </mat-form-field>
+  <div *ngIf="selectCtrl.valid">
+    <div class="mat-caption gray-color">{{'transporterPicker.zone' | translate}}</div>
+    <div class="mat-title mb-0">
+      {{(selectCtrl.value?.group?.name ? 'transporterPicker.district' : 'transporterPicker.all') | translate: {name:
+      selectCtrl.value?.group?.name} }}</div>
+  </div>
 </div>
 <mat-dialog-actions align="end" fxLayoutGap="16px">
   <button mat-button mat-dialog-close [disabled]="loading">{{'action.back' | translate}}</button>

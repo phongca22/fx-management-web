@@ -101,7 +101,9 @@
     "district": "Quận {{name}}",
     "startDate": "Ngày nhận",
     "reason": "Lý do",
-    "createDate": "Ngày tạo"
+    "createDate": "Ngày tạo",
+    "all": "Tất cả",
+    "zone": "Khu vực"
   },
   "addNote": {
     "success": "Đã thêm ghi chú",
