@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   host: 'http://localhost:4200',
-  version: '2.1.0'
+  version: '2.1.1'
 };
 
 /*
