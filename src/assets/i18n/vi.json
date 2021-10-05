@@ -125,7 +125,7 @@
     "condition": "Tình trạng",
     "doctor": "Bác sĩ",
     "phone": "Số điện thoại",
-    "code": "Mã bệnh nhận",
+    "legacyCode": "Mã cũ",
     "age": "Tuổi",
     "gender": "Giới tính",
     "editInfo": "Sửa thông tin",
@@ -153,7 +153,7 @@
     "title": "Thông tin vận chuyển",
     "status": "Trạng thái"
   },
-  "unknown": "Không xác định",
+  "unknown": "N/A",
   "role": {
     "doctor": "Bác sĩ",
     "agent": "Tư vấn",

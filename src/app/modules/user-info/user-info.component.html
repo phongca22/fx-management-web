@@ -124,7 +124,11 @@
                   </div>
                   <div fxFlex fxLayout="column">
                     <div class="mat-caption gray-color">{{'userForm.age' | translate}}</div>
-                    <div class="mat-subheading-2 mb-0">{{userInfo?.age}}</div>
+                    <div class="mat-subheading-2 mb-0">{{userInfo?.age || ('unknown' | translate)}}</div>
+                  </div>
+                  <div fxLayout="column" *ngIf="userInfo?.legacyCode">
+                    <div class="mat-caption gray-color">{{'userInfo.legacyCode' | translate}}</div>
+                    <div class="mat-subheading-2 mb-0">{{userInfo?.legacyCode}}</div>
                   </div>
                 </div>
               </div>

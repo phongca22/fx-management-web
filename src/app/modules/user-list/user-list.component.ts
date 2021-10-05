@@ -93,7 +93,7 @@ export class UserListComponent implements OnInit {
   }
 
   getData(page: number, fn: Function): Observable<any> {
-    return fn(page).pipe(takeUntil(this.$destroy));
+    return fn(page + 1).pipe(takeUntil(this.$destroy));
   }
 
   changePage(event: PageEvent): void {

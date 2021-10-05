@@ -61,20 +61,16 @@ export class TransporterPickerComponent implements OnInit {
 
   save() {
     this.loading = true;
-    if (this.selectCtrl.value !== this.data) {
-      this.service
-        .setTransporter(this.data.id, this.selectCtrl.value.info.id, this.data.psId)
-        .subscribe((res: Response) => {
-          if (res.ok) {
-            this.note.refresh();
-            this.dialog.close();
-          } else {
-            this.loading = false;
-            this.alert.error();
-          }
-        });
-    } else {
-      this.dialog.close();
-    }
+    this.service
+      .setTransporter(this.data.id, this.selectCtrl.value.user.info.id, this.data.psId)
+      .subscribe((res: Response) => {
+        if (res.ok) {
+          this.note.refresh();
+          this.dialog.close();
+        } else {
+          this.loading = false;
+          this.alert.error();
+        }
+      });
   }
 }

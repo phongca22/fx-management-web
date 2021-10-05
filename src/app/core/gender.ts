@@ -3,13 +3,16 @@ export interface IGender {
   name: string;
 }
 
+export const MALE = 1;
+export const FEMALE = 0;
+
 export const GENDER: IGender[] = [
   {
-    id: 1,
+    id: MALE,
     name: 'gender.male'
   },
   {
-    id: 0,
+    id: FEMALE,
     name: 'gender.female'
   }
 ];
