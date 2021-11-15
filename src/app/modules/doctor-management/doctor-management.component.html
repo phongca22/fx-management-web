@@ -25,12 +25,13 @@
           </div>
           <div fxLayout="column" fxLayoutGap="16px">
             <div fxLayout="row" fxLayoutAlign="end">
-              <mat-chip-list>
-                <mat-chip [class.doctor-level-2]="item.level === 'level_2'"
-                  [class.doctor-level-3]="item.level === 'level_3'" [class.doctor-level-4]="item.level === 'level_4'">
-                  {{item.level | doctorLevel}}
-                </mat-chip>
-              </mat-chip-list>
+              <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+                <mat-icon svgIcon="virus" [class.doctor-level-1-text]="item.level === 'level_1'"
+                  [class.doctor-level-2-text]="item.level === 'level_2'"
+                  [class.doctor-level-3-text]="item.level === 'level_3'"
+                  [class.doctor-level-4-text]="item.level === 'level_4'"></mat-icon>
+                <div class="mat-body">{{item.level | doctorLevel}}</div>
+              </div>
             </div>
             <div>
               <mat-slide-toggle [checked]="item.active" color="primary" (change)="setActive($event, item)"

@@ -2,7 +2,7 @@
   <div fxLayout="row" fxLayoutGap="16px" class="header">
     <mat-icon svgIcon="account-circle" class="avatar-icon gray-icon-color" *ngIf="!data.avatar">
     </mat-icon>
-    <img *ngIf="data.avatar" [src]="'/assets' + data.avatar" width="60"/>
+    <img *ngIf="data.avatar" [src]="'/assets' + data.avatar" width="60" />
     <div fxFlex>
       <div class="mat-title mb-0">{{data.name}}</div>
       <div class="mat-subheading-2 mb-0 gray-color">{{data.status | patientStatus}}</div>
@@ -25,22 +25,22 @@
           <div class="mat-body">{{data.creator.info.name}}</div>
         </div>
         <div fxFlex fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
-          <mat-icon svgIcon="calendar-clock" class="gray-icon-color"></mat-icon>
+          <mat-icon svgIcon="calendar-blank" class="gray-icon-color"></mat-icon>
           <div class="mat-body">{{data.createdDate | date: 'dd-MM-YYYY HH:mm'}}</div>
         </div>
       </div>
       <div fxLayout="row">
         <div fxFlex fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
-          <mat-icon svgIcon="card-account-details-outline" class="gray-icon-color"></mat-icon>
+          <mat-icon svgIcon="clipboard-account-outline" class="gray-icon-color"></mat-icon>
           <div class="mat-body">Bs. {{data.doctor.info.name}}</div>
         </div>
-        <mat-chip-list fxFlex>
-          <mat-chip [class.doctor-level-2]="data.doctor.level === 'level_2'"
-            [class.doctor-level-3]="data.doctor.level === 'level_3'"
-            [class.doctor-level-4]="data.doctor.level === 'level_4'">
-            {{data.doctor.level | doctorLevel}}
-          </mat-chip>
-        </mat-chip-list>
+        <div fxFlex fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+          <mat-icon svgIcon="virus" [class.doctor-level-1-text]="data.doctor.level === 'level_1'"
+            [class.doctor-level-2-text]="data.doctor.level === 'level_2'"
+            [class.doctor-level-3-text]="data.doctor.level === 'level_3'"
+            [class.doctor-level-4-text]="data.doctor.level === 'level_4'"></mat-icon>
+          <div class="mat-body">{{data.doctor.level | doctorLevel}}</div>
+        </div>
       </div>
     </div>
   </div>
