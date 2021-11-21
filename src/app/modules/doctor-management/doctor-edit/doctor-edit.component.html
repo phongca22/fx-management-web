@@ -26,7 +26,9 @@
     <mat-label>{{'doctorManagement.level' | translate}}</mat-label>
     <mat-select formControlName="level">
       <mat-select-trigger>{{form.get('level')?.value | doctorLevel}}</mat-select-trigger>
-      <mat-option *ngFor="let item of levels" [value]="item">
+      <mat-option *ngFor="let item of levels" [value]="item" [class.doctor-level-1]="item === 'level_1'"
+        [class.doctor-level-2]="item === 'level_2'" [class.doctor-level-3]="item === 'level_3'"
+        [class.doctor-level-4]="item === 'level_4'">
         {{item | doctorLevel}}
       </mat-option>
     </mat-select>

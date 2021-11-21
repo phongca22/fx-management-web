@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { UserInfo } from 'src/app/core/user-info';
 import { AlertService } from '../../alert/alert.service';
 import { UserInfoComponent } from '../user-info.component';
-
 @Component({
   selector: 'app-user-card',
   templateUrl: './user-card.component.html',

@@ -1,0 +1,4 @@
+<div class="chip" [class.processing]="isProcessing()" [class.pending]="isPending()" [class.done]="isDone()"
+    [class.recovered]="isRecovered()" [class.hospitalized]="isHospitalized()">
+    {{data | patientStatus}}
+</div>

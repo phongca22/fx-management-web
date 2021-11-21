@@ -1,23 +1,37 @@
 <div fxFlex fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center" class="wrapper">
-  <mat-card>
-    <mat-card-title>{{user?.info?.name}}</mat-card-title>
-    <mat-card-subtitle>
-      <div *ngFor="let item of user?.roles">{{item}}</div>
-    </mat-card-subtitle>
-    <mat-card-content>
-      <div fxLayout="column" fxLayoutAlign=" start" fxLayoutGap="16px" *ngIf="isUserManagement">
-        <button mat-stroked-button color="primary" (click)="goDoctorManagement()">{{'profile.doctorManagement' |
-          translate}}</button>
-        <button mat-stroked-button color="primary" (click)="goAgentManagement()">{{'profile.agentManagement' |
-          translate}}</button>
-        <button mat-stroked-button color="primary" (click)="goAgentManagement()">{{'profile.transporterManagement' |
-          translate}}</button>
+  <div fxLayout="column" fxLayoutGap="16px">
+    <div>
+      <div fxLayout="row" fxLayoutAlign=" center">
+        <div class="mat-title mb-0">{{user?.info?.name}}</div>
+        <button mat-icon-button color="warn" (click)="logout()">
+          <mat-icon svgIcon="logout-variant"></mat-icon>
+        </button>
       </div>
-    </mat-card-content>
-    <mat-card-actions align="end">
-      <button mat-button color="primary" (click)="logout()">
-        <mat-icon svgIcon="logout-variant"></mat-icon> {{'profile.logout' | translate}}
-      </button>
-    </mat-card-actions>
-  </mat-card>
+      <div class="mat-body gray-color">
+        <div *ngFor="let item of user?.roles">{{item}}</div>
+      </div>
+    </div>
+    <div>
+      <div fxLayout="row wrap" fxLayoutAlign=" center" fxLayoutGap="16px grid" *ngIf="isUserManagement">
+        <div fxFlex="50" (click)="goDoctorManagement()">
+          <mat-toolbar class="user-box" color="primary" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+            <mat-icon svgIcon="clipboard-account-outline"></mat-icon>
+            <div>{{'profile.doctorManagement' | translate}}</div>
+          </mat-toolbar>
+        </div>
+        <div fxFlex="50" (click)="goAgentManagement()">
+          <mat-toolbar class="user-box" color="primary" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+            <mat-icon svgIcon="face-agent"></mat-icon>
+            <div>{{'profile.agentManagement' | translate}}</div>
+          </mat-toolbar>
+        </div>
+        <div fxFlex="50" (click)="goAgentManagement()">
+          <mat-toolbar class="user-box" color="primary" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+            <mat-icon svgIcon="truck-outline"></mat-icon>
+            <div>{{'profile.transporterManagement' | translate}}</div>
+          </mat-toolbar>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

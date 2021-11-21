@@ -26,11 +26,7 @@
           <div fxLayout="column" fxLayoutGap="16px">
             <div fxLayout="row" fxLayoutAlign="end">
               <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
-                <mat-icon svgIcon="virus" [class.doctor-level-1-text]="item.level === 'level_1'"
-                  [class.doctor-level-2-text]="item.level === 'level_2'"
-                  [class.doctor-level-3-text]="item.level === 'level_3'"
-                  [class.doctor-level-4-text]="item.level === 'level_4'"></mat-icon>
-                <div class="mat-body">{{item.level | doctorLevel}}</div>
+                <app-covid-level-chip [data]="item.level"></app-covid-level-chip>
               </div>
             </div>
             <div>

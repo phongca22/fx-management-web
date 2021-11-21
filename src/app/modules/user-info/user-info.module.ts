@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { DoctorPickerModule } from '../doctor-picker/doctor-picker.module';
+import { PatientChipModule } from '../patient-chip/patient-chip.module';
+import { PatientStatusPickerModule } from '../patient-status-picker/patient-status-picker.module';
 import { PipeModule } from '../pipes/pipe.module';
 import { SharedModule } from '../shared-module';
-import { PatientStatusPickerModule } from '../patient-status-picker/patient-status-picker.module';
 import { UserEditModule } from '../user-edit/user-edit.module';
 import { UserNoteModule } from '../user-note/user-note.module';
 import { UserSupportModule } from '../user-support/user-support.module';
@@ -24,7 +25,8 @@ import { UserInfoComponent } from './user-info.component';
     ClipboardModule,
     PatientStatusPickerModule,
     DoctorPickerModule,
-    UserSupportModule
+    UserSupportModule,
+    PatientChipModule
   ],
   exports: [UserCardComponent]
 })

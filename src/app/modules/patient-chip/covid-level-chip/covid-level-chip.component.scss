@@ -1,0 +1,24 @@
+.chip {
+  padding: 4px 12px;
+  border-radius: 5px;
+}
+
+.chip.level-1 {
+  background: #fff8e1;
+  color: #ffc107;
+}
+
+.chip.level-2 {
+  background: #fff3e0;
+  color: #ff9800;
+}
+
+.chip.level-3 {
+  background: #ffebee;
+  color: #f44336;
+}
+
+.chip.level-4 {
+  background: #fce4ec;
+  color: #e91e63;
+}

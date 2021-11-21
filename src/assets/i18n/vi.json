@@ -57,7 +57,10 @@
     "desire": "Mong muốn FF",
     "zalo": "Zalo video call",
     "timer": "Hẹn bệnh nhân",
-    "healthDeclaration": "Khai báo y tế"
+    "healthDeclaration": "Khai báo y tế",
+    "agent": "Tư vấn",
+    "date": "Ngày giờ",
+    "patientCountToday": "Đã khám"
   },
   "testCovidType": {
     "ward": "Y tế phường",
@@ -198,9 +201,9 @@
   "profile": {
     "logout": "Đăng xuất",
     "userManagement": "Quản lý tài khoản",
-    "doctorManagement": "Quản lý bác sĩ",
-    "agentManagement": "Quản lý tư vấn",
-    "transporterManagement": "Quản lý vận chuyển"
+    "doctorManagement": "Bác sĩ",
+    "agentManagement": "Tư vấn",
+    "transporterManagement": "Vận chuyển"
   },
   "doctorManagement": {
     "title": "Danh sách bác sĩ",
@@ -240,10 +243,10 @@
     "transporterComment": "{{time}} - Tnv. {{name}}"
   },
   "doctorLevel": {
-    "level1": "Mức độ 1",
-    "level2": "Mức độ 2",
-    "level3": "Mức độ 3",
-    "level4": "Mức độ 4"
+    "level1": "Cấp độ 1",
+    "level2": "Cấp độ 2",
+    "level3": "Cấp độ 3",
+    "level4": "Cấp độ 4"
   },
   "userCard": {
     "date": "Ngày giờ",

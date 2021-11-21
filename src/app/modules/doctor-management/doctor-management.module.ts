@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { PatientChipModule } from '../patient-chip/patient-chip.module';
 import { PipeModule } from '../pipes/pipe.module';
 import { SharedModule } from '../shared-module';
 import { DoctorEditComponent } from './doctor-edit/doctor-edit.component';
@@ -16,7 +17,8 @@ import { DoctorManagementComponent } from './doctor-management.component';
     SharedModule,
     TranslateModule.forChild({}),
     PipeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PatientChipModule
   ]
 })
 export class DoctorManagementModule {}

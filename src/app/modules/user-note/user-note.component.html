@@ -8,9 +8,9 @@
           </mat-icon>
           <mat-icon svgIcon="pill" *ngIf="item.type === 'support_pending'" color="primary">
           </mat-icon>
-          <mat-icon svgIcon="truck-fast-outline" *ngIf="item.type === 'support_delivering'" class="delivering-color">
+          <mat-icon svgIcon="truck-delivery-outline" *ngIf="item.type === 'support_delivering'" class="delivering-color">
           </mat-icon>
-          <mat-icon svgIcon="marker-check" *ngIf="item.type === 'support_delivered'" class="delivered-color">
+          <mat-icon svgIcon="account-arrow-left-outline" *ngIf="item.type === 'support_delivered'" class="delivered-color">
           </mat-icon>
           <mat-icon svgIcon="alert-circle-outline" *ngIf="item.type === 'support_failed'" color="warn">
           </mat-icon>
@@ -93,13 +93,9 @@
   </ng-container>
   <ng-container *ngIf="data.type ==='patient_status_change'">
     <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="8px">
-      <mat-chip-list>
-        <mat-chip disabled>{{data.contents[0] | patientStatus}}</mat-chip>
-      </mat-chip-list>
+      <app-patient-status-chip [data]="data.contents[0]"></app-patient-status-chip>
       <mat-icon svgIcon="arrow-right-thick" class="gray-icon-color"></mat-icon>
-      <mat-chip-list>
-        <mat-chip>{{data.contents[1] | patientStatus}}</mat-chip>
-      </mat-chip-list>
+      <app-patient-status-chip [data]="data.contents[1]"></app-patient-status-chip>
     </div>
   </ng-container>
   <ng-container *ngIf="data.type ==='doctor_change'">

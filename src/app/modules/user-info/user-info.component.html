@@ -147,6 +147,20 @@
                 </div>
               </div>
             </div>
+            <mat-divider [inset]="true"></mat-divider>
+            <div fxLayout="row" fxLayoutGap="16px">
+              <mat-icon svgIcon="clock-outline" class="gray-icon-color"></mat-icon>
+              <div fxLayout="column" fxFlex>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.agent' | translate}}</div>
+                  <div class="mat-subheading-2">{{userInfo?.creator?.info?.name}}</div>
+                </div>
+                <div>
+                  <div class="mat-caption gray-color">{{'userForm.date' | translate}}</div>
+                  <div class="mat-subheading-2">{{userInfo?.createdDate | date: 'dd-MM-YYYY hh:mm a'}}</div>
+                </div>
+              </div>
+            </div>
           </mat-card>
         </div>
       </mat-tab>
@@ -163,12 +177,7 @@
     <mat-divider [vertical]="true"></mat-divider>
     <div (click)="editStatus()" fxFlex fxLayout="row" fxLayoutAlign="center center">
       <div fxLayout="column" fxLayoutAlign=" center">
-        <mat-icon svgIcon="account-clock" *ngIf="userInfo?.status === 'pending'" class="gray-icon-color"></mat-icon>
-        <mat-icon svgIcon="progress-clock" *ngIf="userInfo?.status === 'processing'" class="gray-icon-color"></mat-icon>
-        <mat-icon svgIcon="account-heart" *ngIf="userInfo?.status === 'recovered'" class="gray-icon-color"></mat-icon>
-        <mat-icon svgIcon="hospital-box" *ngIf="userInfo?.status === 'hospitalized'" class="gray-icon-color"></mat-icon>
-        <mat-icon svgIcon="account-check" *ngIf="userInfo?.status === 'done'" class="gray-icon-color"></mat-icon>
-        <div class="mat-title mb-0">{{userInfo?.status | patientStatus}}</div>
+        <app-patient-status-chip *ngIf="userInfo?.status" [data]="userInfo.status"></app-patient-status-chip>
       </div>
     </div>
   </div>

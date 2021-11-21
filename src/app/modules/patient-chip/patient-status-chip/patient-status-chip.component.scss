@@ -1,0 +1,26 @@
+.chip {
+  padding: 4px 12px;
+  border-radius: 5px;
+}
+
+.chip.processing {
+  background: #e3f2fd;
+  color: #2196f3;
+}
+
+.chip.pending {
+  background: #f9f1d6;
+  color: #a08936;
+}
+
+.chip.done,
+.chip.recovered {
+  background: #e3f8ec;
+  color: #229050;
+}
+
+.chip.hospitalized {
+  background: #FCE4E4;
+  color: #A22321;
+}
+

@@ -1,47 +1,33 @@
 <mat-card fxLayout="column" fxLayoutGap="16px" (click)="showInfo()">
-  <div fxLayout="row" fxLayoutGap="16px" class="header">
+  <div fxLayout="row" fxLayoutGap="16px" class="header" fxLayoutAlign=" start">
     <mat-icon svgIcon="account-circle" class="avatar-icon gray-icon-color" *ngIf="!data.avatar">
     </mat-icon>
-    <img *ngIf="data.avatar" [src]="'/assets' + data.avatar" width="60" />
-    <div fxFlex>
+    <img *ngIf="data.avatar" class="avatar" [src]="'/assets' + data.avatar" width="50" />
+    <div fxFlex fxLayout="column" fxLayoutGap="8px">
       <div class="mat-title mb-0">{{data.name}}</div>
-      <div class="mat-subheading-2 mb-0 gray-color">{{data.status | patientStatus}}</div>
-    </div>
-    <div fxLayout="column" fxLayoutGap="8px">
-      <button mat-mini-fab color="warn" *ngIf="data.emergency" (click)="$event.stopPropagation()">
-        <mat-icon svgIcon="car-emergency"></mat-icon>
-      </button>
-      <button mat-icon-button class="gray-icon-color" (click)="copyLink(); $event.stopPropagation()">
-        <mat-icon svgIcon="content-copy"></mat-icon>
-      </button>
+      <div fxLayout="row" fxLayoutGap="16px">
+        <app-patient-status-chip [data]="data.status"></app-patient-status-chip>
+        <app-covid-level-chip [data]="data.doctor.level"></app-covid-level-chip>
+      </div>
     </div>
   </div>
-  <mat-divider [inset]="true"></mat-divider>
-  <div fxLayout="row" fxLayoutGap="16px" fxLayoutAlign=" start">
-    <div fxFlex fxLayout="column" fxLayoutGap="16px">
-      <div fxLayout="row">
-        <div fxFlex fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
-          <mat-icon svgIcon="face-agent" class="gray-icon-color"></mat-icon>
-          <div class="mat-body">{{data.creator.info.name}}</div>
-        </div>
-        <div fxFlex fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
-          <mat-icon svgIcon="calendar-blank" class="gray-icon-color"></mat-icon>
-          <div class="mat-body">{{data.createdDate | date: 'dd-MM-YYYY HH:mm'}}</div>
-        </div>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+    <div fxLayout="column" fxFlex>
+      <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+        <div class="mat-subheading-2 mb-0">Bs. {{data.doctor.info.name}}</div>
       </div>
-      <div fxLayout="row">
-        <div fxFlex fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
-          <mat-icon svgIcon="clipboard-account-outline" class="gray-icon-color"></mat-icon>
-          <div class="mat-body">Bs. {{data.doctor.info.name}}</div>
-        </div>
-        <div fxFlex fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
-          <mat-icon svgIcon="virus" [class.doctor-level-1-text]="data.doctor.level === 'level_1'"
-            [class.doctor-level-2-text]="data.doctor.level === 'level_2'"
-            [class.doctor-level-3-text]="data.doctor.level === 'level_3'"
-            [class.doctor-level-4-text]="data.doctor.level === 'level_4'"></mat-icon>
-          <div class="mat-body">{{data.doctor.level | doctorLevel}}</div>
-        </div>
+      <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+        <div class="mat-body gray-color">{{data.createdDate | date: 'dd-MM-YYYY hh:mm a'}}</div>
       </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="16px">
+      <button mat-mini-fab color="primary" (click)="copyLink(); $event.stopPropagation()" class="mat-elevation-z2">
+        <mat-icon svgIcon="link"></mat-icon>
+      </button>
+      <button mat-mini-fab color="warn" *ngIf="data.emergency" (click)="$event.stopPropagation()"
+        class="mat-elevation-z2">
+        <mat-icon svgIcon="car-emergency"></mat-icon>
+      </button>
     </div>
   </div>
 </mat-card>
