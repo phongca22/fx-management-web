@@ -13,6 +13,7 @@ import { BaseService } from './base-service';
 })
 export class ConfigService extends BaseService {
   supports: Support[];
+  version: string = environment.version;
 
   constructor(private http: HttpClient) {
     super();

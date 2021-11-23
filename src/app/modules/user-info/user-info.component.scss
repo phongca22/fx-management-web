@@ -4,7 +4,7 @@
 }
 
 .doctor-wrapper {
-  padding: 8px 0px;
+  padding: 16px;
   text-align: center;
 }
 
@@ -20,4 +20,10 @@
 .info-wrapper,
 .condition-wrapper {
   padding: 16px;
+}
+
+.avatar {
+  width: 60px;
+  border-radius: 50%;
+  background: #2196f3;
 }

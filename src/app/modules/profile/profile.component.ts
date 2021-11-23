@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { USER_MANAGEMENT } from 'src/app/core/page-config';
 import { Role } from 'src/app/core/role';
+import { ConfigService } from 'src/app/services/config.service';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { RouterService } from 'src/app/services/router.service';
 import { AlertService } from '../alert/alert.service';
@@ -19,15 +20,18 @@ import { UserProfile } from './user-profile';
 export class ProfileComponent implements OnInit {
   user: UserProfile | null;
   isUserManagement: boolean;
+  version: string;
 
   constructor(
     private service: ProfileService,
     private router: RouterService,
     private auth: AuthService,
     private dialog: MatDialog,
-    private alert: AlertService
+    private alert: AlertService,
+    private config: ConfigService
   ) {
     this.isUserManagement = this.auth.hasRole(Role.UserManagement);
+    this.version = this.config.version;
   }
 
   ngOnInit(): void {

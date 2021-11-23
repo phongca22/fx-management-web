@@ -1,33 +1,29 @@
 <mat-card fxLayout="column" fxLayoutGap="16px" (click)="showInfo()">
-  <div fxLayout="row" fxLayoutGap="16px" class="header" fxLayoutAlign=" start">
+  <div fxLayout="row" fxLayoutGap="16px" class="header" fxLayoutAlign=" center">
     <mat-icon svgIcon="account-circle" class="avatar-icon gray-icon-color" *ngIf="!data.avatar">
     </mat-icon>
     <img *ngIf="data.avatar" class="avatar" [src]="'/assets' + data.avatar" width="50" />
     <div fxFlex fxLayout="column" fxLayoutGap="8px">
-      <div class="mat-title mb-0">{{data.name}}</div>
-      <div fxLayout="row" fxLayoutGap="16px">
+      <div>
+        <div class="mat-title mb-0">{{data.name}}</div>
+        <div class="mat-body gray-color">{{data.createdDate | date: 'H:mm d-MM-YYYY'}}</div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="8px">
         <app-patient-status-chip [data]="data.status"></app-patient-status-chip>
         <app-covid-level-chip [data]="data.doctor.level"></app-covid-level-chip>
       </div>
     </div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
-    <div fxLayout="column" fxFlex>
-      <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
-        <div class="mat-subheading-2 mb-0">Bs. {{data.doctor.info.name}}</div>
-      </div>
-      <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
-        <div class="mat-body gray-color">{{data.createdDate | date: 'dd-MM-YYYY hh:mm a'}}</div>
-      </div>
-    </div>
-    <div fxLayout="row" fxLayoutGap="16px">
-      <button mat-mini-fab color="primary" (click)="copyLink(); $event.stopPropagation()" class="mat-elevation-z2">
-        <mat-icon svgIcon="link"></mat-icon>
-      </button>
+    <div fxLayout="column" fxLayoutGap="16px">
       <button mat-mini-fab color="warn" *ngIf="data.emergency" (click)="$event.stopPropagation()"
         class="mat-elevation-z2">
         <mat-icon svgIcon="car-emergency"></mat-icon>
       </button>
+      <button mat-icon-button color="primary" (click)="copyLink(); $event.stopPropagation()" class="mat-elevation-z2">
+        <mat-icon svgIcon="link"></mat-icon>
+      </button>
     </div>
   </div>
+  <mat-card-footer *ngIf="data.emergency">
+    <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
+  </mat-card-footer>
 </mat-card>

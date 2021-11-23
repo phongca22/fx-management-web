@@ -50,6 +50,6 @@ export class DoctorService extends BaseService {
   }
 
   create(data: any): Observable<any> {
-    return this.http.post(`${this.api}/auth/create-doctor`, data).pipe(this.getResponse(), this.getError());
+    return this.http.post(`${this.api}/doctor/create`, data).pipe(this.getResponse(), this.getError());
   }
 }

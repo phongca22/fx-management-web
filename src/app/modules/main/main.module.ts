@@ -8,6 +8,6 @@ import { MainComponent } from './main.component';
 
 @NgModule({
   declarations: [MainComponent],
-imports: [CommonModule, MainRoutingModule, SharedModule, HeaderModule, MenuModule]
+  imports: [CommonModule, MainRoutingModule, SharedModule, HeaderModule, MenuModule]
 })
 export class MainModule {}

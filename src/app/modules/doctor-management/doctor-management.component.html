@@ -11,35 +11,26 @@
   <div fxFlex class="wrapper" fxLayout="column" fxLayoutGap="16px">
     <mat-card *ngFor="let item of doctors" fxLayout="column" fxLayoutGap="16px">
       <div fxLayout="column" (click)="edit(item)" fxLayoutGap="16px">
-        <div fxLayout="row" fxLayoutGap="16px">
-          <mat-icon svgIcon="card-account-details-outline" class="gray-icon-color"></mat-icon>
-          <div fxLayout="column" fxLayoutGap="16px" fxFlex>
-            <div>
-              <div class="mat-caption gray-color">{{'userForm.fullname' | translate}}</div>
-              <div class="mat-subheading-2 mb-0">{{item.info.name}}</div>
-            </div>
-            <div>
-              <div class="mat-caption gray-color">{{'userForm.phone' | translate}}</div>
-              <div class="mat-subheading-2 mb-0">{{item.info.phone}}</div>
-            </div>
+        <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+          <img class="avatar"
+            [src]="'/assets/png/avatar/doctor/' + (item.info.gender === 0 ? 'doctor-female.png' : 'doctor-male.png')" />
+          <div fxFlex>
+            <div class="mat-title mb-0">{{item.info.name}}</div>
+            <div class="mat-body gray-color">{{item.info.phone}}</div>
           </div>
-          <div fxLayout="column" fxLayoutGap="16px">
-            <div fxLayout="row" fxLayoutAlign="end">
-              <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
-                <app-covid-level-chip [data]="item.level"></app-covid-level-chip>
-              </div>
-            </div>
-            <div>
-              <mat-slide-toggle [checked]="item.active" color="primary" (change)="setActive($event, item)"
-                [disabled]="!item.enable" fxFlex>
-                {{'doctorManagement.today' | translate}}
-              </mat-slide-toggle>
-            </div>
-            <div>
-              <mat-slide-toggle [checked]="item.enable" color="primary" (change)="setEnable($event, item)" fxFlex>
-                {{'doctorManagement.enable' | translate}}
-              </mat-slide-toggle>
-            </div>
+          <app-covid-level-chip [data]="item.level"></app-covid-level-chip>
+        </div>
+        <div fxLayout="column" fxLayoutGap="8px">
+          <div fxLayout="row" fxLayoutAlign=" center">
+            <div fxFlex class="mat-subheading-2 mb-0">{{'doctorManagement.today' | translate}}</div>
+            <mat-slide-toggle [checked]="item.active" color="primary" (click)="$event.stopPropagation()" (change)="setActive($event, item)"
+              [disabled]="!item.enable">
+            </mat-slide-toggle>
+          </div>
+          <div fxLayout="row" fxLayoutAlign=" center">
+            <div fxFlex class="mat-subheading-2 mb-0">{{'doctorManagement.enable' | translate}}</div>
+            <mat-slide-toggle [checked]="item.enable" color="primary" (click)="$event.stopPropagation()" (change)="setEnable($event, item)">
+            </mat-slide-toggle>
           </div>
         </div>
       </div>

@@ -3,9 +3,13 @@
     <mat-label>{{'doctorPicker.label' | translate}}</mat-label>
     <mat-select [formControl]="selectCtrl">
       <mat-select-trigger>{{selectCtrl.value?.info.name}}</mat-select-trigger>
-      <mat-option *ngFor="let item of doctors" [value]="item" [class.doctor-level-2]="item.level === 'level_2'"
-        [class.doctor-level-3]="item.level === 'level_3'" [class.doctor-level-4]="item.level === 'level_4'">
-        {{item.info.name }} <ng-container *ngIf="total > 0">{{item.count}}/{{total}}</ng-container>
+      <mat-option *ngFor="let item of doctors" [value]="item">
+        {{item.info.name}}&nbsp;-&nbsp;<span [class.doctor-level-1]="item.level === 'level_1'"
+          [class.doctor-level-2]="item.level === 'level_2'" [class.doctor-level-3]="item.level === 'level_3'"
+          [class.doctor-level-4]="item.level === 'level_4'">
+          {{item.level | doctorLevel}} </span>
+        <ng-container *ngIf="total > 0">
+          &nbsp;-&nbsp; {{'userForm.patientCountToday' | translate}}&nbsp;{{item.count}}/{{total}}</ng-container>
       </mat-option>
     </mat-select>
   </mat-form-field>

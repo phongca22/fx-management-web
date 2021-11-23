@@ -18,6 +18,15 @@
     <mat-error *ngIf="form.get('name')?.hasError('required')">{{'doctorManagement.fullnameRequired' | translate}}
     </mat-error>
   </mat-form-field>
+  <mat-form-field appearance="outline" fxFlex>
+    <mat-label>{{'userForm.gender' | translate}}</mat-label>
+    <mat-select formControlName="gender">
+      <mat-select-trigger>{{form.get('gender')?.value?.name | translate}}</mat-select-trigger>
+      <mat-option *ngFor="let item of genders" [value]="item">
+        {{item.name | translate}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>{{'doctorManagement.phone' | translate}}</mat-label>
     <input matInput formControlName="phone" />

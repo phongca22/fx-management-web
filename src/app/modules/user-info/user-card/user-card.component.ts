@@ -48,7 +48,8 @@ export class UserCardComponent implements OnInit {
     const params = new HttpParams({
       fromObject: {
         'benh-nhan': this.normalize(this.data.name),
-        'tu-van': this.normalize(this.data.creator.info.name)
+        'tu-van': this.normalize(this.data.creator.info.name),
+        'bac-si': this.normalize(this.data.doctor.info.name)
       }
     }).toString();
     this.clipboard.copy(`${window.origin}/main/search/${this.data.code || this.data.legacyCode}?${params.toString()}`);

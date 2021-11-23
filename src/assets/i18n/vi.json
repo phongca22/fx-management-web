@@ -203,7 +203,8 @@
     "userManagement": "Quản lý tài khoản",
     "doctorManagement": "Bác sĩ",
     "agentManagement": "Tư vấn",
-    "transporterManagement": "Vận chuyển"
+    "transporterManagement": "Vận chuyển",
+    "version": "Phiên bản {{version}}"
   },
   "doctorManagement": {
     "title": "Danh sách bác sĩ",
