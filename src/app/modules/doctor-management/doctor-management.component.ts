@@ -80,7 +80,7 @@ export class DoctorManagementComponent implements OnInit {
       .subscribe((result: any) => {
         data.info.name = result.name;
         data.info.phone = result.phone;
-        data.info.gender = result.gender;
+        data.info.gender = result.gender.id;
         data.level = result.level;
       });
   }
