@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { isNil, isString } from 'lodash';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter as filterLd, isNil, isString } from 'lodash';
+import { of } from 'rxjs';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { Response } from 'src/app/core/response';
 import { DestroyService } from 'src/app/services/destroy.service';
@@ -10,6 +12,7 @@ import { DoctorService } from 'src/app/services/doctor.service';
 import { AlertService } from '../alert/alert.service';
 import { DoctorEditComponent } from './doctor-edit/doctor-edit.component';
 
+const removeAccents = (text: any): string => text.normalize('NFD').replace(/\p{Diacritic}/gu, '');
 @Component({
   selector: 'app-doctor-management',
   templateUrl: './doctor-management.component.html',
@@ -18,16 +21,47 @@ import { DoctorEditComponent } from './doctor-edit/doctor-edit.component';
 })
 export class DoctorManagementComponent implements OnInit {
   doctors: Doctor[];
+  isOpen: boolean;
+  keyword: FormControl;
+  @ViewChild('input') set keywordInput(element: ElementRef) {
+    if (this.isOpen) {
+      element.nativeElement.focus();
+      this.cdr.detectChanges();
+    }
+  }
+  filtered: Doctor[];
 
   constructor(
     private doctor: DoctorService,
     private alert: AlertService,
     private readonly $destroy: DestroyService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.getData();
+    this.keyword = new FormControl();
+    this.keyword.valueChanges
+      .pipe(
+        switchMap((val: string) => {
+          if (val) {
+            return of(
+              filterLd(this.doctors, (item: Doctor) =>
+                removeAccents(item.info.name.toLowerCase()).includes(removeAccents(val?.toLowerCase()))
+              )
+            );
+          } else {
+            return of(this.doctors);
+          }
+        }),
+        takeUntil(this.$destroy)
+      )
+      .subscribe((data: Doctor[]) => (this.filtered = data));
+  }
+
+  open(): void {
+    this.isOpen = !this.isOpen;
   }
 
   getData(): void {
@@ -37,6 +71,7 @@ export class DoctorManagementComponent implements OnInit {
       .subscribe((res: Response) => {
         if (res.ok) {
           this.doctors = res.data.map((val: any) => new Doctor(val));
+          this.keyword.setValue('');
         } else {
           this.alert.error();
         }
@@ -95,5 +130,9 @@ export class DoctorManagementComponent implements OnInit {
       .afterClosed()
       .pipe(filter((result: boolean) => result))
       .subscribe(() => this.getData());
+  }
+
+  close(): void {
+    this.isOpen = false;
   }
 }

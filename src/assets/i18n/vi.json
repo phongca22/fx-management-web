@@ -134,7 +134,10 @@
     "editInfo": "Sửa thông tin",
     "createSupport": "Tạo y lệnh",
     "createNote": "Tạo ghi chú",
-    "status": "Trạng thái"
+    "status": "Trạng thái",
+    "noteTab": "Ghi chú",
+    "conditionTab": "Tình Trạng",
+    "infoTab": "Thông tin"
   },
   "paginator": {
     "page": "Trang {{page}} / {{total}}"
@@ -215,7 +218,8 @@
     "phone": "Số điện thoại",
     "phoneRequired": "Nhập số điện thoại",
     "level": "Cấp độ",
-    "enable": "Hoạt động"
+    "enable": "Hoạt động",
+    "keyword": "Nhập tên bác sĩ"
   },
   "userNote": {
     "reason": "Lý do: {{message}}",

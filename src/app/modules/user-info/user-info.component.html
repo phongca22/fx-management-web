@@ -25,12 +25,12 @@
   </mat-toolbar>
   <div fxFlex class="wrapper mat-tab-wrapper">
     <mat-tab-group fxFlex>
-      <mat-tab label="Ghi chú">
+      <mat-tab [label]="'userInfo.noteTab' | translate">
         <div class="note-wrapper">
           <app-user-note [data]="data" [code]="userInfo?.code" [(notes)]="notes"></app-user-note>
         </div>
       </mat-tab>
-      <mat-tab label="Tình trạng" *ngIf="patientCondition">
+      <mat-tab [label]="'userInfo.conditionTab' | translate" *ngIf="patientCondition">
         <div class="condition-wrapper">
           <mat-card fxLayout="column" fxLayoutGap="16px">
             <div fxLayout="row" fxLayoutGap="16px">
@@ -107,7 +107,7 @@
           </mat-card>
         </div>
       </mat-tab>
-      <mat-tab label="Thông tin">
+      <mat-tab [label]="'userInfo.infoTab' | translate">
         <div class="info-wrapper">
           <mat-card fxLayout="column" fxLayoutGap="16px">
             <div fxLayout="row" fxLayoutGap="16px">
@@ -171,7 +171,7 @@
       <img class="avatar" (click)="editDoctor()"
         [src]="'/assets/png/avatar/doctor/' + (userInfo?.doctor?.info?.gender === 0 ? 'doctor-female.png' : 'doctor-male.png')" />
       <div fxLayout="column" fxLayoutAlign=" start" (click)="editDoctor()">
-        <div class="mat-caption gray-color">Bác sĩ</div>
+        <div class="mat-caption gray-color">{{'userInfo.doctor' | translate}}</div>
         <div class="mat-title mb-0">{{userInfo?.doctor?.info?.name}}</div>
       </div>
     </div>

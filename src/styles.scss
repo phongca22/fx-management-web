@@ -7,6 +7,7 @@
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 @include mat.core();
+@import '@angular/cdk/overlay-prebuilt.css';
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -117,4 +118,10 @@ body {
 
 .doctor-level-4 {
   color: #e91e63;
+}
+
+.doctor-search-wrapper {
+  background: #fff;
+  padding: 0px 16px;
+  border-radius: 5px;
 }
