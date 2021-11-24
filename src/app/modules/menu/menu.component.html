@@ -1,4 +1,4 @@
-<mat-toolbar fxLayout="row" color="primary">
+<mat-toolbar fxLayout="row" color="primary" class="wrapper">
   <div fxFlex *ngFor="let page of pages" fxLayout="row" fxLayoutAlign="center">
     <button mat-icon-button (click)="go(page.page)" [color]="page.page === activePage ? 'primary' : ''"
       [class.gray-icon-color]="page.page !== activePage">

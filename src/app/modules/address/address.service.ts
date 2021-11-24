@@ -52,14 +52,14 @@ export class AddressService {
   }
 
   findProvince(data: string): Province | undefined {
-    return find(this.provinces, ({ name }) => name.toLowerCase().includes(data.toLowerCase()));
+    return find(this.provinces, ({ name, prefix }) => `${prefix} ${name}`.toLowerCase().includes(data.toLowerCase()));
   }
 
   findDistrict(p: Province, data: string): District | undefined {
-    return find(p.districts, ({ name }) => name.toLowerCase().includes(data.toLowerCase()));
+    return find(p.districts, ({ name, prefix }) => `${prefix} ${name}`.toLowerCase().includes(data.toLowerCase()));
   }
 
   findWard(d: District, data: string): Ward | undefined {
-    return find(d.wards, ({ name }) => name.toLowerCase().includes(data.toLowerCase()));
+    return find(d.wards, ({ name, prefix }) => `${prefix} ${name}`.toLowerCase().includes(data.toLowerCase()));
   }
 }

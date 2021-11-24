@@ -6,8 +6,8 @@
     </button>
     <app-user-filter [hasEmergency]="hasEmergency" (change)="selectFilter($event)"></app-user-filter>
   </mat-toolbar>
-  <div fxLayout="row" fxLayoutAlign=" center" class="paginator">
-    <div fxFlex class="mat-caption gray-color ml-3">{{'userList.sum' | translate: {total: size || 0} }}</div>
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="paginator">
+    <div class="mat-caption gray-color sum">{{'userList.sum' | translate: {total: size || 0} }}</div>
     <mat-paginator [length]="size" [pageSize]="10" [hidePageSize]="true" (page)="changePage($event)">
     </mat-paginator>
   </div>

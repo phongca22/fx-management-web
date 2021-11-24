@@ -143,7 +143,7 @@
     "page": "Trang {{page}} / {{total}}"
   },
   "userList": {
-    "sum": "Có {{total}} bệnh nhân",
+    "sum": "{{total}} bệnh nhân",
     "title": "Danh sách bệnh nhân"
   },
   "doctorPicker": {

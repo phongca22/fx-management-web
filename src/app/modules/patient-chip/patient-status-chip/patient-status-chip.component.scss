@@ -1,6 +1,6 @@
 .chip {
   padding: 4px 12px;
-  border-radius: 5px;
+  border-radius: 12px;
 }
 
 .chip.processing {
@@ -9,8 +9,8 @@
 }
 
 .chip.pending {
-  background: #f9f1d6;
-  color: #a08936;
+  background: #eceff1;
+  color: #607d8b;
 }
 
 .chip.done,
@@ -20,7 +20,6 @@
 }
 
 .chip.hospitalized {
-  background: #FCE4E4;
-  color: #A22321;
+  background: #fce4e4;
+  color: #a22321;
 }
-
