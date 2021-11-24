@@ -107,7 +107,7 @@ export class UserFormComponent implements OnInit {
       ?.valueChanges.pipe(takeUntil(this.$destroy))
       .subscribe((data: District) => {
         if (data) {
-          this.wards = filterLodash(this.form.get('info.province')?.value.wards, { parent: data.id });
+          this.wards = data.wards;
         } else {
           this.wards = [];
         }
@@ -120,30 +120,36 @@ export class UserFormComponent implements OnInit {
       });
 
     if (this.info) {
+      const p = this.address.findProvince(this.info.province);
       this.form.patchValue({
         info: {
           ...this.info,
           fullname: this.info.name,
           gender: find(this.genders, { id: this.info.gender }),
-          province: find(this.provinces, { name: this.info.province })
+          province: p
         }
       });
 
-      setTimeout(() => {
-        this.form.patchValue({
-          info: {
-            district: find(this.districts, { name: this.info.district })
-          }
-        });
-
+      if (p) {
+        const d = this.address.findDistrict(p, this.info.district);
         setTimeout(() => {
           this.form.patchValue({
             info: {
-              ward: find(this.wards, { name: this.info.ward })
+              district: d
             }
           });
+
+          if (d) {
+            setTimeout(() => {
+              this.form.patchValue({
+                info: {
+                  ward: this.address.findWard(d, this.info.ward)
+                }
+              });
+            });
+          }
         });
-      });
+      }
     } else {
       this.doctor
         .getActiveDoctors()

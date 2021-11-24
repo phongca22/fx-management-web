@@ -1,9 +1,8 @@
 import { District } from './district';
-import { Ward } from './ward';
 
 export interface Province {
   id: string;
   name: string;
+  prefix: string;
   districts: District[];
-  wards: Ward[];
 }

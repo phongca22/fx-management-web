@@ -38,6 +38,9 @@ export class UserInfoComponent implements OnInit {
   isAdmin: boolean;
   isCoordinator: boolean;
   user: User | null;
+  addressLabel:
+    | import('c:/Users/thanhphong.do/Documents/GitHub/fx-management-web/src/app/modules/address/province').Province
+    | undefined;
 
   constructor(
     private service: UserService,

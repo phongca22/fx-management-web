@@ -1,3 +1,4 @@
+import * as dayjs from 'dayjs';
 import { find, isNil, isNumber, random, reject } from 'lodash';
 import { Agent } from './agent';
 import { Doctor } from './doctor';
@@ -5,7 +6,6 @@ import { MALE } from './gender';
 import { Role } from './role';
 import { SupportStatus } from './support-status';
 import { PatientStatusType } from './user-condition.enum';
-import * as dayjs from 'dayjs';
 
 export class UserInfo {
   id: number;
@@ -14,7 +14,7 @@ export class UserInfo {
   age: number;
   gender: number;
   address: string;
-  ward: string | null;
+  ward: string;
   district: string;
   province: string;
   addressLabel: string;
@@ -113,12 +113,7 @@ export class UserInfo {
 
   combineAddress() {
     this.addressLabel = reject(
-      [
-        this.address,
-        this.ward ? 'Phường ' + this.ward : null,
-        this.district ? 'Quận ' + this.district : null,
-        this.province
-      ],
+      [this.address, this.ward ? this.ward : null, this.district ? this.district : null, this.province],
       [null]
     ).join(', ');
   }

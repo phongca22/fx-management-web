@@ -37,7 +37,7 @@
     "gender": "Giới tính",
     "age": "Tuổi",
     "address": "Địa chỉ",
-    "ward": "Phường/Thị Trấn/Xã",
+    "ward": "Phường/Xã/Thị Trấn",
     "district": "Quận/Huyện/Thành phố",
     "province": "Tỉnh/Thành phố",
     "fullnameRequired": "Nhập họ và tên",
