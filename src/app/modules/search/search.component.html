@@ -10,8 +10,11 @@
   <div fxFlex *ngIf="user" class="body" fxLayout="column">
     <app-user-card [data]="user" [show]="true"></app-user-card>
   </div>
-  <div fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" *ngIf="isNotFound">
-    <div class="mat-subheading-2">{{'error.search' | translate}}</div>
-    <img src="assets/svg/illustrations/undraw_not_found_-60-pq.svg" width="80%" />
+  <div fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" *ngIf="!loading && isNotFound">
+    <img src="assets/svg/illustrations/undraw_No_data_re_kwbl.svg" width="200" />
+    <div class="mat-title">{{'error.search' | translate}}</div>
+  </div>
+  <div fxFlex *ngIf="loading" fxLayout="column" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
   </div>
 </div>

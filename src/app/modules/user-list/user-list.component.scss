@@ -2,7 +2,7 @@
   height: 100%;
 }
 
-.wrapper {
+.body-wrapper {
   padding: 16px;
   overflow: auto;
 }
@@ -15,14 +15,9 @@
   padding-left: 16px;
 }
 
-.container.empty {
+.wrapper.empty {
   background-image: url('/assets/svg/illustrations/undraw_No_data_re_kwbl.svg');
-  background-size: 50%;
+  background-size: '200px';
   background-repeat: no-repeat;
   background-position: center;
-}
-
-.sum {
-  border-radius: 16px;
-  text-align: center;
 }

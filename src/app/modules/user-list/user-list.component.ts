@@ -1,3 +1,4 @@
+import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y/input-modality/input-modality-detector';
 import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
@@ -70,6 +71,7 @@ export class UserListComponent implements OnInit {
           this.currentPage = page;
           return { page, fn };
         }),
+        tap(() => (this.loading = true)),
         switchMap(({ page, fn }) => this.getData(page, fn)),
         tap(() => {
           this.loading = false;
@@ -83,6 +85,8 @@ export class UserListComponent implements OnInit {
         } else {
           this.alert.error();
         }
+
+        this.loading = false;
       });
 
     this.worker.next(0);

@@ -1,9 +1,9 @@
-<div fxFlex fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center" class="wrapper">
+<div fxFlex fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="end" class="wrapper">
   <div fxLayout="column" fxLayoutGap="16px">
     <div>
       <div fxLayout="row" fxLayoutAlign=" center">
         <div class="mat-title mb-0">{{user?.info?.name}}</div>
-        <button mat-icon-button color="warn" (click)="logout()">
+        <button mat-icon-button (click)="logout()">
           <mat-icon svgIcon="logout-variant"></mat-icon>
         </button>
       </div>

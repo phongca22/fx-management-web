@@ -1,10 +1,4 @@
-<div fxFlex fxLayout="column" class="container" [class.empty]="!loading && data.length === 0">
-  <!-- <mat-toolbar color="primary" fxLayout="row">
-    <div class="mat-title title" fxFlex>{{'userList.title' | translate}}</div>
-    <button mat-icon-button (click)="showAddUser()" *ngIf="isAgent">
-      <mat-icon svgIcon="account-plus-outline"></mat-icon>
-    </button>
-  </mat-toolbar> -->
+<div fxFlex fxLayout="column" class="wrapper">
   <div fxLayout="row" fxLayoutAlign="space-between center" class="pa-3">
     <div class="mat-title mb-0">{{'userList.title' | translate}}</div>
     <button mat-mini-fab color="" (click)="showAddUser()" *ngIf="isAgent">
@@ -13,11 +7,18 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center" class="paginator">
     <app-user-filter [hasEmergency]="hasEmergency" (change)="selectFilter($event)"></app-user-filter>
-    <div class="mat-caption gray-color sum">{{'userList.sum' | translate: {total: size || 0} }}</div>
+    <div class="mat-caption gray-color">{{'userList.sum' | translate: {total: size || 0} }}</div>
     <mat-paginator [length]="size" [pageSize]="10" [hidePageSize]="true" (page)="changePage($event)">
     </mat-paginator>
   </div>
-  <div fxFlex fxLayout="column" fxLayoutGap="16px" class="wrapper">
+  <div fxFlex fxLayout="column" fxLayoutGap="16px" class="body-wrapper" *ngIf="!loading && data.length > 0">
     <app-user-card *ngFor="let item of data" [data]="item"></app-user-card>
+  </div>
+  <div fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" *ngIf="!loading && data.length === 0">
+    <img src="assets/svg/illustrations/undraw_No_data_re_kwbl.svg" width="200" />
+    <div class="mat-title">{{'error.search' | translate}}</div>
+  </div>
+  <div fxFlex *ngIf="loading" fxLayout="column" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
   </div>
 </div>
