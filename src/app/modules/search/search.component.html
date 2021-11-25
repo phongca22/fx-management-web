@@ -1,17 +1,17 @@
-<div fxFlex fxLayout="column" class="wrapper">
-  <div fxLayout="row" fxLayoutGap="16px" class="header">
-    <button mat-mini-fab color="primary" (click)="search()" [disabled]="keyword.invalid || loading">
+<div fxFlex fxLayout="column" class="wrapper" [class.init]="init" fxLayoutGap="16px">
+  <div class="mat-title mb-0">{{'search.title' | translate}}</div>
+  <div fxLayout="row" fxLayoutAlign=" center" class="header" fxLayoutGap="16px">
+    <button mat-mini-fab color="" (click)="search()"
+      [disabled]="!keyword.value || keyword.value.length === 0 || loading">
       <mat-icon matPrefix svgIcon="magnify"></mat-icon>
     </button>
-    <mat-form-field appearance="fill" fxFlex>
-      <input matInput [formControl]="keyword" [placeholder]="'search.keyword' | translate" autocomplete="off" />
-      <button mat-icon-button matSuffix (click)="keyword.reset()" *ngIf="keyword.value?.length > 0">
-        <mat-icon matPrefix svgIcon="close"></mat-icon>
-      </button>
-    </mat-form-field>
+    <input fxFlex [formControl]="keyword" [placeholder]="'search.keyword' | translate" autocomplete="off" />
   </div>
-  <mat-divider></mat-divider>
   <div fxFlex *ngIf="user" class="body" fxLayout="column">
     <app-user-card [data]="user" [show]="true"></app-user-card>
+  </div>
+  <div fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" *ngIf="isNotFound">
+    <div class="mat-subheading-2">{{'error.search' | translate}}</div>
+    <img src="assets/svg/illustrations/undraw_not_found_-60-pq.svg" width="80%" />
   </div>
 </div>

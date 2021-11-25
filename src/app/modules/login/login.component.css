@@ -3,8 +3,15 @@
 }
 
 .wrapper {
-  background-image: url('/assets/svg/illustrations/undraw_air_support_wy1q.svg');
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: top;
+  background: url('/assets/jpg/rm218batch4-ning-34.jpg');
+  background-size: cover;
+}
+
+.form-wrapper button {
+  border-radius: 32px;
+  height: 3em;
+}
+
+.form-wrapper img {
+  border-radius: 50%;
 }

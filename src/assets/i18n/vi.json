@@ -85,7 +85,8 @@
     "accessDenied": "Bạn không có quyền truy cập"
   },
   "search": {
-    "keyword": "Nhập mã bệnh nhân hoặc số điện thoại"
+    "keyword": "Tìm theo mã hoặc số điện thoại",
+    "title": "Tìm kiếm"
   },
   "patientStatus": {
     "pending": "Đang chờ",

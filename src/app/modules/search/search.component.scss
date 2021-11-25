@@ -2,14 +2,10 @@
   height: 100%;
 }
 
-.header,
-.body {
-  background-color: #fff;
-  padding: 16px;
-}
-
-.header > button {
-  margin-top: 12px;
+.header {
+  padding: 12px;
+  background: #fff;
+  border-radius: 32px;
 }
 
 .action {
@@ -21,8 +17,21 @@
 }
 
 .wrapper {
-  background-image: url('/assets/svg/illustrations/undraw_File_searching_re_3evy.svg');
+  padding: 16px;
   background-size: 50%;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.wrapper.not-found {
+  background-image: url('/assets/svg/illustrations/undraw_not_found_-60-pq.svg');
+}
+
+.wrapper.init {
+  background-image: url('/assets/svg/illustrations/undraw_File_searching_re_3evy.svg');
+}
+
+input {
+  border: none;
+  outline: none;
 }

@@ -15,31 +15,35 @@ export class SearchComponent implements OnInit {
   keyword: FormControl;
   loading: boolean;
   user: UserInfo | null;
+  isNotFound: boolean;
+  init: boolean = true;
 
   constructor(private service: UserService, private alert: AlertService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     const key = this.route.snapshot.paramMap.get('key');
-    this.keyword = new FormControl(key || '', Validators.required);
+    this.keyword = new FormControl(key || '');
     if (key) {
       this.search();
     }
   }
 
   search(): void {
+    this.init = false;
     this.loading = true;
     this.user = null;
+    this.isNotFound = false;
     this.service.find(this.keyword.value).subscribe((res: Response) => {
       this.loading = false;
       if (res.ok) {
         if (res.data) {
           this.user = new UserInfo(res.data);
         } else {
-          this.alert.error('error.search');
+          this.isNotFound = true;
         }
       } else {
         if (res.code === 400) {
-          this.alert.error('error.search');
+          this.isNotFound = true;
         } else {
           this.alert.error();
         }
