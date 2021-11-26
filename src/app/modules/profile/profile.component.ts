@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { USER_MANAGEMENT } from 'src/app/core/page-config';
 import { Role } from 'src/app/core/role';
 import { ConfigService } from 'src/app/services/config.service';
 import { DestroyService } from 'src/app/services/destroy.service';
+import { DoctorService } from 'src/app/services/doctor.service';
 import { RouterService } from 'src/app/services/router.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
@@ -18,9 +20,10 @@ import { UserProfile } from './user-profile';
   providers: [DestroyService]
 })
 export class ProfileComponent implements OnInit {
-  user: UserProfile | null;
+  user: UserProfile;
   isUserManagement: boolean;
   version: string;
+  isDoctor: boolean;
 
   constructor(
     private service: ProfileService,
@@ -28,9 +31,11 @@ export class ProfileComponent implements OnInit {
     private auth: AuthService,
     private dialog: MatDialog,
     private alert: AlertService,
-    private config: ConfigService
+    private config: ConfigService,
+    private doctor: DoctorService
   ) {
     this.isUserManagement = this.auth.hasRole(Role.UserManagement);
+    this.isDoctor = this.auth.hasRole(Role.Doctor);
     this.version = this.config.version;
   }
 
@@ -59,5 +64,15 @@ export class ProfileComponent implements OnInit {
 
   goAgentManagement(): void {
     this.alert.info('feature.developing');
+  }
+
+  setActive(event: MatSlideToggleChange) {
+    this.user.workToday = event.checked;
+    this.doctor.setActive(this.user.info.id, event.checked).subscribe((res: Response) => {
+      if (!res.ok) {
+        this.alert.error();
+        this.user.workToday = !this.user.workToday;
+      }
+    });
   }
 }

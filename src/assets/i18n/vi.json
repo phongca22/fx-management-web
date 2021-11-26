@@ -208,7 +208,8 @@
     "doctorManagement": "Bác sĩ",
     "agentManagement": "Tư vấn",
     "transporterManagement": "Vận chuyển",
-    "version": "Phiên bản {{version}}"
+    "version": "Phiên bản {{version}}",
+    "workToday": "Tư vấn online"
   },
   "doctorManagement": {
     "title": "Danh sách bác sĩ",

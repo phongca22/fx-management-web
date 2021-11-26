@@ -4,7 +4,7 @@
 }
 
 .wrapper {
-  background-image: url('/assets/svg/illustrations/undraw_freelancer_re_irh4.svg');
+  background-image: url('/assets/svg/illustrations/undraw_doctors_hwty.svg');
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: top;
@@ -12,4 +12,14 @@
 
 .user-box {
   border-radius: 3px;
+}
+
+:host mat-card {
+  border-radius: 64px;
+}
+
+.card-icon {
+  background: #e3f2fd;
+  padding: 8px;
+  border-radius: 50%;
 }
