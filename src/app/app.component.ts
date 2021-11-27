@@ -72,12 +72,15 @@ export class AppComponent {
             child = child.firstChild;
           }
 
-          return child?.snapshot.data.page;
+          return child?.snapshot.data;
         })
       )
-      .subscribe((data: IPage) => {
+      .subscribe(({ page, hideMenu }: any) => {
         this.store.changePage({
-          page: data
+          page: page,
+          state: {
+            hideMenu: hideMenu
+          }
         });
       });
   }

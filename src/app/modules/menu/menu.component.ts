@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { IPage, SEARCH, USER_LIST, USER_PROFILE } from 'src/app/core/page-config';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { RouterService } from 'src/app/services/router.service';
 import { StoreService } from 'src/app/services/store.service';
+import { PageState } from '../store/page/page-state';
 import { User } from '../store/user/user';
 
 const SEARCH_PAGE_MENU = {
@@ -39,32 +39,18 @@ export class MenuComponent implements OnInit {
   user: User | null;
   activePage: any;
 
-  constructor(
-    private router: RouterService,
-    private store: StoreService,
-    private readonly $destroy: DestroyService,
-    private coreRouter: Router,
-    private route: ActivatedRoute
-  ) {
+  constructor(private router: RouterService, private store: StoreService, private readonly $destroy: DestroyService) {
     this.store
       .selectUser()
       .pipe(takeUntil(this.$destroy))
       .subscribe((val: User) => (this.user = val));
     this.pages = [USER_LIST_MENU, SEARCH_PAGE_MENU, USER_PROFILE_MENU];
-    this.coreRouter.events
-      .pipe(
-        filter((event: Event) => event instanceof NavigationEnd),
-        map(() => {
-          let child = this.route.firstChild;
-          while (child?.firstChild) {
-            child = child.firstChild;
-          }
 
-          return child?.snapshot.data.page;
-        })
-      )
-      .subscribe((data: IPage) => {
-        this.activePage = data;
+    this.store
+      .selectPage()
+      .pipe(takeUntil(this.$destroy))
+      .subscribe((page: PageState) => {
+        this.activePage = page.page;
       });
   }
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { USER_MANAGEMENT } from 'src/app/core/page-config';
+import { DOCTOR_MANAGEMENT, USER_MANAGEMENT } from 'src/app/core/page-config';
 import { Role } from 'src/app/core/role';
 import { ConfigService } from 'src/app/services/config.service';
 import { DestroyService } from 'src/app/services/destroy.service';
@@ -9,7 +8,6 @@ import { DoctorService } from 'src/app/services/doctor.service';
 import { RouterService } from 'src/app/services/router.service';
 import { AlertService } from '../alert/alert.service';
 import { AuthService } from '../auth/auth.service';
-import { DoctorManagementComponent } from '../doctor-management/doctor-management.component';
 import { ProfileService } from './profile.service';
 import { UserProfile } from './user-profile';
 
@@ -29,7 +27,6 @@ export class ProfileComponent implements OnInit {
     private service: ProfileService,
     private router: RouterService,
     private auth: AuthService,
-    private dialog: MatDialog,
     private alert: AlertService,
     private config: ConfigService,
     private doctor: DoctorService
@@ -52,14 +49,7 @@ export class ProfileComponent implements OnInit {
   }
 
   goDoctorManagement(): void {
-    this.dialog.open(DoctorManagementComponent, {
-      width: '100%',
-      height: '100%',
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      autoFocus: false,
-      panelClass: 'mat-dialog-no-padding'
-    });
+    this.router.go(DOCTOR_MANAGEMENT, { state: { hideMenu: true } });
   }
 
   goAgentManagement(): void {

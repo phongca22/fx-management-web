@@ -6,9 +6,11 @@ import { filter as filterLd, isNil, isString } from 'lodash';
 import { of } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
+import { USER_PROFILE } from 'src/app/core/page-config';
 import { Response } from 'src/app/core/response';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { DoctorService } from 'src/app/services/doctor.service';
+import { RouterService } from 'src/app/services/router.service';
 import { AlertService } from '../alert/alert.service';
 import { DoctorEditComponent } from './doctor-edit/doctor-edit.component';
 
@@ -36,7 +38,8 @@ export class DoctorManagementComponent implements OnInit {
     private alert: AlertService,
     private readonly $destroy: DestroyService,
     private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: RouterService
   ) {}
 
   ngOnInit(): void {
@@ -134,5 +137,9 @@ export class DoctorManagementComponent implements OnInit {
 
   close(): void {
     this.isOpen = false;
+  }
+
+  back(): void {
+    this.router.go(USER_PROFILE);
   }
 }

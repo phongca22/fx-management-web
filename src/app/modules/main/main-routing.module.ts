@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SEARCH, USER_LIST, USER_PROFILE } from 'src/app/core/page-config';
+import { DOCTOR_MANAGEMENT, SEARCH, USER_LIST, USER_PROFILE } from 'src/app/core/page-config';
 import { Role } from 'src/app/core/role';
 import { EmptyComponent } from 'src/app/empty/empty.component';
 import { UserGuard } from '../auth/user.guard';
@@ -50,13 +50,15 @@ const routes: Routes = [
         }
       },
       {
-        path: 'user-management',
+        path: 'doctor-management',
         loadChildren: () =>
-          import('../../modules/user-management/user-management.module').then((m) => m.UserManagementModule),
+          import('../../modules/doctor-management/doctor-management.module').then((m) => m.DoctorManagementModule),
         canLoad: [UserGuard],
         canActivate: [UserGuard],
         data: {
-          role: [Role.UserManagement]
+          role: [Role.UserManagement],
+          page: DOCTOR_MANAGEMENT,
+          hideMenu: true
         }
       }
     ]

@@ -1,6 +1,6 @@
 <div fxFlex fxLayout="column">
   <mat-toolbar color="primary" fxLayout="row" fxLayoutGap="16px">
-    <button mat-icon-button mat-dialog-close>
+    <button mat-icon-button (click)="back()">
       <mat-icon svgIcon="keyboard-backspace"></mat-icon>
     </button>
     <div class="mat-title title" fxFlex>{{'doctorManagement.title' | translate}}</div>

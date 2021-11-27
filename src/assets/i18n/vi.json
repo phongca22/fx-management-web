@@ -82,7 +82,7 @@
   "error": {
     "general": "Có lỗi xảy ra",
     "search": "Không tìm thấy",
-    "accessDenied": "Bạn không có quyền truy cập"
+    "accessDenied": "Truy cập bị từ chối"
   },
   "search": {
     "keyword": "Tìm theo mã hoặc số điện thoại",
@@ -256,9 +256,9 @@
     "level4": "Cấp độ 4"
   },
   "userCard": {
-    "date": "Ngày giờ",
-    "linkCopied": "Đã sao chép liên kết",
-    "codeCopied": "Đã sao chép mã bệnh nhân"
+    "today": "{{hour}} Hôm nay",
+    "yesterday": "{{hour}} Hôm qua",
+    "linkCopied": "Đã sao chép liên kết"
   },
   "feature": {
     "developing": "Đang phát triển..."

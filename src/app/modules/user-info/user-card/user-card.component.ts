@@ -2,6 +2,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import moment from 'moment';
 import { UserInfo } from 'src/app/core/user-info';
 import { AlertService } from '../../alert/alert.service';
 import { UserInfoComponent } from '../user-info.component';
@@ -15,12 +16,29 @@ export class UserCardComponent implements OnInit {
   @Input() show: boolean;
   isImporter: boolean;
   isAdmin: boolean;
+  isToday: boolean;
+  isYesterday: boolean;
+  isOthers: boolean;
 
   constructor(private dialog: MatDialog, private clipboard: Clipboard, private alert: AlertService) {}
 
   ngOnInit(): void {
     if (this.show) {
       this.showInfo();
+    }
+
+    if (
+      moment(this.data.createdDate).isSameOrAfter(moment().startOf('day')) &&
+      moment(this.data.createdDate).isSameOrBefore(moment().endOf('day'))
+    ) {
+      this.isToday = true;
+    } else if (
+      moment(this.data.createdDate).isSameOrAfter(moment().subtract(1, 'day').startOf('day')) &&
+      moment(this.data.createdDate).isSameOrBefore(moment().subtract(1, 'day').endOf('day'))
+    ) {
+      this.isYesterday = true;
+    } else {
+      this.isOthers = true;
     }
   }
 

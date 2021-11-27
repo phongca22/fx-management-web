@@ -1,4 +1,5 @@
 <div fxFill fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center center">
-  <div class="mat-title">Bạn không có quyền truy cập vào trang này</div>
-  <button mat-stroked-button color="primary" (click)="back()">{{'action.back' | translate}}</button>
+  <img src="assets/svg/illustrations/undraw_cancel_u-1-it.svg" width="70%" />
+  <div class="mat-title">{{'error.accessDenied' | translate}}</div>
+  <button mat-raised-button color="primary" (click)="back()">{{'action.back' | translate}}</button>
 </div>

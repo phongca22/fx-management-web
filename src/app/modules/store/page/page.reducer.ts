@@ -11,5 +11,7 @@ export const initialState: PageState = {
 
 export const pageReducer = createReducer(
   initialState,
-  on(change, (_state: PageState, payload: PageState) => payload)
+  on(change, (_state: PageState, payload: PageState) => {
+    return { ..._state, page: payload.page, params: payload.params, data: payload.data, state: payload.state };
+  })
 );

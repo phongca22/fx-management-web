@@ -6,7 +6,17 @@
     <div fxFlex fxLayout="column" fxLayoutGap="8px">
       <div>
         <div class="mat-title mb-0">{{data.name}}</div>
-        <div class="mat-body gray-color">{{data.createdDate | date: 'H:mm d-MM-YYYY'}}</div>
+        <div class="mat-body gray-color">
+          <ng-container *ngIf="isToday">
+            {{'userCard.today' | translate: {hour: data.createdDate | date: 'H:mm'} }}
+          </ng-container>
+          <ng-container *ngIf="isYesterday">
+            {{'userCard.yesterday' | translate: {hour: data.createdDate | date: 'H:mm'} }}
+          </ng-container>
+          <ng-container *ngIf="isOthers">
+            {{data.createdDate | date: 'H:mm d-MM-YYYY'}}
+          </ng-container>
+        </div>
       </div>
       <div fxLayout="row" fxLayoutGap="8px">
         <app-patient-status-chip [data]="data.status"></app-patient-status-chip>
