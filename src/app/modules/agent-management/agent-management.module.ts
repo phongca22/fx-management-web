@@ -6,9 +6,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared-module';
 import { AgentManagementRoutingModule } from './agent-management-routing.module';
 import { AgentManagementComponent } from './agent-management.component';
+import { AgentEditComponent } from './agent-edit/agent-edit.component';
 
 @NgModule({
-  declarations: [AgentManagementComponent],
+  declarations: [AgentManagementComponent, AgentEditComponent],
   imports: [
     CommonModule,
     AgentManagementRoutingModule,

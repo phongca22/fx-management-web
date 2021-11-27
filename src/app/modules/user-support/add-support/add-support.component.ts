@@ -61,6 +61,18 @@ export class AddSupportComponent implements OnInit {
     });
   }
 
+  hasValue(): boolean {
+    return (
+      this.form
+        .get('list')
+        ?.value.map(({ id, value }: any) => ({
+          id: id,
+          amount: value
+        }))
+        .filter(({ amount }: any) => amount > 0).length > 0
+    );
+  }
+
   save(emergency?: boolean) {
     const t = this.form
       .get('list')
@@ -81,7 +93,7 @@ export class AddSupportComponent implements OnInit {
         this.dialog.close(true);
       } else {
         if (res.data.code === 1) {
-          this.alert.error('addSupport.pendingError')
+          this.alert.error('addSupport.pendingError');
         } else {
           this.alert.error();
         }

@@ -22,3 +22,4 @@ export const DENIED: IPage = generate('denied');
 export const USER_MANAGEMENT: IPage = generate('main/user-management');
 export const BLANK: IPage = generate('main/blank');
 export const DOCTOR_MANAGEMENT: IPage = generate('main/doctor-management');
+export const AGENT_MANAGEMENT: IPage = generate('main/agent-management');

@@ -6,15 +6,15 @@ import { Doctor } from 'src/app/core/doctor';
 import { DoctorLevelList, DoctorLevelType } from 'src/app/core/doctor-level.enum';
 import { GENDER, IGender } from 'src/app/core/gender';
 import { Response } from 'src/app/core/response';
-import { DoctorService } from 'src/app/services/doctor.service';
+import { AgentService } from 'src/app/services/agent.service';
 import { AlertService } from '../../alert/alert.service';
 
 @Component({
-  selector: 'app-doctor-edit',
-  templateUrl: './doctor-edit.component.html',
-  styleUrls: ['./doctor-edit.component.scss']
+  selector: 'app-agent-edit',
+  templateUrl: './agent-edit.component.html',
+  styleUrls: ['./agent-edit.component.scss']
 })
-export class DoctorEditComponent implements OnInit {
+export class AgentEditComponent implements OnInit {
   form: FormGroup;
   loading: boolean;
   levels: DoctorLevelType[] = DoctorLevelList;
@@ -23,9 +23,9 @@ export class DoctorEditComponent implements OnInit {
   constructor(
     private builder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: Doctor,
-    private service: DoctorService,
+    private service: AgentService,
     private alert: AlertService,
-    private dialog: MatDialogRef<DoctorEditComponent>
+    private dialog: MatDialogRef<AgentEditComponent>
   ) {
     this.setupForm();
   }
@@ -34,8 +34,6 @@ export class DoctorEditComponent implements OnInit {
     if (this.data) {
       this.form.patchValue({
         name: this.data.info.name,
-        phone: this.data.info.phone,
-        level: this.data.level,
         account: this.data.account,
         gender: find(this.genders, { id: this.data.info.gender })
       });
@@ -48,8 +46,6 @@ export class DoctorEditComponent implements OnInit {
   setupForm(): void {
     this.form = this.builder.group({
       name: ['', Validators.required],
-      phone: ['', Validators.required],
-      level: [DoctorLevelType.Level_1, Validators.required],
       account: ['', Validators.required],
       pass: ['', Validators.required],
       gender: [null, Validators.required]

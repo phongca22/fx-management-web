@@ -8,13 +8,13 @@ import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { Doctor } from 'src/app/core/doctor';
 import { USER_PROFILE } from 'src/app/core/page-config';
 import { Response } from 'src/app/core/response';
+import { removeAccents } from 'src/app/core/utility';
 import { DestroyService } from 'src/app/services/destroy.service';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { RouterService } from 'src/app/services/router.service';
 import { AlertService } from '../alert/alert.service';
 import { DoctorEditComponent } from './doctor-edit/doctor-edit.component';
 
-const removeAccents = (text: any): string => text.normalize('NFD').replace(/\p{Diacritic}/gu, '');
 @Component({
   selector: 'app-doctor-management',
   templateUrl: './doctor-management.component.html',
@@ -34,7 +34,7 @@ export class DoctorManagementComponent implements OnInit {
   filtered: Doctor[];
 
   constructor(
-    private doctor: DoctorService,
+    private service: DoctorService,
     private alert: AlertService,
     private readonly $destroy: DestroyService,
     private dialog: MatDialog,
@@ -68,7 +68,7 @@ export class DoctorManagementComponent implements OnInit {
   }
 
   getData(): void {
-    this.doctor
+    this.service
       .getDoctors()
       .pipe(takeUntil(this.$destroy))
       .subscribe((res: Response) => {
@@ -81,9 +81,9 @@ export class DoctorManagementComponent implements OnInit {
       });
   }
 
-  setActive(event: MatSlideToggleChange, data: Doctor) {
+  setOnline(event: MatSlideToggleChange, data: Doctor) {
     data.active = event.checked;
-    this.doctor.setActive(data.info.id, event.checked).subscribe((res: Response) => {
+    this.service.setActive(data.info.id, event.checked).subscribe((res: Response) => {
       if (!res.ok) {
         this.alert.error();
         data.active = !data.active;
@@ -91,9 +91,9 @@ export class DoctorManagementComponent implements OnInit {
     });
   }
 
-  setEnable(event: MatSlideToggleChange, data: Doctor) {
+  setActive(event: MatSlideToggleChange, data: Doctor) {
     data.enable = event.checked;
-    this.doctor.setEnable(data.info.id, event.checked).subscribe((res: Response) => {
+    this.service.setEnable(data.info.id, event.checked).subscribe((res: Response) => {
       if (res.ok) {
         if (!data.enable) {
           data.active = false;

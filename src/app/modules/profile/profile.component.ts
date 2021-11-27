@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { DOCTOR_MANAGEMENT, USER_MANAGEMENT } from 'src/app/core/page-config';
+import { AGENT_MANAGEMENT, DOCTOR_MANAGEMENT, USER_MANAGEMENT } from 'src/app/core/page-config';
 import { Role } from 'src/app/core/role';
 import { ConfigService } from 'src/app/services/config.service';
 import { DestroyService } from 'src/app/services/destroy.service';
@@ -44,15 +44,15 @@ export class ProfileComponent implements OnInit {
     this.service.logout().subscribe(() => this.router.login());
   }
 
-  goUserManagement(): void {
-    this.router.go(USER_MANAGEMENT);
-  }
-
   goDoctorManagement(): void {
     this.router.go(DOCTOR_MANAGEMENT, { state: { hideMenu: true } });
   }
 
   goAgentManagement(): void {
+    this.router.go(AGENT_MANAGEMENT, { state: { hideMenu: true } });
+  }
+
+  goTransporterManagement(): void {
     this.alert.info('feature.developing');
   }
 

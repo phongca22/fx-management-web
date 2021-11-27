@@ -31,8 +31,7 @@ export class BaseService {
         new Response({
           ok: false,
           code: res.status,
-          data: res.error,
-          message: res.message
+          message: res.error?.message || res.message
         })
       );
     });

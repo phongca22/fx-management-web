@@ -42,15 +42,15 @@
         </div>
         <div fxLayout="column" fxLayoutGap="8px">
           <div fxLayout="row" fxLayoutAlign=" center">
-            <div fxFlex class="mat-subheading-2 mb-0">{{'doctorManagement.today' | translate}}</div>
+            <div fxFlex class="mat-subheading-2 mb-0">{{'doctorManagement.workToday' | translate}}</div>
             <mat-slide-toggle [checked]="item.active" color="primary" (click)="$event.stopPropagation()"
-              (change)="setActive($event, item)" [disabled]="!item.enable">
+              (change)="setOnline($event, item)" [disabled]="!item.enable">
             </mat-slide-toggle>
           </div>
           <div fxLayout="row" fxLayoutAlign=" center">
-            <div fxFlex class="mat-subheading-2 mb-0">{{'doctorManagement.enable' | translate}}</div>
+            <div fxFlex class="mat-subheading-2 mb-0">{{'doctorManagement.active' | translate}}</div>
             <mat-slide-toggle [checked]="item.enable" color="primary" (click)="$event.stopPropagation()"
-              (change)="setEnable($event, item)">
+              (change)="setActive($event, item)">
             </mat-slide-toggle>
           </div>
         </div>

@@ -1,0 +1,21 @@
+:host {
+  height: 100%;
+}
+
+:host > div > * {
+  overflow: auto;
+}
+
+.title {
+  margin: 0px;
+}
+
+.wrapper {
+  padding: 16px;
+  background-color: #fafafa;
+}
+
+.avatar {
+  width: 60px;
+  border-radius: 50%;
+}

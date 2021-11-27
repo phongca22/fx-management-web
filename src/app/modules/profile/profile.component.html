@@ -20,26 +20,14 @@
       <mat-slide-toggle [checked]="user?.workToday" color="primary" (change)="setActive($event)">
       </mat-slide-toggle>
     </mat-card>
-    <div>
-      <div fxLayout="row wrap" fxLayoutAlign=" center" fxLayoutGap="16px grid" *ngIf="isUserManagement">
-        <div fxFlex="50" (click)="goDoctorManagement()">
-          <mat-toolbar class="user-box" color="primary" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
-            <mat-icon svgIcon="clipboard-account-outline"></mat-icon>
-            <div>{{'profile.doctorManagement' | translate}}</div>
-          </mat-toolbar>
-        </div>
-        <div fxFlex="50" (click)="goAgentManagement()">
-          <mat-toolbar class="user-box" color="primary" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
-            <mat-icon svgIcon="face-agent"></mat-icon>
-            <div>{{'profile.agentManagement' | translate}}</div>
-          </mat-toolbar>
-        </div>
-        <div fxFlex="50" (click)="goAgentManagement()">
-          <mat-toolbar class="user-box" color="primary" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
-            <mat-icon svgIcon="truck-outline"></mat-icon>
-            <div>{{'profile.transporterManagement' | translate}}</div>
-          </mat-toolbar>
-        </div>
+    <div class="admin-wrapper" fxLayout="row" fxLayoutAlign="center">
+      <div fxLayout="row" fxLayoutGap="16px" *ngIf="isUserManagement">
+        <button mat-raised-button color="primary" (click)="goDoctorManagement()">
+          {{'profile.doctorManagement' | translate}}
+        </button>
+        <button mat-raised-button color="primary" (click)="goAgentManagement()">
+          {{'profile.agentManagement' | translate}}
+        </button>
       </div>
     </div>
   </div>

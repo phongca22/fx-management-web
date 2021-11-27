@@ -129,3 +129,9 @@ body {
   padding: 0px 16px;
   border-radius: 5px;
 }
+
+.main-bg,
+.main-dialog-bg mat-dialog-container {
+  background: url('/assets/jpg/rm218batch4-ning-34.jpg');
+  background-size: cover;
+}

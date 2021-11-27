@@ -1,31 +1,52 @@
-<h2 mat-title-dialog>{{'addSupport.title' | translate}}</h2>
-<div [formGroup]="form" fxLayout="column" fxLayoutGap="16px">
-  <div formArrayName="list" fxLayout="column" fxLayoutGap="8px">
-    <ng-container *ngFor="let item of list.controls; let i = index">
-      <ng-container [formGroupName]="i">
-        <div fxLayout="row" fxLayoutAlign=" center">
-          <div fxFlex>{{item.get('name')?.value}}</div>
-          <div fxLayout="row" fxLayoutAlign=" center">
-            <button mat-icon-button class="gray-icon-color">
-              <mat-icon svgIcon="minus" (click)="update(item, -1)"></mat-icon>
-            </button>
-            <div class="mat-title mb-0 accent-color">{{item.get('value')?.value}}</div>
-            <button mat-icon-button (click)="update(item, 1)" class="gray-icon-color">
-              <mat-icon svgIcon="plus"></mat-icon>
-            </button>
+<div fxFill fxLayout="column" class="wrapper" fxLayoutGap="16px">
+  <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="8px">
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon svgIcon="keyboard-backspace"></mat-icon>
+    </button>
+    <div class="mat-title mb-0">{{'addSupport.title' | translate}}</div>
+  </div>
+  <div [formGroup]="form" fxLayoutGap="16px" fxFlex class="body">
+    <div formArrayName="list" fxLayout="column" fxLayoutGap="8px">
+      <ng-container *ngFor="let item of list.controls; let i = index">
+        <ng-container [formGroupName]="i">
+          <div fxLayout="row" fxLayoutAlign=" center" class="support-wrapper">
+            <div fxFlex fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
+              <mat-icon *ngIf="![1,2,4,5,6,8].includes(item.get('id')?.value)" svgIcon="medical-bag" class="icon"
+                color="primary">
+              </mat-icon>
+              <mat-icon *ngIf="item.get('id')?.value === 1" svgIcon="gas-cylinder" class="icon" color="primary">
+              </mat-icon>
+              <mat-icon *ngIf="item.get('id')?.value === 2" svgIcon="fuel-cell" class="icon" color="primary">
+              </mat-icon>
+              <mat-icon *ngIf="item.get('id')?.value === 4" svgIcon="gesture-double-tap" class="icon" color="primary">
+              </mat-icon>
+              <mat-icon *ngIf="item.get('id')?.value === 5 || item.get('id')?.value === 6" svgIcon="baby-face-outline"
+                class="icon" color="primary">
+              </mat-icon>
+              <mat-icon *ngIf="item.get('id')?.value === 8" svgIcon="human-handsup" class="icon" color="primary">
+              </mat-icon>
+              <div fxFlex class="mat-body">{{item.get('name')?.value}}</div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign=" center">
+              <button mat-icon-button color="primary">
+                <mat-icon svgIcon="minus" (click)="update(item, -1)"></mat-icon>
+              </button>
+              <div class="mat-title mb-0 amount">{{item.get('value')?.value}}</div>
+              <button mat-icon-button (click)="update(item, 1)" color="primary">
+                <mat-icon svgIcon="plus"></mat-icon>
+              </button>
+            </div>
           </div>
-        </div>
+        </ng-container>
       </ng-container>
-    </ng-container>
+    </div>
+  </div>
+  <div fxLayoutGap="16px" fxLayout="row" class="action-wrapper">
+    <button mat-raised-button color="warn" (click)="save(true)" [disabled]="loading || !hasValue()" fxFlex>
+      {{'addSupport.emergency' | translate}}
+    </button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="loading || !hasValue()" fxFlex>
+      {{'action.confirm' | translate}}
+    </button>
   </div>
 </div>
-<mat-dialog-actions align="end" fxLayoutGap="16px" fxLayout="row">
-  <button mat-raised-button color="warn" (click)="save(true)" [disabled]="loading">
-    {{'addSupport.emergency' | translate}}
-  </button>
-  <div fxFlex></div>
-  <button mat-button mat-dialog-close>{{'action.back' | translate}}</button>
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="loading">
-    {{'action.confirm' | translate}}
-  </button>
-</mat-dialog-actions>

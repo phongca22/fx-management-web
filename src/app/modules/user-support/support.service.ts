@@ -97,8 +97,11 @@ export class SupportService extends BaseService {
       .open(AddSupportComponent, {
         data: data,
         width: '100%',
-        maxWidth: '96vw',
-        autoFocus: false
+        maxWidth: '500px',
+        maxHeight: '100vh',
+        height: '100%',
+        autoFocus: false,
+        panelClass: ['main-dialog-bg', 'mat-dialog-no-padding']
       })
       .afterClosed()
       .pipe(

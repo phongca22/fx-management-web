@@ -1,1 +1,51 @@
-<p>agent-management works!</p>
+<div fxFlex fxLayout="column">
+  <mat-toolbar color="primary" fxLayout="row" fxLayoutGap="16px">
+    <button mat-icon-button (click)="back()">
+      <mat-icon svgIcon="keyboard-backspace"></mat-icon>
+    </button>
+    <div class="mat-title title" fxFlex>{{'agentManagement.title' | translate}}</div>
+    <div>
+      <button mat-icon-button #trigger="cdkOverlayOrigin" cdkOverlayOrigin (click)="open()">
+        <mat-icon svgIcon="magnify"></mat-icon>
+      </button>
+      <button mat-icon-button (click)="add()">
+        <mat-icon svgIcon="account-plus-outline"></mat-icon>
+      </button>
+    </div>
+    <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen"
+      [cdkConnectedOverlayHasBackdrop]="true" (backdropClick)="close()"
+      cdkConnectedOverlayBackdropClass="doctor-search-backdrop"
+      [cdkConnectedOverlayPanelClass]="['mat-elevation-z2', 'doctor-search-wrapper']">
+      <div>
+        <mat-form-field>
+          <mat-label></mat-label>
+          <input matInput [formControl]="keyword" [placeholder]="'agentManagement.keyword' | translate"
+            autocomplete="off" #input />
+          <button mat-icon-button matSuffix (click)="keyword.reset()" *ngIf="keyword.value?.length > 0">
+            <mat-icon matPrefix svgIcon="close"></mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </ng-template>
+  </mat-toolbar>
+  <div fxFlex class="wrapper" fxLayout="column" fxLayoutGap="16px">
+    <mat-card *ngFor="let item of filtered" fxLayout="column" fxLayoutGap="16px">
+      <div fxLayout="column" (click)="edit(item)" fxLayoutGap="16px">
+        <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+          <img class="avatar"
+            [src]="'/assets/png/avatar/agent/' + (item.info.gender === 0 ? 'agent-female.png' : 'agent-male.png')" />
+          <div fxFlex>
+            <div class="mat-title mb-0">{{item.info.name}}</div>
+            <div class="mat-body gray-color">{{item.info.phone}}</div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign=" center">
+          <div fxFlex class="mat-subheading-2 mb-0">{{'agentManagement.active' | translate}}</div>
+          <mat-slide-toggle [checked]="item.active" color="primary" (click)="$event.stopPropagation()"
+            (change)="setActive($event, item)">
+          </mat-slide-toggle>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

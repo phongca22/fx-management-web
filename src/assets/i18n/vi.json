@@ -58,7 +58,7 @@
     "zalo": "Zalo video call",
     "timer": "Hẹn bệnh nhân",
     "healthDeclaration": "Khai báo y tế",
-    "agent": "Tư vấn",
+    "agent": "Điều phối",
     "date": "Ngày giờ",
     "patientCountToday": "Đã khám"
   },
@@ -82,7 +82,10 @@
   "error": {
     "general": "Có lỗi xảy ra",
     "search": "Không tìm thấy",
-    "accessDenied": "Truy cập bị từ chối"
+    "accessDenied": "Truy cập bị từ chối",
+    "server": {
+      "userExisted": "Tên tài khoản đã tồn tại"
+    }
   },
   "search": {
     "keyword": "Tìm theo mã hoặc số điện thoại",
@@ -204,24 +207,23 @@
   },
   "profile": {
     "logout": "Đăng xuất",
-    "userManagement": "Quản lý tài khoản",
-    "doctorManagement": "Bác sĩ",
-    "agentManagement": "Tư vấn",
-    "transporterManagement": "Vận chuyển",
+    "doctorManagement": "Quản lý bác sĩ",
+    "agentManagement": "Quản lý điều phối",
+    "transporterManagement": "Quản lý vận chuyển",
     "version": "Phiên bản {{version}}",
     "workToday": "Tư vấn online"
   },
   "doctorManagement": {
     "title": "Danh sách bác sĩ",
     "name": "Họ và tên",
-    "today": "Trực hôm nay",
+    "workToday": "Tư vấn online",
     "fullname": "Họ và tên",
     "fullnameRequired": "Nhập họ và tên",
     "phone": "Số điện thoại",
     "phoneRequired": "Nhập số điện thoại",
     "level": "Cấp độ",
-    "enable": "Hoạt động",
-    "keyword": "Nhập tên bác sĩ"
+    "active": "Hoạt động",
+    "keyword": "Nhập tên"
   },
   "userNote": {
     "reason": "Lý do: {{message}}",
@@ -246,7 +248,7 @@
     "patientStatusChange": "{{time}} - Bs. {{name}} đã thay đổi trạng thái",
     "doctorChange": "{{time}} - {{name}} đã thay đổi bác sĩ",
     "doctorComment": "{{time}} - Bs. {{name}}",
-    "agentComment": "{{time}} - Tv. {{name}}",
+    "agentComment": "{{time}} - Đp. {{name}}",
     "transporterComment": "{{time}} - Tnv. {{name}}"
   },
   "doctorLevel": {
@@ -262,5 +264,13 @@
   },
   "feature": {
     "developing": "Đang phát triển..."
+  },
+  "agentManagement": {
+    "title": "Danh sách điều phối",
+    "name": "Họ và tên",
+    "fullname": "Họ và tên",
+    "fullnameRequired": "Nhập họ và tên",
+    "active": "Hoạt động",
+    "keyword": "Nhập tên"
   }
 }
