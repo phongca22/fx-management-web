@@ -71,9 +71,9 @@
   "userCreate": {
     "title": "Tiếp nhận bệnh nhận",
     "success": "Đã tạo mới",
-    "view": "Xem bệnh nhân",
-    "phoneExistedMessage": "Đã có bệnh nhân sử dụng số điện thoại này",
-    "addressExistedMessage": "Đã có bệnh nhân sử dụng địa chỉ này"
+    "view": "xem hồ sơ",
+    "phoneExistedMessage": "Số điện thoại đã được sử dụng",
+    "addressExistedMessage": "Địa chỉ đã tồn tại"
   },
   "gender": {
     "male": "Nam",
