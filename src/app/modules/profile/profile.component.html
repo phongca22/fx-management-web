@@ -1,17 +1,14 @@
-<div fxFlex fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="space-between" class="wrapper">
-  <div class="mat-caption gray-color">{{'profile.version' | translate: {version: version} }}</div>
+<div fxFlex fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="end" class="wrapper">
   <div fxLayout="column" fxLayoutGap="16px">
-    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="8px">
-      <div fxLayout="column" fxLayoutAlign="center center">
-        <div class="mat-display-1 mb-0">{{user?.info?.name}}</div>
-        <div class="mat-body gray-color">
-          <div *ngFor="let item of user?.roles">{{item}}</div>
-        </div>
+    <mat-card fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxFlex fxLayout="row" fxLayoutGap="16px" fxLayoutAlign=" center">
+        <mat-icon svgIcon="account-tie" class="card-icon" color="primary"></mat-icon>
+        <div class="mat-subheading-2 mb-0">{{user?.info?.name}}</div>
       </div>
-      <button mat-icon-button (click)="logout()">
+      <button mat-mini-fab (click)="logout()" color="primary" class="mat-elevation-z2">
         <mat-icon svgIcon="power"></mat-icon>
       </button>
-    </div>
+    </mat-card>
     <mat-card fxLayout="row" fxLayoutAlign=" center" *ngIf="isDoctor">
       <div fxFlex fxLayout="row" fxLayoutGap="8px" fxLayoutAlign=" center">
         <mat-icon svgIcon="phone-in-talk" class="card-icon" color="primary"></mat-icon>
@@ -30,5 +27,6 @@
         </button>
       </div>
     </div>
+    <div class="mat-caption gray-color" style="text-align: center;">{{'profile.version' | translate: {version: version} }}</div>
   </div>
 </div>
